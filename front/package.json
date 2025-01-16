@@ -1,0 +1,10 @@
+{
+  "name": "SpellbookFront",
+  "version": "0.1.0",
+  "main": "index.js",
+  "author": "Nathan Ngo",
+  "license": "GPL-3.0",
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  }
+}

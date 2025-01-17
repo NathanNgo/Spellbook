@@ -94,4 +94,4 @@ CREATE TABLE IF NOT EXISTS d20pfsrd (
     augmented TEXT,
     mythic BOOLEAN NOT NULL CHECK (water IN (0, 1)),
     haunt_statistics TEXT,
-)
+);

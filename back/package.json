@@ -8,8 +8,6 @@
     "typescript": "^5.7.3"
   },
   "dependencies": {
-    "db-migrate": "^0.11.14",
-    "db-migrate-sqlite3": "^1.0.2",
     "express": "^4.21.2",
     "sqlite3": "^5.1.7"
   }

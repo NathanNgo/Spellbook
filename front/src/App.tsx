@@ -1,35 +1,36 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
+import { Spell } from "./components/table/types";
+import SpellTable from "./components/table/table";
+import Header from "./components/header/header";
+import Spellbook from "./components/spellbook/spellbook";
 
 function App() {
-  const [count, setCount] = useState(0)
+    // This is temporary and rough
+    const spells: Spell[] = [
+        {
+            name: "Fireball",
+            description: "shoots a fireball, right?",
+        },
+        {
+            name: "Some Random Bullshit Spell",
+            description: "A very important spell...",
+        },
+        {
+            name: "The Josh Mann Spell",
+            description: "Mat refused to answer the question",
+        },
+    ];
+    const [characterName, setCharacterName] = useState<string>("Josh Mann");
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    return (
+        <>
+            {/* <header>[=] Spellbook! {characterName}</header> */}
+            <Header {...{ characterName }} />
+            <Spellbook spells={spells} />
+            {/* <SpellTable spells={spells} /> */}
+        </>
+    );
 }
 
-export default App
+export default App;

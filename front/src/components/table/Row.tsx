@@ -1,5 +1,5 @@
 import React from "react";
-import { Spell } from "./types";
+import { Spell } from "components/table/types";
 
 function SpellRow(spell: Spell) {
     return (

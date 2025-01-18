@@ -1,7 +1,7 @@
 // import React from "react";
-import SpellRow from "./Row";
-import { Spell } from "./types";
-import styles from "./Table.module.css";
+import SpellRow from "components/table/Row";
+import { Spell } from "components/table/types";
+import styles from "components/table/Table.module.css";
 
 type Props = {
     title: string;

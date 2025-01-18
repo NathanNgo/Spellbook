@@ -1,4 +1,4 @@
-import styles from "./Header.module.css";
+import styles from "components/header/Header.module.css";
 
 type Props = {
     characterName: string;

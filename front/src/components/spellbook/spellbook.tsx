@@ -5,7 +5,7 @@ type Props = {
     spells: Spell[];
 };
 
-const Spellbook = ({ spells }: Props) => {
+function Spellbook({ spells }: Props) {
     return (
         <div className={styles.spellBook}>
             {Array.from(Array(10), (_, level) => {
@@ -21,6 +21,6 @@ const Spellbook = ({ spells }: Props) => {
             })}
         </div>
     );
-};
+}
 
 export default Spellbook;

@@ -8,7 +8,7 @@ type Props = {
     spells: Spell[];
 };
 
-const SpellTable = ({ title, spells }: Props) => {
+function SpellTable({ title, spells }: Props) {
     if (spells.length == 0) {
         return;
     }
@@ -30,6 +30,6 @@ const SpellTable = ({ title, spells }: Props) => {
             </table>
         </>
     );
-};
+}
 
 export default SpellTable;

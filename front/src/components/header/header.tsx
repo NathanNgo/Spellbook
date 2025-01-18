@@ -4,7 +4,7 @@ type Props = {
     characterName: string;
 };
 
-const Header = ({ characterName }: Props) => {
+function Header({ characterName }: Props) {
     return (
         <div className={styles.stickyHeaderContainer}>
             <header className={styles.mainHeader}>
@@ -18,6 +18,6 @@ const Header = ({ characterName }: Props) => {
             </header>
         </div>
     );
-};
+}
 
 export default Header;

@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS d20pfsrd (
     spell_level TEXT NOT NULL,
     casting_time TEXT NOT NULL,
     components TEXT NOT NULL,
-    costly_components BOOLEAN NOT NULL CHECK (cost_components IN (0, 1)),
+    costly_components BOOLEAN NOT NULL CHECK (costly_components IN (0, 1)),
     range TEXT NOT NULL,
     area TEXT,
     effect TEXT,
@@ -86,12 +86,12 @@ CREATE TABLE IF NOT EXISTS d20pfsrd (
     ruse BOOLEAN NOT NULL CHECK (ruse IN (0, 1)),
     draconic BOOLEAN NOT NULL CHECK (draconic IN (0, 1)),
     meditative BOOLEAN NOT NULL CHECK (meditative IN (0, 1)),
-    mythic BOOLEAN NOT NULL CHECK (water IN (0, 1)),
+    mythic BOOLEAN NOT NULL CHECK (mythic IN (0, 1)),
     linktext TEXT,
     material_costs INTEGER,
     bloodline TEXT,
     patron TEXT,
     mythic_text TEXT,
     augmented TEXT,
-    haunt_statistics TEXT,
+    haunt_statistics TEXT
 );

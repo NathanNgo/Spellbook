@@ -9,6 +9,9 @@ type Props = {
 };
 
 const SpellTable = ({ title, spells }: Props) => {
+    if (spells.length == 0) {
+        return;
+    }
     return (
         <>
             <h2 className={styles.spellTableTitle}>{title.toUpperCase()}</h2>

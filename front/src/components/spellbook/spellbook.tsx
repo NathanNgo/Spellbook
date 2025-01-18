@@ -8,9 +8,17 @@ type Props = {
 const Spellbook = ({ spells }: Props) => {
     return (
         <div className={styles.spellBook}>
-            <SpellTable spells={spells} title="cantrip" />
-            <SpellTable spells={spells} title="1st level" />
-            {/* <SpellTable spells={spells} title="2nd level" /> */}
+            {Array.from(Array(10), (_, level) => {
+                return (
+                    <SpellTable
+                        spells={spells.filter((spell) =>
+                            spell.levels.includes(level)
+                        )}
+                        title={level == 0 ? "Cantrip" : `Level ${level}`}
+                        key={level}
+                    />
+                );
+            })}
         </div>
     );
 };

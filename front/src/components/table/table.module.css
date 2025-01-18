@@ -4,6 +4,7 @@
     font-size: 1.5rem;
     width: 100%;
     margin-bottom: 50px;
+    table-layout: fixed;
 }
 
 .spellTable tr {
@@ -23,6 +24,10 @@
     background-color: var(--medium-accent-colour);
     border-bottom: 2px solid black;
     font-size: 1.8rem;
+}
+
+.spellTable thead {
+    text-align: start;
 }
 
 .spellTableTitle {

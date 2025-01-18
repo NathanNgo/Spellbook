@@ -1,9 +1,9 @@
 import { useState } from "react";
-import "./App.css";
-import { Spell } from "./components/table/types";
-import SpellTable from "./components/table/Table";
-import Header from "./components/header/Header";
-import Spellbook from "./components/spellbook/Spellbook";
+// import "./App.css";
+import "App.css";
+import { Spell } from "components/table/types";
+import Header from "components/header/Header";
+import Spellbook from "components/spellbook/Spellbook";
 
 function App() {
     // This is temporary and rough

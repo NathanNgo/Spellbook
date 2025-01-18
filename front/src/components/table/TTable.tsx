@@ -1,5 +1,5 @@
 // import React from "react";
-import SpellRow from "./Row";
+import SpellRow from "./RRow";
 import { Spell } from "./types";
 import styles from "./Table.module.css";
 

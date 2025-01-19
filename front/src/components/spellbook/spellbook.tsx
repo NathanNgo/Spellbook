@@ -1,6 +1,7 @@
 import SpellTable from "components/table/Table";
-import { Spell } from "components/table/types";
+import type { Spell } from "components/table/types";
 import styles from "components/spellbook/Spellbook.module.css";
+
 type Props = {
     spells: Spell[];
 };

@@ -1,7 +1,11 @@
 import React from "react";
-import { Spell } from "components/table/types";
+import type { Spell } from "components/table/types";
 
-function SpellRow(spell: Spell) {
+type Props = {
+    spell: Spell;
+};
+
+function SpellRow({ spell }: Props) {
     return (
         <tr>
             <td>

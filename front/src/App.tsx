@@ -1,7 +1,6 @@
 import { useState } from "react";
-// import "./App.css";
 import "App.css";
-import { Spell } from "components/table/types";
+import type { Spell } from "components/table/types";
 import Header from "components/header/Header";
 import Spellbook from "components/spellbook/Spellbook";
 
@@ -33,7 +32,7 @@ function App() {
 
     return (
         <>
-            <Header {...{ characterName }} />
+            <Header characterName={characterName} />
             <Spellbook spells={spells} />
         </>
     );

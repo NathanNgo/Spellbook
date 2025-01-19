@@ -1,6 +1,6 @@
 // import React from "react";
 import SpellRow from "components/table/Row";
-import { Spell } from "components/table/types";
+import type { Spell } from "components/table/types";
 import styles from "components/table/Table.module.css";
 
 type Props = {
@@ -23,8 +23,8 @@ function SpellTable({ title, spells }: Props) {
                     </tr>
                 </thead>
                 <tbody>
-                    {spells.map((item, index) => (
-                        <SpellRow {...item} key={index} />
+                    {spells.map((spell, index) => (
+                        <SpellRow spell={spell} key={index} />
                     ))}
                 </tbody>
             </table>

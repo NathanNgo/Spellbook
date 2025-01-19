@@ -19,8 +19,3 @@
   --light-accent-colour: #f4f4f6;
   font-family: "EB Garamond";
 }
-
-body {
-  margin: 0;
-  background-color: var(--background-colour);
-}

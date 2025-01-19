@@ -1,4 +1,3 @@
-// import React from "react";
 import SpellRow from "components/table/Row";
 import type { Spell } from "components/table/types";
 import styles from "components/table/Table.module.css";

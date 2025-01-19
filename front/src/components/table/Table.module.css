@@ -9,15 +9,33 @@
 
 .spellTable tr {
     border-bottom: 1px solid black;
-    height: 2rem;
+    height: 2em;
+}
+
+.spellTable tbody tr:hover {
+    cursor: pointer;
+    /* background-color: var(--medium-accent-colour); */
+
 }
 
 .spellTable td {
     padding: 0.1rem 1rem 0.1rem 1rem;
 }
 
+.spellTable tr:nth-child(odd) {
+    background-color: var(--background-colour);
+}
+
+.spellTable tr:nth-child(odd):hover {
+    background-color: var(--medium-accent-colour);
+}
+
 .spellTable tr:nth-child(even) {
     background-color: var(--medium-accent-colour);
+}
+
+.spellTable tr:nth-child(even):hover {
+    background-color: var(--dark-accent-colour);
 }
 
 .spellTable th {

@@ -1,3 +1,8 @@
+body {
+    margin: 0;
+    background-color: var(--background-colour);
+}
+
 h1 {
     font-size: 4rem;
 }
@@ -6,4 +11,9 @@ h2 {
     font-size: 2rem;
     border-bottom: 0.4rem solid black;
     letter-spacing: 0.15rem;
+    padding: 0 3rem 0 3rem;
+}
+
+button {
+    cursor: pointer;
 }

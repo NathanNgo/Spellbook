@@ -1,5 +1,5 @@
-import React from "react";
 import type { Spell } from "components/table/types";
+import styles from "components/table/Row.module.css";
 
 type Props = {
     spell: Spell;
@@ -8,9 +8,7 @@ type Props = {
 function SpellRow({ spell }: Props) {
     return (
         <tr>
-            <td>
-                <i>{spell.name}</i>
-            </td>
+            <td className={styles.spellName}>{spell.name}</td>
             <td>{spell.description}</td>
         </tr>
     );

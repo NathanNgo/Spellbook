@@ -21,7 +21,7 @@
     width: 4.5rem;
     height: 4.5rem;
     padding: 0.5rem;
-    font-size: 2rem;
+    font-size: 3rem;
     border-width: 1px 3px 3px 1px;
     border-style: solid;
     border-color: black;
@@ -36,12 +36,14 @@
     border-width: 2px;
 }
 
+.menuButton:hover {
+    background-color: var(--medium-accent-colour);
+}
+
 .pageTitle {
     margin: 0;
 }
 
 .characterName {
     margin-left: auto;
-    /* text-decoration: underline; */
-    padding: 0 1rem 0 1rem;
 }

@@ -9,7 +9,7 @@ function Header({ characterName }: Props) {
         <div className={styles.stickyHeaderContainer}>
             <header className={styles.mainHeader}>
                 <button className={styles.menuButton}>
-                    <i className="fa fa-bars"></i>
+                    <span className="symbol">menu</span>
                 </button>
                 <h1 className={styles.pageTitle}>Spellbook</h1>
                 <h2 className={styles.characterName}>

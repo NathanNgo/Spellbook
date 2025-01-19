@@ -4,6 +4,7 @@
     top: 0px;
     z-index: var(--z-index-main-header, 1000);
     width: 100%;
+    padding: 0;
 }
 
 .mainHeader {
@@ -11,33 +12,22 @@
     align-items: center;
     background-color: var(--background-colour);
     border-bottom: 0.4rem solid black;
-    padding: 1rem 1rem 1rem 1rem;
-    gap: 1rem;
+    padding: 1rem 2rem 1rem 2rem;
+    gap: 2rem;
 }
 
 .menuButton {
-    /* height: 100%; */
-    /* margin: 1rem; */
     width: 4.5rem;
     height: 4.5rem;
     padding: 0.5rem;
-    font-size: 3rem;
-    border-width: 1px 3px 3px 1px;
-    border-style: solid;
-    border-color: black;
     /* Makes the button size tighly hug the inner text */
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--background-colour);
 }
 
-.menuButton:active {
-    border-width: 2px;
-}
-
-.menuButton:hover {
-    background-color: var(--medium-accent-colour);
+.menuButton span {
+    font-size: 3rem;
 }
 
 .pageTitle {

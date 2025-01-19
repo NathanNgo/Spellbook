@@ -16,4 +16,45 @@ h2 {
 
 button {
     cursor: pointer;
+    font: inherit;
+    border-width: 1px 3px 3px 1px;
+    border-style: solid;
+    border-color: black;
+    background-color: var(--background-colour);
+    font-weight: 700;
+    padding: 0.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+button:active {
+    border-width: 2px;
+}
+
+button:hover {
+    background-color: var(--medium-accent-colour);
+}
+
+button.symbol {
+    font-size: 2rem;
+    min-width: 3rem;
+}
+
+button .symbol {
+    font-size: 2rem;
+}
+
+input {
+    font: inherit;
+    border-width: 3px 1px 1px 3px;
+    border-style: solid;
+    border-color: black;
+    background-color: var(--background-colour);
+}
+
+body > div > * {
+    width: 100%;
+    padding: 0rem 8rem 0rem 8rem;
+    box-sizing: border-box;
 }

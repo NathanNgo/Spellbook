@@ -19,3 +19,27 @@
   --light-accent-colour: #f4f4f6;
   font-family: "EB Garamond";
 }
+
+#root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rem;
+}
+
+.symbol {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  /* I'm using this as an alias for the class 'material-symbols-outlined' */
+  font-style: normal;
+  font-size: inherit;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -moz-font-feature-settings: 'liga';
+  -moz-osx-font-smoothing: grayscale;
+}

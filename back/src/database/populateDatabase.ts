@@ -1,7 +1,7 @@
-import sqlite3 from "sqlite3";
-import fs from "fs";
-import csv from "csv-parser";
-import z, { number } from "zod";
+import sqlite3 from "sqlite3"
+import fs from "fs"
+import csv from "csv-parser"
+import z, { number } from "zod"
 
 const DATABASE_FILE_PATH = "spellbook.db"
 const INITIAL_CSV_FILE_PATH = "./spellbook.csv"
@@ -207,7 +207,7 @@ const booleanFromString = z
         if (val === CSV_FALSE) {
             return false;
         }
-        throw new Error(`Invalid boolean value: ${val}`);
+        throw new Error(`Invalid boolean value: ${val}`)
     })
 
 const numberFromNullableString = z
@@ -334,8 +334,8 @@ function main() {
 
 function insertIntoDatabase(spells: Spell[]) {
     for (const spell of spells) {
-        const columnNames = Object.keys(spell).join(", ");
-        const valueIndexes = Object.values(spell).map((_, index) => `$${index + 1}`).join(", ") 
+        const columnNames = Object.keys(spell).join(", ")
+        const valueIndexes = Object.values(spell).map((_, index) => `$${index + 1}`).join(", ")
         const query = `
             INSERT INTO ${TABLE_NAME} (
                 ${columnNames}

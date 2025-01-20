@@ -14,5 +14,9 @@
     "express": "^4.21.2",
     "sqlite3": "^5.1.7",
     "zod": "^3.24.1"
+  },
+  "scripts": {
+    "restart": "cd src/ && ./restart.sh",
+    "start": "cd src/ && ./start.sh"
   }
 }

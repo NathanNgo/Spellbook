@@ -1,42 +1,60 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+body {
+    margin: 0;
+    background-color: var(--background-colour);
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+h1 {
+    font-size: 4rem;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+h2 {
+    font-size: 2rem;
+    border-bottom: 0.4rem solid black;
+    letter-spacing: 0.15rem;
+    padding: 0 3rem 0 3rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+button {
+    cursor: pointer;
+    font: inherit;
+    border-width: 1px 3px 3px 1px;
+    border-style: solid;
+    border-color: black;
+    background-color: var(--background-colour);
+    font-weight: 700;
+    padding: 0.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
 }
 
-.card {
-  padding: 2em;
+button:active {
+    border-width: 2px;
 }
 
-.read-the-docs {
-  color: #888;
+button:hover {
+    background-color: var(--medium-accent-colour);
+}
+
+button.symbol {
+    font-size: 2rem;
+    min-width: 3rem;
+}
+
+button .symbol {
+    font-size: 2rem;
+}
+
+input {
+    font: inherit;
+    border-width: 3px 1px 1px 3px;
+    border-style: solid;
+    border-color: black;
+    background-color: var(--background-colour);
+}
+
+body > div > * {
+    width: 100%;
+    padding: 0rem 8rem 0rem 8rem;
+    box-sizing: border-box;
 }

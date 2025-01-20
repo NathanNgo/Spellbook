@@ -1,0 +1,39 @@
+.stickyHeaderContainer {
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0px;
+    z-index: var(--z-index-main-header, 1000);
+    width: 100%;
+    padding: 0;
+}
+
+.mainHeader {
+    display: flex;
+    align-items: center;
+    background-color: var(--background-colour);
+    border-bottom: 0.4rem solid black;
+    padding: 1rem 2rem 1rem 2rem;
+    gap: 2rem;
+}
+
+.menuButton {
+    width: 4.5rem;
+    height: 4.5rem;
+    padding: 0.5rem;
+    /* Makes the button size tighly hug the inner text */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.menuButton span {
+    font-size: 3rem;
+}
+
+.pageTitle {
+    margin: 0;
+}
+
+.characterName {
+    margin-left: auto;
+}

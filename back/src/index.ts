@@ -16,7 +16,7 @@ const database = new sqlite3.Database(DATABASE_FILE_PATH,  (err) => {
 });
 
 app.get('/', (_: Request, res: Response) => {
-  database.all("SELECT * FROM d20pfsrd WHERE name = 'Fireball' OR name = 'Magic Missle' OR name = 'Wish';", (_, rows) => {
+  database.all("SELECT * FROM d20pfsrd WHERE name = 'Fireball' OR name = 'Magic Missile' OR name = 'Wish';", (_, rows) => {
     console.log(rows)
     res.send(rows)
   })

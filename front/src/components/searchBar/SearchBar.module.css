@@ -1,0 +1,14 @@
+.searchbar {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.searchbar input {
+    flex-grow: 11;
+    font-size: 2rem;
+    text-align: center;
+}
+
+.searchbar button {
+    flex-grow: 0;
+}

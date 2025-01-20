@@ -1,0 +1,7 @@
+.spellName {
+    font-style: italic;
+}
+
+tr:hover .spellName {
+    text-decoration: underline;
+}

@@ -1,35 +1,45 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import "App.css";
+import type { Spell } from "components/spellRow/types";
+import Header from "components/header/Header";
+import Spellbook from "components/spellbook/Spellbook";
+import SpellbookToolbar from "components/spellbookToolbar/SpellbookToolbar";
 
 function App() {
-  const [count, setCount] = useState(0)
+    // This is temporary and rough
+    // const spells: Spell[] = [];
+    const spells: Spell[] = [
+        {
+            name: "Fireball",
+            description: "shoots a fireball, right?",
+            level: 0,
+        },
+        {
+            name: "Some Random Bullshit Spell",
+            description: "A very important spell...",
+            level: 0,
+        },
+        {
+            name: "The Josh Mann Spell",
+            description: "Mat refused to answer the question",
+            level: 1,
+        },
+        {
+            name: "Depressionify",
+            description: "Gives people clinical depression",
+            level: 3,
+        },
+    ];
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    const [characterName, setCharacterName] = useState<string>("Josh Mann");
+
+    return (
+        <>
+            <Header characterName={characterName} />
+            <SpellbookToolbar />
+            <Spellbook spells={spells} />
+        </>
+    );
 }
 
-export default App
+export default App;

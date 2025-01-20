@@ -343,8 +343,6 @@ function insertIntoDatabase(spells: Spell[]) {
                 ${valueIndexes}
             )
         `
-        // console.log(query)
-        // console.log(Object.values(spell))
         database.run(query, Object.values(spell))
     }
 }

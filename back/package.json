@@ -5,11 +5,13 @@
   "author": "Nathan Ngo",
   "license": "GPL-3.0",
   "devDependencies": {
+    "@types/cors": "^2.8.17",
     "typescript": "^5.7.3"
   },
   "dependencies": {
     "@types/express": "^5.0.0",
     "@types/node": "^22.10.7",
+    "cors": "^2.8.5",
     "csv-parser": "^3.1.0",
     "express": "^4.21.2",
     "sqlite3": "^5.1.7",

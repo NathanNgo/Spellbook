@@ -1,11 +1,13 @@
 import express from 'express'
 import sqlite3 from "sqlite3"
+import cors from 'cors'
 import type { Request, Response } from 'express'
 
 const DATABASE_FILE_PATH = "database/spellbook.db"
 
 const app = express()
 const port = 3000
+app.use(cors())
 
 const database = new sqlite3.Database(DATABASE_FILE_PATH,  (err) => {
   if (err) {

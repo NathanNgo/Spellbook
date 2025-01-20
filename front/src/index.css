@@ -14,9 +14,10 @@
 
 * {
   --background-colour: #fafafa;
+  --background-darker: #ebebeb;
   --medium-accent-colour: #f1f1f1;
   --dark-accent-colour: #e2e2e2;
-  --light-accent-colour: #f4f4f6;
+  --light-accent-colour: #f4f4f4;
   font-family: "EB Garamond";
 }
 

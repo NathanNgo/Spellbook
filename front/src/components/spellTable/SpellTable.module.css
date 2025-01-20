@@ -27,7 +27,7 @@
 }
 
 .spellTable tr:nth-child(odd):hover {
-    background-color: var(--medium-accent-colour);
+    background-color: var(--background-darker);
 }
 
 .spellTable tr:nth-child(even) {

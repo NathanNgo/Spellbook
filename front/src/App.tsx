@@ -3,7 +3,7 @@ import "App.css";
 import type { Spell } from "components/table/types";
 import Header from "components/header/Header";
 import Spellbook from "components/spellbook/Spellbook";
-import SpellbookToolbar from "components/spellbooktoolbar/SpellbookToolbar";
+import SpellbookToolbar from "components/spellbookToolbar_/SpellbookToolbar";
 
 function App() {
     // This is temporary and rough

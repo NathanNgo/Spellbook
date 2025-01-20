@@ -1,5 +1,5 @@
 import styles from "components/spellbooktoolbar/SpellbookToolbar.module.css";
-import SearchBar from "components/searchBar_/SearchBar";
+import SearchBar from "components/searchBar/SearchBar";
 
 function SpellbookToolbar() {
     return (

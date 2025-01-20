@@ -1,14 +1,48 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "App.css";
 import type { Spell } from "components/spellRow/types";
 import Header from "components/header/Header";
 import Spellbook from "components/spellbook/Spellbook";
 import SpellbookToolbar from "components/spellbookToolbar/SpellbookToolbar";
 
+type UnvalidatedSpell = {
+    name: string;
+    short_description: string;
+    sor: number;
+    duration: string;
+    range: string;
+    saving_throw: string;
+    spell_resistance: string;
+};
+
 function App() {
-    // This is temporary and rough
-    // const spells: Spell[] = [];
-    const spells: Spell[] = [
+    const [spells, setSpells] = useState<Spell[]>([]);
+
+    useEffect(() => {
+        // (async function () {
+        //     await fetch("http://localhost:3000");
+        // })();
+        fetch("http://localhost:3000")
+            .then((response) => response.json())
+            .then((spells: UnvalidatedSpell[]) => {
+                spells.sort((a, b) => a.name.localeCompare(b.name));
+                setSpells(
+                    spells.map((spell): Spell => {
+                        return {
+                            name: spell.name,
+                            description: spell.short_description,
+                            level: spell.sor,
+                            duration: spell.duration,
+                            range: spell.range,
+                            savingThrow: spell.saving_throw,
+                            spellResistance: spell.spell_resistance,
+                        };
+                    })
+                );
+            });
+    }, []);
+
+    let _spells = [
         {
             name: "Fireball",
             description: "shoots a fireball, right?",

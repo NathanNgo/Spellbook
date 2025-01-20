@@ -1,7 +1,7 @@
 import sqlite3 from "sqlite3"
 import fs from "fs"
 import csv from "csv-parser"
-import z, { number } from "zod"
+import z from "zod"
 
 const DATABASE_FILE_PATH = "spellbook.db"
 const INITIAL_CSV_FILE_PATH = "./spellbook.csv"

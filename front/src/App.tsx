@@ -1,34 +1,36 @@
 import { useState } from "react";
 import "App.css";
-import type { Spell } from "components/table/types";
+import type { Spell } from "components/spellRow/types";
 import Header from "components/header/Header";
 import Spellbook from "components/spellbook/Spellbook";
 import SpellbookToolbar from "components/spellbookToolbar/SpellbookToolbar";
 
 function App() {
     // This is temporary and rough
+    // const spells: Spell[] = [];
     const spells: Spell[] = [
         {
             name: "Fireball",
             description: "shoots a fireball, right?",
-            levels: [0],
+            level: 0,
         },
         {
             name: "Some Random Bullshit Spell",
             description: "A very important spell...",
-            levels: [0, 1],
+            level: 0,
         },
         {
             name: "The Josh Mann Spell",
             description: "Mat refused to answer the question",
-            levels: [2, 3],
+            level: 1,
         },
         {
             name: "Depressionify",
             description: "Gives people clinical depression",
-            levels: [9, 1],
+            level: 3,
         },
     ];
+
     const [characterName, setCharacterName] = useState<string>("Josh Mann");
 
     return (

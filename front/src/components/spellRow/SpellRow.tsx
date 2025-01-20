@@ -1,5 +1,5 @@
-import type { Spell } from "components/table/types";
-import styles from "components/table/Row.module.css";
+import type { Spell } from "components/spellRow/types";
+import styles from "components/spellRow/SpellRow.module.css";
 
 type Props = {
     spell: Spell;

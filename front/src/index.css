@@ -24,7 +24,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4rem;
+  gap: 3rem;
 }
 
 .symbol {
@@ -42,4 +42,28 @@
   direction: ltr;
   -moz-font-feature-settings: 'liga';
   -moz-osx-font-smoothing: grayscale;
+}
+
+.magicTwinkleIcon {
+  background-clip: unset;
+  -webkit-background-clip: unset;
+  /* -webkit-text-fill-color: black; */
+  color: black;
+  transition: -webkit-text-fill-color 0s;
+}
+
+*:hover > .magicTwinkleIcon {
+  background-image: linear-gradient(70deg, purple, purple, #cd99f2, #db8ada, purple, purple, purple, purple, purple, purple, purple);
+  background-size: 200%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: move 35s linear infinite;
+  transition: -webkit-text-fill-color 0.75s;
+}
+
+@keyframes move {
+  to {
+    background-position: 100vh;
+  }
 }

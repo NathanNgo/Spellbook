@@ -8,6 +8,7 @@ function SpellbookToolbar() {
                 <SearchBar />
             </span>
             <button className={styles.browseButton}>
+                <span className="symbol magicTwinkleIcon">book_4_spark</span>
                 Browse & Manage Spells
             </button>
             <button className={styles.settingsButton}>

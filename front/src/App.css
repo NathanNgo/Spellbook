@@ -5,11 +5,13 @@ body {
 
 h1 {
     font-size: 4rem;
+    color: var(--title-colour);
 }
 
 h2 {
     font-size: 2rem;
-    border-bottom: 0.4rem solid black;
+    border-bottom: 0.4rem solid var(--subheading-colour);
+    color: var(--subheading-colour);
     letter-spacing: 0.15rem;
     padding: 0 3rem 0 3rem;
 }
@@ -19,7 +21,7 @@ button {
     font: inherit;
     border-width: 1px 3px 3px 1px;
     border-style: solid;
-    border-color: black;
+    border-color: var(--border-colour);
     background-color: var(--background-colour);
     font-weight: 700;
     padding: 0.5rem;
@@ -49,7 +51,7 @@ input {
     font: inherit;
     border-width: 3px 1px 1px 3px;
     border-style: solid;
-    border-color: black;
+    border-color: var(--border-colour);
     background-color: var(--background-colour);
 }
 

@@ -12,13 +12,36 @@
   font-style: italic;
 }
 
+@media (prefers-color-scheme: dark) {
+  * {
+    --background-colour: #181818;
+    --light-accent-colour: #2a2a2a;
+    --medium-accent-colour: #343434;
+    --dark-accent-colour: #484848;
+    --border-colour: #9b9485;
+    --subheading-colour: #cac4af;
+    --title-colour: #e4ddcf;
+    --text-colour: #e4ddcf;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  * {
+
+    --background-colour: #fafafa;
+    --light-accent-colour: #f4f4f4;
+    --medium-accent-colour: #f1f1f1;
+    --dark-accent-colour: #e2e2e2;
+    --border-colour: black;
+    --subheading-colour: black;
+    --title-colour: black;
+    --text-colour: black;
+  }
+}
+
 * {
-  --background-colour: #fafafa;
-  --background-darker: #ebebeb;
-  --medium-accent-colour: #f1f1f1;
-  --dark-accent-colour: #e2e2e2;
-  --light-accent-colour: #f4f4f4;
   font-family: "EB Garamond";
+  color: var(--text-colour);
 }
 
 #root {
@@ -48,8 +71,7 @@
 .magicTwinkleIcon {
   background-clip: unset;
   -webkit-background-clip: unset;
-  /* -webkit-text-fill-color: black; */
-  color: black;
+  color: unset;
   transition: -webkit-text-fill-color 0s;
 }
 

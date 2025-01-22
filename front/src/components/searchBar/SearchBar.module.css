@@ -12,3 +12,8 @@
 .searchbar button {
     flex-grow: 0;
 }
+
+.searchbar input::placeholder {
+    color: unset;
+    opacity: 0.6;
+}

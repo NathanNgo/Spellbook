@@ -19,9 +19,9 @@
     --medium-accent-colour: #343434;
     --dark-accent-colour: #484848;
     --border-colour: #9b9485;
-    --subheading-colour: #cac4af;
-    --title-colour: #e4ddcf;
     --text-colour: #e4ddcf;
+    --subheading-colour: var(--text-colour);
+    --title-colour: var(--text-colour);
   }
 }
 
@@ -71,12 +71,11 @@
 .magicTwinkleIcon {
   background-clip: unset;
   -webkit-background-clip: unset;
-  color: unset;
   transition: -webkit-text-fill-color 0s;
 }
 
 *:hover > .magicTwinkleIcon {
-  background-image: linear-gradient(70deg, purple, purple, purple, #BD48BD, #fe7ccf, #BD48BD, purple, purple, purple);
+  background-image: linear-gradient(70deg, #5e6198, #5e6198, #5e6198, #5e6198, #5e6198, #6e67bb, #8a79dd, #c4a1fc, #8a79dd, #6e67bb, #5e6198);
   background-size: 500%;
   background-clip: text;
   -webkit-background-clip: text;
@@ -87,6 +86,6 @@
 
 @keyframes move {
   to {
-    background-position: 100vh;
+    background-position: 75rem;
   }
 }

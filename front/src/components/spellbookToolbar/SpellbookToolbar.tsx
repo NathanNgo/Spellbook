@@ -1,11 +1,15 @@
 import styles from "components/spellbookToolbar/SpellbookToolbar.module.css";
 import SearchBar from "components/searchBar/SearchBar";
 
-function SpellbookToolbar() {
+type Props = {
+    handleSearch: (query: string) => void;
+};
+
+function SpellbookToolbar({ handleSearch }: Props) {
     return (
         <div className={styles.toolbar}>
             <span className={styles.searchBar}>
-                <SearchBar />
+                <SearchBar handleSearch={handleSearch} />
             </span>
             <button className={styles.browseButton}>
                 <span className="symbol magicTwinkleIcon">book_4_spark</span>

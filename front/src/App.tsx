@@ -17,17 +17,29 @@ type UnvalidatedSpell = {
 
 function App() {
     const [spells, setSpells] = useState<Spell[]>([]);
+    const [filteredList, setFilteredList] = useState<Spell[]>(spells);
+    const [characterName, setCharacterName] = useState<string>("Josh Mann");
+
+    const handleSearch = (query: string) => {
+        if (query.trim() == "") {
+            setFilteredList(spells);
+        } else {
+            const lowerCaseQuery = query.trim().toLowerCase();
+            setFilteredList(
+                spells.filter((spell) =>
+                    spell.name.toLowerCase().includes(lowerCaseQuery)
+                )
+            );
+        }
+    };
 
     useEffect(() => {
-        // (async function () {
-        //     await fetch("http://localhost:3000");
-        // })();
         fetch("http://localhost:3000")
             .then((response) => response.json())
-            .then((spells: UnvalidatedSpell[]) => {
-                spells.sort((a, b) => a.name.localeCompare(b.name));
-                setSpells(
-                    spells.map((spell): Spell => {
+            .then((unvalidatedSpells: UnvalidatedSpell[]) => {
+                unvalidatedSpells.sort((a, b) => a.name.localeCompare(b.name));
+                const convertedSpells = unvalidatedSpells.map(
+                    (spell): Spell => {
                         return {
                             name: spell.name,
                             description: spell.short_description,
@@ -37,41 +49,18 @@ function App() {
                             savingThrow: spell.saving_throw,
                             spellResistance: spell.spell_resistance,
                         };
-                    })
+                    }
                 );
+                setSpells(convertedSpells);
+                setFilteredList(convertedSpells);
             });
     }, []);
-
-    let _spells = [
-        {
-            name: "Fireball",
-            description: "shoots a fireball, right?",
-            level: 0,
-        },
-        {
-            name: "Some Random Bullshit Spell",
-            description: "A very important spell...",
-            level: 0,
-        },
-        {
-            name: "The Josh Mann Spell",
-            description: "Mat refused to answer the question",
-            level: 1,
-        },
-        {
-            name: "Depressionify",
-            description: "Gives people clinical depression",
-            level: 3,
-        },
-    ];
-
-    const [characterName, setCharacterName] = useState<string>("Josh Mann");
 
     return (
         <>
             <Header characterName={characterName} />
-            <SpellbookToolbar />
-            <Spellbook spells={spells} />
+            <SpellbookToolbar handleSearch={handleSearch} />
+            <Spellbook spells={filteredList} />
         </>
     );
 }

@@ -53,6 +53,11 @@ input {
     border-style: solid;
     border-color: var(--border-colour);
     background-color: var(--background-colour);
+    box-shadow: inset 2px 2px 2px #00000055;
+
+    @media (prefers-color-scheme: dark) {
+        box-shadow: inset 5px 5px 15px #00000055;
+    }
 }
 
 body > div > * {

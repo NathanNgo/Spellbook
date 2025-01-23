@@ -1,9 +1,14 @@
 import type { Spell } from "components/spellRow/types";
 import styles from "components/spellRow/SpellRow.module.css";
+import { memo } from "react";
 
 type Props = {
     spell: Spell;
 };
+
+function propsAreEqual(prevProps: Props, nextProps: Props) {
+    return prevProps.spell.id === nextProps.spell.id;
+}
 
 function SpellRow({ spell }: Props) {
     return (
@@ -18,4 +23,4 @@ function SpellRow({ spell }: Props) {
     );
 }
 
-export default SpellRow;
+export default memo(SpellRow, propsAreEqual);

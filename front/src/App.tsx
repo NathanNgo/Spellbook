@@ -6,6 +6,7 @@ import Spellbook from "components/spellbook/Spellbook";
 import SpellbookToolbar from "components/spellbookToolbar/SpellbookToolbar";
 
 type UnvalidatedSpell = {
+    id: number;
     name: string;
     short_description: string;
     sor: number;
@@ -17,21 +18,21 @@ type UnvalidatedSpell = {
 
 function App() {
     const [spells, setSpells] = useState<Spell[]>([]);
-    const [filteredList, setFilteredList] = useState<Spell[]>(spells);
+    const [searchQuery, setSearchQuery] = useState<string>("");
     const [characterName, setCharacterName] = useState<string>("Josh Mann");
 
-    const handleSearch = (query: string) => {
-        if (query.trim() == "") {
-            setFilteredList(spells);
-        } else {
-            const lowerCaseQuery = query.trim().toLowerCase();
-            setFilteredList(
-                spells.filter((spell) =>
-                    spell.name.toLowerCase().includes(lowerCaseQuery)
-                )
-            );
-        }
-    };
+    function handleSearchQueryChange(query: string) {
+        setSearchQuery(query);
+    }
+
+    let filteredList: Spell[] = spells;
+    const query = searchQuery.trim().toLowerCase();
+
+    if (query !== "") {
+        filteredList = spells.filter((spell) =>
+            spell.name.toLowerCase().includes(query)
+        );
+    }
 
     useEffect(() => {
         fetch("http://localhost:3000")
@@ -41,6 +42,7 @@ function App() {
                 const convertedSpells = unvalidatedSpells.map(
                     (spell): Spell => {
                         return {
+                            id: spell.id,
                             name: spell.name,
                             description: spell.short_description,
                             level: spell.sor,
@@ -52,14 +54,15 @@ function App() {
                     }
                 );
                 setSpells(convertedSpells);
-                setFilteredList(convertedSpells);
             });
     }, []);
-
     return (
         <>
             <Header characterName={characterName} />
-            <SpellbookToolbar handleSearch={handleSearch} />
+            <SpellbookToolbar
+                onSearchQueryChange={handleSearchQueryChange}
+                searchQuery={searchQuery}
+            />
             <Spellbook spells={filteredList} />
         </>
     );

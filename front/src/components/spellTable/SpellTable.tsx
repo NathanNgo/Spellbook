@@ -27,7 +27,7 @@ function SpellTable({ title, spells }: Props) {
                 </thead>
                 <tbody>
                     {spells.map((spell, index) => (
-                        <SpellRow spell={spell} key={index} />
+                        <SpellRow spell={spell} key={spell.id} />
                     ))}
                 </tbody>
             </table>

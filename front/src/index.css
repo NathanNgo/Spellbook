@@ -23,6 +23,11 @@
     --subheading-colour: var(--text-colour);
     --title-colour: var(--text-colour);
   }
+
+  *::selection {
+    background-color: #F1C45E;
+    color: var(--background-colour);
+  }
 }
 
 @media (prefers-color-scheme: light) {
@@ -40,6 +45,9 @@
 }
 
 * {
+  --z-index-main-header: 100;
+  --z-index-modal-overlay: 150;
+  --z-index-modal: 200;
   font-family: "EB Garamond";
   color: var(--text-colour);
 }

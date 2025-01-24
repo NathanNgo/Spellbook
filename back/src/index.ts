@@ -3,7 +3,7 @@ import sqlite3 from "sqlite3";
 import cors from "cors";
 import z from "zod";
 import type { ZodObject } from "zod";
-import type { Spell, StringTuple } from "src/types";
+import type { Spell, SpellWithOnlyName, StringTuple } from "src/types";
 import type { Request, Response } from "express";
 
 const DATABASE_FILE_PATH = "database/spellbook.db";
@@ -19,13 +19,13 @@ const database = new sqlite3.Database(DATABASE_FILE_PATH, (err) => {
     }
 });
 
-let validSpellNames: string[];
+let validSpellNames: string[] = [];
 let SpellRequestSchema: z.ZodObject<any>;
 
 database.all(
     `SELECT ${NAME_COLUMN} FROM ${TABLE_NAME};`,
-    (_, rows: string[]) => {
-        validSpellNames = Object.values(rows);
+    (_, rows: SpellWithOnlyName[]) => {
+        validSpellNames = rows.map((spell) => spell.name);
         SpellRequestSchema = z.object({
             spellNames: z.array(z.enum(validSpellNames as StringTuple)),
         });
@@ -34,21 +34,29 @@ database.all(
 
 const app = express();
 app.use(cors());
+app.use(express.json());
 
 app.get("/", async (request: Request, response: Response) => {
-    const validatedRequest = SpellRequestSchema.parse(request);
-    const spells: Spell[] = [];
+    try {
+        const validatedRequest = SpellRequestSchema.parse(request.body);
+        const spells: Spell[] = [];
 
-    for (const validatedSpellName of validatedRequest.spellNames) {
-        /* Call it paranoia, but I still don't want to pass user input directly to the DB
-        even though we've validated it through the SpellRequestSchema.
-        Doing it this way means we only pass our server-defined values to the DB,
-        making SQL injection impossible. */
-        spells.push(
-            await queryDatabase(
-                validSpellNames[validSpellNames.indexOf(validatedSpellName)]
-            )
-        );
+        for (const validatedSpellName of validatedRequest.spellNames) {
+            /* Call it paranoia, but I still don't want to pass user input directly to the DB
+            even though we've validated it through the SpellRequestSchema.
+            Doing it this way means we only pass our server-defined values to the DB,
+            making SQL injection impossible. */
+            spells.push(
+                await queryDatabase(
+                    validSpellNames[validSpellNames.indexOf(validatedSpellName)]
+                )
+            );
+        }
+
+        response.send(spells);
+    } catch (error) {
+        console.log(error);
+        response.send("Invalid spell request\n");
     }
 });
 

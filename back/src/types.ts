@@ -91,4 +91,8 @@ export type Spell = {
     haunt_statistics: string | null;
 };
 
+export type SpellWithOnlyName = {
+    name: string;
+};
+
 export type StringTuple = [string, ...string[]];

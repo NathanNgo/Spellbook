@@ -7,6 +7,7 @@ import type { Spell, SpellWithOnlyName, StringTuple } from "src/types";
 import type { Request, Response } from "express";
 
 const DATABASE_FILE_PATH = "database/spellbook.db";
+const ERROR_STATUS_CLIENT = 400;
 const PORT = 3000;
 const TABLE_NAME = "d20pfsrd";
 const NAME_COLUMN = "name";
@@ -56,6 +57,7 @@ app.get("/", async (request: Request, response: Response) => {
         response.send(spells);
     } catch (error) {
         console.log(error);
+        response.status(ERROR_STATUS_CLIENT);
         response.send("Invalid spell request\n");
     }
 });

@@ -54,6 +54,7 @@ app.post("/", async (request: Request, response: Response) => {
             );
         }
 
+        console.log(spells);
         response.send(spells);
     } catch (error) {
         console.log(error);

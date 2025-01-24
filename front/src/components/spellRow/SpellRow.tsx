@@ -6,10 +6,6 @@ type Props = {
     spell: Spell;
 };
 
-function propsAreEqual(prevProps: Props, nextProps: Props) {
-    return prevProps.spell.id === nextProps.spell.id;
-}
-
 function SpellRow({ spell }: Props) {
     return (
         <tr>
@@ -23,4 +19,4 @@ function SpellRow({ spell }: Props) {
     );
 }
 
-export default memo(SpellRow, propsAreEqual);
+export default memo(SpellRow);

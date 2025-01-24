@@ -37,7 +37,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get("/", async (request: Request, response: Response) => {
+app.post("/", async (request: Request, response: Response) => {
     try {
         const validatedRequest = SpellRequestSchema.parse(request.body);
         const spells: Spell[] = [];

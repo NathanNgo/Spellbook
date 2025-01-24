@@ -1,13 +1,15 @@
 import express from "express";
 import sqlite3 from "sqlite3";
 import cors from "cors";
+import z from "zod";
+import type { ZodObject } from "zod";
+import type { Spell, StringTuple } from "src/types";
 import type { Request, Response } from "express";
 
 const DATABASE_FILE_PATH = "database/spellbook.db";
-
-const app = express();
-const port = 3000;
-app.use(cors());
+const PORT = 3000;
+const TABLE_NAME = "d20pfsrd";
+const NAME_COLUMN = "name";
 
 const database = new sqlite3.Database(DATABASE_FILE_PATH, (err) => {
     if (err) {
@@ -17,16 +19,55 @@ const database = new sqlite3.Database(DATABASE_FILE_PATH, (err) => {
     }
 });
 
-app.get("/", (_: Request, res: Response) => {
-    database.all(
-        "SELECT * FROM d20pfsrd WHERE name = 'Fireball' OR name = 'Magic Missile' OR name = 'Wish' OR name = 'Grease' OR name = 'Charm Person';",
-        (_, rows) => {
-            console.log(rows);
-            res.send(rows);
-        }
-    );
+let validSpellNames: string[];
+let SpellRequestSchema: z.ZodObject<any>;
+
+database.all(
+    `SELECT ${NAME_COLUMN} FROM ${TABLE_NAME};`,
+    (_, rows: string[]) => {
+        validSpellNames = Object.values(rows);
+        SpellRequestSchema = z.object({
+            spellNames: z.array(z.enum(validSpellNames as StringTuple)),
+        });
+    }
+);
+
+const app = express();
+app.use(cors());
+
+app.get("/", async (request: Request, response: Response) => {
+    const validatedRequest = SpellRequestSchema.parse(request);
+    const spells: Spell[] = [];
+
+    for (const validatedSpellName of validatedRequest.spellNames) {
+        /* Call it paranoia, but I still don't want to pass user input directly to the DB
+        even though we've validated it through the SpellRequestSchema.
+        Doing it this way means we only pass our server-defined values to the DB,
+        making SQL injection impossible. */
+        spells.push(
+            await queryDatabase(
+                validSpellNames[validSpellNames.indexOf(validatedSpellName)]
+            )
+        );
+    }
 });
 
-app.listen(port, () => {
-    console.log(`Example app listening on localhost:${port}`);
+app.listen(PORT, () => {
+    console.log(`Example app listening on localhost:${PORT}`);
 });
+
+async function queryDatabase(spellName: string): Promise<Spell> {
+    return new Promise((resolve, reject) => {
+        database.all(
+            `SELECT * FROM ${TABLE_NAME} WHERE name = ?`,
+            spellName,
+            (error, rows: Spell) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(rows);
+                }
+            }
+        );
+    });
+}

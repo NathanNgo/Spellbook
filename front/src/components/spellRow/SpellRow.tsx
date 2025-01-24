@@ -1,5 +1,6 @@
 import type { Spell } from "components/spellRow/types";
 import styles from "components/spellRow/SpellRow.module.css";
+import { memo } from "react";
 
 type Props = {
     spell: Spell;
@@ -18,4 +19,4 @@ function SpellRow({ spell }: Props) {
     );
 }
 
-export default SpellRow;
+export default memo(SpellRow);

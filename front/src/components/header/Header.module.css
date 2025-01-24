@@ -2,7 +2,7 @@
     position: sticky;
     position: -webkit-sticky;
     top: 0px;
-    z-index: var(--z-index-main-header, 1000);
+    z-index: var(--z-index-main-header);
     width: 100%;
     padding: 0;
 }

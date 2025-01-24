@@ -1,4 +1,5 @@
 export type Spell = {
+    id: number;
     name: string;
     description: string;
     level: number;

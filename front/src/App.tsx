@@ -6,6 +6,7 @@ import Spellbook from "components/spellbook/Spellbook";
 import SpellbookToolbar from "components/spellbookToolbar/SpellbookToolbar";
 
 type UnvalidatedSpell = {
+    id: number;
     name: string;
     short_description: string;
     sor: number;
@@ -17,18 +18,31 @@ type UnvalidatedSpell = {
 
 function App() {
     const [spells, setSpells] = useState<Spell[]>([]);
+    const [searchQuery, setSearchQuery] = useState<string>("");
+    const [characterName, setCharacterName] = useState<string>("Josh Mann");
+
+    function handleSearchQueryChange(query: string) {
+        setSearchQuery(query);
+    }
+
+    let filteredList: Spell[] = spells;
+    const query = searchQuery.trim().toLowerCase();
+
+    if (query !== "") {
+        filteredList = spells.filter((spell) =>
+            spell.name.toLowerCase().includes(query)
+        );
+    }
 
     useEffect(() => {
-        // (async function () {
-        //     await fetch("http://localhost:3000");
-        // })();
         fetch("http://localhost:3000")
             .then((response) => response.json())
-            .then((spells: UnvalidatedSpell[]) => {
-                spells.sort((a, b) => a.name.localeCompare(b.name));
-                setSpells(
-                    spells.map((spell): Spell => {
+            .then((unvalidatedSpells: UnvalidatedSpell[]) => {
+                unvalidatedSpells.sort((a, b) => a.name.localeCompare(b.name));
+                const convertedSpells = unvalidatedSpells.map(
+                    (spell): Spell => {
                         return {
+                            id: spell.id,
                             name: spell.name,
                             description: spell.short_description,
                             level: spell.sor,
@@ -37,41 +51,19 @@ function App() {
                             savingThrow: spell.saving_throw,
                             spellResistance: spell.spell_resistance,
                         };
-                    })
+                    }
                 );
+                setSpells(convertedSpells);
             });
     }, []);
-
-    let _spells = [
-        {
-            name: "Fireball",
-            description: "shoots a fireball, right?",
-            level: 0,
-        },
-        {
-            name: "Some Random Bullshit Spell",
-            description: "A very important spell...",
-            level: 0,
-        },
-        {
-            name: "The Josh Mann Spell",
-            description: "Mat refused to answer the question",
-            level: 1,
-        },
-        {
-            name: "Depressionify",
-            description: "Gives people clinical depression",
-            level: 3,
-        },
-    ];
-
-    const [characterName, setCharacterName] = useState<string>("Josh Mann");
-
     return (
         <>
             <Header characterName={characterName} />
-            <SpellbookToolbar />
-            <Spellbook spells={spells} />
+            <SpellbookToolbar
+                onSearchQueryChange={handleSearchQueryChange}
+                searchQuery={searchQuery}
+            />
+            <Spellbook spells={filteredList} />
         </>
     );
 }

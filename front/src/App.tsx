@@ -4,6 +4,7 @@ import type { Spell } from "components/spellRow/types";
 import Header from "components/header/Header";
 import Spellbook from "components/spellbook/Spellbook";
 import SpellbookToolbar from "components/spellbookToolbar/SpellbookToolbar";
+import Message from "components/message/Message";
 
 type UnvalidatedSpell = {
     id: number;
@@ -20,6 +21,7 @@ function App() {
     const [spells, setSpells] = useState<Spell[]>([]);
     const [searchQuery, setSearchQuery] = useState<string>("");
     const [characterName, setCharacterName] = useState<string>("Josh Mann");
+    const [spellsLoaded, setSpellsLoaded] = useState<boolean>(false);
 
     function handleSearchQueryChange(query: string) {
         setSearchQuery(query);
@@ -69,7 +71,8 @@ function App() {
                     }
                 );
                 setSpells(convertedSpells);
-            });
+            })
+            .finally(() => setSpellsLoaded(true));
     }, []);
     return (
         <>
@@ -78,7 +81,11 @@ function App() {
                 onSearchQueryChange={handleSearchQueryChange}
                 searchQuery={searchQuery}
             />
-            <Spellbook spells={filteredList} />
+            {spellsLoaded ? (
+                <Spellbook spells={filteredList} />
+            ) : (
+                <Message>Loading...</Message>
+            )}
         </>
     );
 }

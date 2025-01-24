@@ -10,13 +10,13 @@ type Props = {
 function SearchBar({ onQueryChange, query, placeHolder }: Props) {
     return (
         <div className={style.searchbar}>
+            <span className="symbol">search</span>
             <input
                 type="text"
                 placeholder={placeHolder}
                 onChange={(event) => onQueryChange(event.target.value)}
                 value={query}
             />
-            <button className="symbol">search</button>
         </div>
     );
 }

@@ -1,6 +1,6 @@
 .searchbar {
     display: flex;
-    gap: 0.5rem;
+    align-items: center;
 }
 
 .searchbar input {
@@ -9,8 +9,9 @@
     text-align: center;
 }
 
-.searchbar button {
+.searchbar span {
     flex-grow: 0;
+    text-align: center;
 }
 
 .searchbar input::placeholder {

@@ -47,6 +47,11 @@ button .symbol {
     font-size: 2rem;
 }
 
+span.symbol {
+    font-size: 2rem;
+    min-width: 3rem;
+}
+
 input {
     font: inherit;
     border-width: 3px 1px 1px 3px;

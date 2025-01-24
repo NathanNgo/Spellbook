@@ -5,7 +5,7 @@ import z from "zod";
 import type { Spell } from "src/types";
 
 const DATABASE_FILE_PATH = "spellbook.db";
-const INITIAL_CSV_FILE_PATH = "database/spellbook.csv";
+const INITIAL_CSV_FILE_PATH = "./spellbook.csv";
 const CSV_FALSE = "0";
 const CSV_TRUE = "1";
 const STRING_NULL = "NULL";

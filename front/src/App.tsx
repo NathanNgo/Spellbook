@@ -35,7 +35,22 @@ function App() {
     }
 
     useEffect(() => {
-        fetch("http://localhost:3000")
+        const requestedSpellNames = [
+            "Wish",
+            "Fireball",
+            "Magic Missile",
+            "Grease",
+            "Charm Person",
+            "Wall Of Fire",
+            "Wall Of Ice",
+        ];
+        fetch("http://localhost:3000", {
+            headers: { "Content-Type": "application/json" },
+            method: "POST",
+            body: JSON.stringify({
+                spellNames: requestedSpellNames,
+            }),
+        })
             .then((response) => response.json())
             .then((unvalidatedSpells: UnvalidatedSpell[]) => {
                 unvalidatedSpells.sort((a, b) => a.name.localeCompare(b.name));

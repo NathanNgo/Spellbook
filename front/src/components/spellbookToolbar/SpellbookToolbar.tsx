@@ -16,14 +16,18 @@ function SpellbookToolbar({ onSearchQueryChange, searchQuery }: Props) {
                     placeHolder="Search current spellbook"
                 />
             </span>
-            <button className={styles.browseButton}>
-                <span className="symbol magicTwinkleIcon">book_4_spark</span>
-                Browse & Manage Spells
-            </button>
-            <button className={styles.settingsButton}>
-                <span className="symbol">settings</span>
-                Settings
-            </button>
+            <span className={styles.buttonsContainer}>
+                <button className={styles.browseButton}>
+                    <span className="symbol magicTwinkleIcon">
+                        book_4_spark
+                    </span>
+                    Browse & Manage Spells
+                </button>
+                <button className={styles.settingsButton}>
+                    <span className="symbol">settings</span>
+                    Settings
+                </button>
+            </span>
         </div>
     );
 }

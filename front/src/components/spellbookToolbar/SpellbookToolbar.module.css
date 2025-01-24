@@ -1,12 +1,14 @@
 .toolbar {
     display: flex;
-    gap: 4rem;
     font-size: 1.5rem;
     justify-content: center;
+    column-gap: 4rem;
+    row-gap: 1rem;
+    flex-wrap: wrap;
 }
 
 .searchBar {
-    flex-grow: 4;
+    flex-grow: 1;
 }
 
 .browseButton {
@@ -15,4 +17,10 @@
 
 .settingsButton {
     flex-grow: 1;
+}
+
+.buttonsContainer {
+    flex-grow: 1;
+    gap: 4rem;
+    display: flex;
 }

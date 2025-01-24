@@ -68,14 +68,14 @@ app.listen(PORT, () => {
 
 async function queryDatabase(spellName: string): Promise<Spell> {
     return new Promise((resolve, reject) => {
-        database.all(
+        database.get(
             `SELECT * FROM ${TABLE_NAME} WHERE name = ?`,
             spellName,
-            (error, rows: Spell) => {
+            (error, row: Spell) => {
                 if (error) {
                     reject(error);
                 } else {
-                    resolve(rows);
+                    resolve(row);
                 }
             }
         );

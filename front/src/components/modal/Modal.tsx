@@ -1,5 +1,4 @@
 import styles from "components/modal/Modal.module.css";
-// IGNORE FOR NOW, ILL COME BACK TO IT
 type Props = {
     isOpen: boolean;
     onClose: () => void;

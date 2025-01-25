@@ -45,11 +45,12 @@
 }
 
 * {
-  --z-index-main-header: 100;
-  --z-index-modal-overlay: 150;
-  --z-index-modal: 200;
+  --z-index-main-header: 200;
+  --z-index-modal-overlay: 100;
+  --z-index-modal: 150;
   font-family: "EB Garamond";
   color: var(--text-colour);
+  --block-border: 0.4rem solid var(--border-colour);
 }
 
 #root {

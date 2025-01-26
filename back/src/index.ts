@@ -65,7 +65,7 @@ app.post("/spells", async (request: Request, response: Response) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`Spellbook app listenin on localhost:${PORT}`);
+    console.log(`Spellbook app listening on localhost:${PORT}`);
 });
 
 async function queryDatabaseForSpells(spellNames: string[]): Promise<Spell[]> {

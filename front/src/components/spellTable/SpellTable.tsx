@@ -18,7 +18,7 @@ function SpellTable({ title, spells }: Props) {
                 <thead>
                     <tr>
                         <th className="nameColumn">Name</th>
-                        <th>Description</th>
+                        {/* <th>Description</th> */}
                         <th>Duration</th>
                         <th>Range</th>
                         <th>Saving Throw</th>

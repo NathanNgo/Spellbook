@@ -10,7 +10,7 @@ function SpellRow({ spell }: Props) {
     return (
         <tr>
             <td className={styles.spellName}>{spell.name}</td>
-            <td>{spell.description.trim()}</td>
+            {/* <td>{spell.description.trim()}</td> */}
             <td>{spell.duration.trim()}</td>
             <td>{spell.range.trim()}</td>
             <td>{spell.savingThrow.trim()}</td>

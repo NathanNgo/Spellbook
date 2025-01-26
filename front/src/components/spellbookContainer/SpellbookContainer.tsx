@@ -79,9 +79,10 @@ function SpellbookContainer({ modalState, setModalState }: Props) {
             "Mage Armor",
             "Color Spray",
             "Enlarge Person",
+            "Wish",
         ];
 
-        fetch("http://localhost:3000", {
+        fetch("http://localhost:3000/spells", {
             headers: { "Content-Type": "application/json" },
             method: "POST",
             body: JSON.stringify({

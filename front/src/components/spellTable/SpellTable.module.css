@@ -10,7 +10,7 @@
 
 .spellTable tr {
     border-bottom: 1px solid var(--border-colour);
-    height: 3rem;
+    height: 4rem;
 }
 
 .spellTable tbody tr:hover {
@@ -20,15 +20,16 @@
 }
 
 .spellTable td {
-    padding: 0.1rem 1rem 0.1rem 1rem;
+    padding: 0.1rem 1rem 0.1rem 2.5rem;
 }
+
 
 .spellTable tr:nth-child(odd) {
     background-color: var(--background-colour);
 }
 
 .spellTable tr:nth-child(even) {
-    background-color: var(--medium-accent-colour);
+    background-color: var(--light-accent-colour);
 }
 
 .spellTable tr:hover {
@@ -39,6 +40,7 @@
     background-color: var(--medium-accent-colour);
     border-bottom: 2px solid;
     font-size: 1.5rem;
+    padding-left: 2.5rem;
 }
 
 .spellTable thead {

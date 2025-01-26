@@ -12,13 +12,13 @@
     align-items: center;
     background-color: var(--background-colour);
     border-bottom: var(--block-border);
-    padding: 1rem 2rem 1rem 2rem;
+    padding: 0rem 2rem 0rem 2rem;
     gap: 2rem;
 }
 
 .menuButton {
-    width: 4.5rem;
-    height: 4.5rem;
+    width: 3rem;
+    height: 3rem;
     padding: 0.5rem;
     /* Makes the button size tighly hug the inner text */
     display: flex;
@@ -27,7 +27,7 @@
 }
 
 .menuButton span {
-    font-size: 3rem;
+    font-size: 2rem;
 }
 
 .pageTitle {

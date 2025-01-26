@@ -6,6 +6,9 @@
     border-color: var(--border-colour);
     box-shadow: inset 2px 2px 2px #00000055;
 
+    height: 100%;
+    box-sizing: border-box;
+
     @media (prefers-color-scheme: dark) {
         box-shadow: inset 5px 5px 15px #00000055;
     }
@@ -17,8 +20,6 @@
     text-align: center;
     border-style: hidden;
     background-color: transparent;
-    height: 100%;
-    box-sizing: border-box;
 }
 
 .searchbar span {
@@ -38,9 +39,6 @@
     outline-style: none;
 }
 
-.searchbar:focus-within input {
-    outline-style: auto;
-}
 
 .searchbar span:has(+ input:focus) {
     visibility: hidden;

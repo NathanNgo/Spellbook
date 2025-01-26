@@ -11,7 +11,7 @@ const ERROR_STATUS_CLIENT = 400;
 const PORT = 3000;
 const TABLE_NAME = "d20pfsrd";
 const NAME_COLUMN = "name";
-const DATABASE_PLACEHOLDER_CHARACTER = "?,";
+const DATABASE_PLACEHOLDER_CHARACTER = "?";
 
 const database = new sqlite3.Database(DATABASE_FILE_PATH, (err) => {
     if (err) {
@@ -54,6 +54,7 @@ app.post("/spells", async (request: Request, response: Response) => {
         );
 
         const spells = await queryDatabaseForSpells(spellNames);
+
         console.log(spells);
         response.send(spells);
     } catch (error) {
@@ -68,10 +69,14 @@ app.listen(PORT, () => {
 });
 
 async function queryDatabaseForSpells(spellNames: string[]): Promise<Spell[]> {
+    const placeholder_values = spellNames.map(
+        () => DATABASE_PLACEHOLDER_CHARACTER
+    );
+
     return new Promise((resolve, reject) => {
         database.all(
-            `SELECT * FROM ${TABLE_NAME} WHERE name IN (${DATABASE_PLACEHOLDER_CHARACTER.repeat(
-                spellNames.length
+            `SELECT * FROM ${TABLE_NAME} WHERE name IN (${placeholder_values.join(
+                ", "
             )})`,
             spellNames,
             (error, rows: Spell[]) => {

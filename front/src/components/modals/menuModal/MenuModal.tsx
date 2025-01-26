@@ -13,7 +13,7 @@ function MenuModal({ isOpen, onClose }: Props) {
             side={ModalSide.LEFT}
             width="35%"
         >
-            hi this is the new settings!
+            hi this is the borgor menu!!
         </Modal>
     );
 }

@@ -3,9 +3,10 @@ import styles from "components/header/Header.module.css";
 type Props = {
     characterName: string;
     toggleMenu: () => void;
+    toggleSettings: () => void;
 };
 
-function Header({ characterName, toggleMenu }: Props) {
+function Header({ characterName, toggleMenu, toggleSettings }: Props) {
     return (
         <div className={styles.stickyHeaderContainer}>
             <header className={styles.mainHeader}>
@@ -16,9 +17,11 @@ function Header({ characterName, toggleMenu }: Props) {
                 <h2 className={styles.characterName}>
                     {characterName.toUpperCase()}
                 </h2>
-                <button className={styles.characterButton}>
+                <button
+                    className={styles.characterButton}
+                    onClick={toggleSettings}
+                >
                     <span className="spellbookIcon">&#xe900;</span>
-                    {/* <p>{characterName}</p> */}
                 </button>
             </header>
         </div>

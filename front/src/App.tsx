@@ -9,17 +9,18 @@ function App() {
     const [characterName, setCharacterName] = useState<string>("Josh Mann");
     const [modalState, setModalState] = useState<ModalState>(ModalState.NONE);
 
+    function toggleState(targetState: ModalState) {
+        setModalState(
+            modalState === targetState ? ModalState.NONE : targetState
+        );
+    }
+
     return (
         <>
             <Header
                 characterName={characterName}
-                toggleMenu={() =>
-                    setModalState(
-                        modalState === ModalState.MENU
-                            ? ModalState.NONE
-                            : ModalState.MENU
-                    )
-                }
+                toggleMenu={() => toggleState(ModalState.MENU)}
+                toggleSettings={() => toggleState(ModalState.SETTINGS)}
             />
             <SpellbookContainer
                 modalState={modalState}

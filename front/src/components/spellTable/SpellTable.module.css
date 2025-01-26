@@ -1,7 +1,7 @@
 .spellTable {
     background-color: var(--background-colour);
     border-collapse: collapse;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     width: 100%;
     margin-bottom: 50px;
     table-layout: fixed;
@@ -10,7 +10,7 @@
 
 .spellTable tr {
     border-bottom: 1px solid var(--border-colour);
-    height: 2em;
+    height: 3rem;
 }
 
 .spellTable tbody tr:hover {
@@ -38,7 +38,7 @@
 .spellTable th {
     background-color: var(--medium-accent-colour);
     border-bottom: 2px solid;
-    font-size: 1.8rem;
+    font-size: 1.5rem;
 }
 
 .spellTable thead {

@@ -9,7 +9,7 @@ h1 {
 }
 
 h2 {
-    font-size: 2rem;
+    font-size: 1.5rem;
     border-bottom: 0.4rem solid var(--subheading-colour);
     color: var(--subheading-colour);
     letter-spacing: 0.15rem;
@@ -46,6 +46,11 @@ button.symbol {
 
 button .symbol {
     font-size: 2rem;
+}
+
+button p {
+    padding-bottom: 0.11rem;
+    margin: unset;
 }
 
 span.symbol {

@@ -28,14 +28,14 @@ function SpellbookToolbar({
                     <span className="symbol magicTwinkleIcon">
                         book_4_spark
                     </span>
-                    Browse & Manage Spells
+                    <p>Browse & Manage Spells</p>
                 </button>
                 <button
                     className={styles.settingsButton}
                     onClick={openSettings}
                 >
                     <span className="symbol">settings</span>
-                    Settings
+                    <p>Settings</p>
                 </button>
             </span>
         </div>

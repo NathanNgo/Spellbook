@@ -17,12 +17,16 @@
     text-align: center;
     border-style: hidden;
     background-color: transparent;
+    height: 100%;
+    box-sizing: border-box;
 }
 
 .searchbar span {
     position: absolute;
     text-align: center;
     pointer-events: none;
+    font-size: 2rem;
+    min-width: 3rem;
 }
 
 .searchbar input::placeholder {

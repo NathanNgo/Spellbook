@@ -25,12 +25,17 @@ function Spellbook({ spells }: Props) {
             {Array.from(Array(LEVEL_TITLE.length), (_, level) => {
                 return (
                     <SpellTable
-                        spells={spells.filter((spell) => spell.level == level)}
+                        spells={spells.filter((spell) => spell.level === level)}
                         title={LEVEL_TITLE[level]}
                         key={level}
                     />
                 );
             })}
+            <SpellTable
+                spells={spells.filter((spell) => spell.level === null)}
+                title="Uncategorised"
+                key={-1}
+            />
         </div>
     );
 }

@@ -5,29 +5,38 @@ import SpellbookToolbar from "components/spellbookToolbar/SpellbookToolbar";
 import { Spell } from "components/spellRow/types";
 import { useEffect, useState } from "react";
 import styles from "components/SpellbookContainer/SpellbookContainer.module.css";
+import SettingsModal from "components/modals/settingsModal/SettingsModal";
+import BrowseModal from "components/modals/browseModal/browseModal";
+import MenuModal from "components/modals/menuModal/MenuModal";
+
+enum ModalState {
+    SETTINGS,
+    BROWSE,
+    MENU,
+    NONE,
+}
 
 type Props = {
-    menuIsOpen: boolean;
-    onCloseMenu: () => void;
+    modalState: ModalState;
+    setModalState: (modalState: ModalState) => void;
 };
 
 type UnvalidatedSpell = {
     id: number;
     name: string;
     short_description: string;
-    sor: number;
-    duration: string;
-    range: string;
-    saving_throw: string;
-    spell_resistance: string;
+    sor: number | null;
+    duration: string | null;
+    range: string | null;
+    saving_throw: string | null;
+    spell_resistance: string | null;
 };
 
-function SpellbookContainer({ menuIsOpen, onCloseMenu }: Props) {
+function SpellbookContainer({ modalState, setModalState }: Props) {
     const [spells, setSpells] = useState<Spell[]>([]);
     const [searchQuery, setSearchQuery] = useState<string>("");
-    const [settingsIsOpen, setSettingsIsOpen] = useState<boolean>(false);
-    const [browseIsOpen, setBrowseIsOpen] = useState<boolean>(false);
     const [spellsLoaded, setSpellsLoaded] = useState<boolean>(false);
+
     function handleSearchQueryChange(query: string) {
         setSearchQuery(query);
     }
@@ -42,7 +51,7 @@ function SpellbookContainer({ menuIsOpen, onCloseMenu }: Props) {
     }
 
     useEffect(() => {
-        const requestedSpellNames = [
+        const _requestedSpellNames = [
             "Wish",
             "Fireball",
             "Magic Missile",
@@ -51,6 +60,27 @@ function SpellbookContainer({ menuIsOpen, onCloseMenu }: Props) {
             "Wall Of Fire",
             "Wall Of Ice",
         ];
+
+        const requestedSpellNames = [
+            // "Skim", // Missing from db
+            "Identify",
+            "Unseen Servant",
+            "Comprehend Languages",
+            "Heightened Awareness",
+            "Obscuring Mist",
+            "Feather Fall",
+            "Ear-Piercing Scream",
+            "Alarm",
+            "Protection From Evil",
+            "Charm Person",
+            "Silent Image",
+            "Vanish",
+            "Grease",
+            "Mage Armor",
+            "Color Spray",
+            "Enlarge Person",
+        ];
+
         fetch("http://localhost:3000", {
             headers: { "Content-Type": "application/json" },
             method: "POST",
@@ -67,11 +97,11 @@ function SpellbookContainer({ menuIsOpen, onCloseMenu }: Props) {
                             id: spell.id,
                             name: spell.name,
                             description: spell.short_description,
-                            level: spell.sor,
-                            duration: spell.duration,
-                            range: spell.range,
-                            savingThrow: spell.saving_throw,
-                            spellResistance: spell.spell_resistance,
+                            level: spell.sor || null,
+                            duration: spell.duration || "",
+                            range: spell.range || "",
+                            savingThrow: spell.saving_throw || "",
+                            spellResistance: spell.spell_resistance || "",
                         };
                     }
                 );
@@ -82,36 +112,23 @@ function SpellbookContainer({ menuIsOpen, onCloseMenu }: Props) {
 
     return (
         <div className={styles.spellbookContainer}>
-            <Modal
-                isOpen={settingsIsOpen}
-                onClose={() => setSettingsIsOpen(false)}
-                side="left"
-                width="35%"
-            >
-                hi this is the settings!
-            </Modal>
-
-            <Modal
-                isOpen={browseIsOpen}
-                onClose={() => setBrowseIsOpen(false)}
-                side="right"
-                width="60%"
-            >
-                hi browse spells here!
-            </Modal>
-            <Modal
-                isOpen={menuIsOpen}
-                onClose={onCloseMenu}
-                side="left"
-                width="35%"
-            >
-                Burger menu :3
-            </Modal>
+            <SettingsModal
+                isOpen={modalState === ModalState.SETTINGS}
+                onClose={() => setModalState(ModalState.NONE)}
+            />
+            <MenuModal
+                isOpen={modalState === ModalState.MENU}
+                onClose={() => setModalState(ModalState.NONE)}
+            />
+            <BrowseModal
+                isOpen={modalState === ModalState.BROWSE}
+                onClose={() => setModalState(ModalState.NONE)}
+            />
             <SpellbookToolbar
                 onSearchQueryChange={handleSearchQueryChange}
                 searchQuery={searchQuery}
-                openSettings={() => setSettingsIsOpen(true)}
-                openBrowse={() => setBrowseIsOpen(true)}
+                openSettings={() => setModalState(ModalState.SETTINGS)}
+                openBrowse={() => setModalState(ModalState.BROWSE)}
             />
             {spellsLoaded ? (
                 <Spellbook spells={filteredList} />
@@ -122,4 +139,5 @@ function SpellbookContainer({ menuIsOpen, onCloseMenu }: Props) {
     );
 }
 
+export { ModalState };
 export default SpellbookContainer;

@@ -1,22 +1,28 @@
 import styles from "components/modal/Modal.module.css";
+
 type Props = {
     isOpen: boolean;
     onClose: () => void;
     children: React.ReactNode;
-    side?: "left" | "right";
+    side?: ModalSide;
     width?: string;
 };
 
+enum ModalSide {
+    LEFT = "left",
+    RIGHT = "right",
+}
+
 const sideStyle = {
-    right: styles.right,
     left: styles.left,
+    right: styles.right,
 };
 
 function Modal({
     isOpen,
     onClose,
     children,
-    side = "right",
+    side = ModalSide.RIGHT,
     width = "50%",
 }: Props) {
     return (
@@ -39,3 +45,4 @@ function Modal({
 }
 
 export default Modal;
+export { ModalSide };

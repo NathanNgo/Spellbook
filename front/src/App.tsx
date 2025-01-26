@@ -1,21 +1,29 @@
 import { useState } from "react";
 import "App.css";
 import Header from "components/header/Header";
-import SpellbookContainer from "components/SpellbookContainer/SpellbookContainer";
+import SpellbookContainer, {
+    ModalState,
+} from "components/spellbookContainer/SpellbookContainer";
 
 function App() {
     const [characterName, setCharacterName] = useState<string>("Josh Mann");
-    const [menuIsOpen, setMenuIsOpen] = useState<boolean>(false);
+    const [modalState, setModalState] = useState<ModalState>(ModalState.NONE);
 
     return (
         <>
             <Header
                 characterName={characterName}
-                toggleMenu={() => setMenuIsOpen(!menuIsOpen)}
+                toggleMenu={() =>
+                    setModalState(
+                        modalState === ModalState.MENU
+                            ? ModalState.NONE
+                            : ModalState.MENU
+                    )
+                }
             />
             <SpellbookContainer
-                menuIsOpen={menuIsOpen}
-                onCloseMenu={() => setMenuIsOpen(false)}
+                modalState={modalState}
+                setModalState={setModalState}
             ></SpellbookContainer>
         </>
     );

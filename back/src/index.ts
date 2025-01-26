@@ -11,6 +11,7 @@ const ERROR_STATUS_CLIENT = 400;
 const PORT = 3000;
 const TABLE_NAME = "d20pfsrd";
 const NAME_COLUMN = "name";
+const DATABASE_PLACEHOLDER_CHARACTER = "?,";
 
 const database = new sqlite3.Database(DATABASE_FILE_PATH, (err) => {
     if (err) {
@@ -21,7 +22,7 @@ const database = new sqlite3.Database(DATABASE_FILE_PATH, (err) => {
 });
 
 let validSpellNames: string[] = [];
-let SpellRequestSchema: z.ZodObject<any>;
+let SpellRequestSchema: ZodObject<any>;
 
 database.all(
     `SELECT ${NAME_COLUMN} FROM ${TABLE_NAME};`,
@@ -37,23 +38,22 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.post("/", async (request: Request, response: Response) => {
+app.post("/spells", async (request: Request, response: Response) => {
     try {
         const validatedRequest = SpellRequestSchema.parse(request.body);
-        const spells: Spell[] = [];
+        const spellNames: string[] = validatedRequest.spellNames.map(
+            (validatedSpellName: string) => {
+                return validSpellNames[
+                    /* Call it paranoia, but I still don't want to pass user input
+                    directly to the DB even though we've validated it through the
+                    SpellRequestSchema. Doing it this way means we only pass our
+                    server-defined values to the DB, making SQL injection impossible. */
+                    validSpellNames.indexOf(validatedSpellName)
+                ];
+            }
+        );
 
-        for (const validatedSpellName of validatedRequest.spellNames) {
-            /* Call it paranoia, but I still don't want to pass user input directly to the DB
-            even though we've validated it through the SpellRequestSchema.
-            Doing it this way means we only pass our server-defined values to the DB,
-            making SQL injection impossible. */
-            spells.push(
-                await queryDatabase(
-                    validSpellNames[validSpellNames.indexOf(validatedSpellName)]
-                )
-            );
-        }
-
+        const spells = await queryDatabaseForSpells(spellNames);
         console.log(spells);
         response.send(spells);
     } catch (error) {
@@ -64,19 +64,21 @@ app.post("/", async (request: Request, response: Response) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`Example app listening on localhost:${PORT}`);
+    console.log(`Spellbook app listenin on localhost:${PORT}`);
 });
 
-async function queryDatabase(spellName: string): Promise<Spell> {
+async function queryDatabaseForSpells(spellNames: string[]): Promise<Spell[]> {
     return new Promise((resolve, reject) => {
-        database.get(
-            `SELECT * FROM ${TABLE_NAME} WHERE name = ?`,
-            spellName,
-            (error, row: Spell) => {
+        database.all(
+            `SELECT * FROM ${TABLE_NAME} WHERE name IN (${DATABASE_PLACEHOLDER_CHARACTER.repeat(
+                spellNames.length
+            )})`,
+            spellNames,
+            (error, rows: Spell[]) => {
                 if (error) {
                     reject(error);
                 } else {
-                    resolve(row);
+                    resolve(rows);
                 }
             }
         );

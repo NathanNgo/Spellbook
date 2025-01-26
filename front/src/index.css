@@ -12,6 +12,11 @@
   font-style: italic;
 }
 
+@font-face {
+  font-family: 'Spellbook';
+  src: url("fonts/spellbook.ttf");
+}
+
 @media (prefers-color-scheme: dark) {
   * {
     --background-colour: #181818;
@@ -58,6 +63,30 @@
   flex-direction: column;
   align-items: center;
   gap: 2rem;
+}
+
+.spellbookIcon {
+  font-family: 'Spellbook';
+  font-weight: normal;
+  /* I'm using this as an alias for the class 'material-symbols-outlined' */
+  font-style: normal;
+  font-size: inherit;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -moz-font-feature-settings: 'liga';
+  -moz-osx-font-smoothing: grayscale;
+  /* Symbol should be unselectable */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .symbol {

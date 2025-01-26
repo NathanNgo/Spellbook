@@ -4,7 +4,7 @@ body {
 }
 
 h1 {
-    font-size: 2rem;
+    font-size: 2.5rem;
     color: var(--title-colour);
 }
 
@@ -40,11 +40,13 @@ button:hover {
     background-color: var(--medium-accent-colour);
 }
 
-button.symbol {
+button.symbol,
+button.spellbookIcon {
     font-size: 2rem;
 }
 
-button .symbol {
+button .symbol,
+button .spellbookIcon {
     font-size: 2rem;
 }
 
@@ -53,7 +55,8 @@ button p {
     margin: unset;
 }
 
-span.symbol {
+span.symbol,
+span.spellbookIcon {
     font-size: 2rem;
 }
 

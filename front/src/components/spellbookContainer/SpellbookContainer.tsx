@@ -18,7 +18,7 @@ enum DrawerState {
 
 type Props = {
     drawerState: DrawerState;
-    setDrawerState: (drawerState: DrawerState) => void;
+    onSetDrawerState: (drawerState: DrawerState) => void;
 };
 
 type UnvalidatedSpell = {
@@ -32,7 +32,7 @@ type UnvalidatedSpell = {
     spell_resistance: string | null;
 };
 
-function SpellbookContainer({ drawerState, setDrawerState }: Props) {
+function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
     const [spells, setSpells] = useState<Spell[]>([]);
     const [searchQuery, setSearchQuery] = useState<string>("");
     const [spellsLoaded, setSpellsLoaded] = useState<boolean>(false);
@@ -111,25 +111,29 @@ function SpellbookContainer({ drawerState, setDrawerState }: Props) {
             .finally(() => setSpellsLoaded(true));
     }, []);
 
+    function onCloseDrawer() {
+        onSetDrawerState(DrawerState.NONE);
+    }
+
     return (
         <div className={styles.spellbookContainer}>
             <SettingsDrawer
                 isOpen={drawerState === DrawerState.SETTINGS}
-                onClose={() => setDrawerState(DrawerState.NONE)}
+                onClose={onCloseDrawer}
             />
             <MenuDrawer
                 isOpen={drawerState === DrawerState.MENU}
-                onClose={() => setDrawerState(DrawerState.NONE)}
+                onClose={onCloseDrawer}
             />
             <BrowseDrawer
                 isOpen={drawerState === DrawerState.BROWSE}
-                onClose={() => setDrawerState(DrawerState.NONE)}
+                onClose={onCloseDrawer}
             />
             <SpellbookToolbar
                 onSearchQueryChange={handleSearchQueryChange}
                 searchQuery={searchQuery}
-                openSettings={() => setDrawerState(DrawerState.SETTINGS)}
-                openBrowse={() => setDrawerState(DrawerState.BROWSE)}
+                openSettings={() => onSetDrawerState(DrawerState.SETTINGS)}
+                openBrowse={() => onSetDrawerState(DrawerState.BROWSE)}
             />
             {spellsLoaded ? (
                 <Spellbook spells={filteredList} />

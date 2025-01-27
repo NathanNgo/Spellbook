@@ -2,15 +2,15 @@ import styles from "components/header/Header.module.css";
 
 type Props = {
     characterName: string;
-    toggleMenu: () => void;
-    toggleSettings: () => void;
+    onToggleMenu: () => void;
+    onToggleSettings: () => void;
 };
 
-function Header({ characterName, toggleMenu, toggleSettings }: Props) {
+function Header({ characterName, onToggleMenu, onToggleSettings }: Props) {
     return (
         <div className={styles.stickyHeaderContainer}>
             <header className={styles.mainHeader}>
-                <button className={styles.menuButton} onClick={toggleMenu}>
+                <button className={styles.menuButton} onClick={onToggleMenu}>
                     <span className="symbol">menu</span>
                 </button>
                 <h1 className={styles.pageTitle}>Spellbook</h1>
@@ -20,7 +20,7 @@ function Header({ characterName, toggleMenu, toggleSettings }: Props) {
                 </h2>
                 {/* <button
                     className={styles.characterButton}
-                    onClick={toggleSettings}
+                    onClick={onToggleSettings}
                 >
                     <span className="spellbookIcon">&#xe900;</span>
                 </button> */}

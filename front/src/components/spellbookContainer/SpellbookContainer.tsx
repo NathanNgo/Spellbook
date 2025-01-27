@@ -35,8 +35,7 @@ type UnvalidatedSpell = {
 function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
     const [spells, setSpells] = useState<Spell[]>([]);
     const [searchQuery, setSearchQuery] = useState<string>("");
-    const [spellsLoaded, setSpellsLoaded] = useState<boolean>(false);
-
+    const spellsLoaded = spells.length > 0;
     function handleSearchQueryChange(query: string) {
         setSearchQuery(query);
     }
@@ -107,8 +106,7 @@ function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
                     }
                 );
                 setSpells(convertedSpells);
-            })
-            .finally(() => setSpellsLoaded(true));
+            });
     }, []);
 
     function handleCloseDrawer() {

@@ -188,4 +188,35 @@ export type SpellWithOnlyName = {
     name: string;
 };
 
+export type ManifestSpellDetails = {
+    name: string;
+    short_description: string | null;
+    sor: number | null;
+    wiz: number | null;
+    cleric: number | null;
+    druid: number | null;
+    ranger: number | null;
+    bard: number | null;
+    paladin: number | null;
+    alchemist: number | null;
+    summoner: number | null;
+    witch: number | null;
+    inquisitor: number | null;
+    oracle: number | null;
+    antipaladin: number | null;
+    magus: number | null;
+    adept: number | null;
+    bloodrager: number | null;
+    shaman: number | null;
+    psychic: number | null;
+    medium: number | null;
+    mesmerist: number | null;
+    occultist: number | null;
+    spiritualist: number | null;
+    skald: number | null;
+    investigator: number | null;
+    hunter: number | null;
+    summoner_unchained: number | null;
+};
+
 export type StringTuple = [string, ...string[]];

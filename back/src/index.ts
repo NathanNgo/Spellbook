@@ -3,7 +3,12 @@ import sqlite3 from "sqlite3";
 import cors from "cors";
 import z from "zod";
 import type { ZodObject } from "zod";
-import type { Spell, SpellWithOnlyName, StringTuple } from "src/types";
+import type {
+    ManifestSpellDetails,
+    Spell,
+    SpellWithOnlyName,
+    StringTuple,
+} from "src/types";
 import type { Request, Response } from "express";
 
 const DATABASE_FILE_PATH = "database/spellbook.db";
@@ -23,7 +28,6 @@ const database = new sqlite3.Database(DATABASE_FILE_PATH, (err) => {
 
 let validSpellNames: string[] = [];
 let SpellRequestSchema: ZodObject<any>;
-
 database.all(
     `SELECT ${NAME_COLUMN} FROM ${TABLE_NAME};`,
     (_, rows: SpellWithOnlyName[]) => {
@@ -34,9 +38,54 @@ database.all(
     }
 );
 
+let manifestDetails: ManifestSpellDetails[];
+database.all(
+    `
+        SELECT
+            name,
+            short_description,
+            sor,
+            wiz,
+            cleric,
+            druid,
+            ranger,
+            bard,
+            paladin,
+            alchemist,
+            summoner,
+            witch,
+            inquisitor,
+            oracle,
+            antipaladin,
+            magus,
+            adept,
+            bloodrager,
+            shaman,
+            psychic,
+            medium,
+            mesmerist,
+            occultist,
+            spiritualist,
+            skald,
+            investigator,
+            hunter,
+            summoner_unchained
+        FROM
+            ${TABLE_NAME};
+    `,
+    (_, rows: ManifestSpellDetails[]) => {
+        manifestDetails = rows;
+    }
+);
+
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+app.get("/manifest", async (_: Request, response: Response) => {
+    console.log(manifestDetails);
+    response.send(manifestDetails);
+});
 
 app.post("/spells", async (request: Request, response: Response) => {
     try {

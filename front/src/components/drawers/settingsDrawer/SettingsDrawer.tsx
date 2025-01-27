@@ -10,7 +10,7 @@ function SettingsDrawer({ isOpen, onClose }: Props) {
         <Drawer
             isOpen={isOpen}
             onClose={onClose}
-            side={DrawerSide.LEFT}
+            side={DrawerSide.Left}
             width="35%"
         >
             hi this is the new settings!

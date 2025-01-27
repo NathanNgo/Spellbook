@@ -9,20 +9,20 @@ type Props = {
 };
 
 enum DrawerSide {
-    LEFT = "left",
-    RIGHT = "right",
+    Left,
+    Right,
 }
 
 const sideStyle = {
-    left: styles.left,
-    right: styles.right,
+    [DrawerSide.Left]: styles.left,
+    [DrawerSide.Right]: styles.right,
 };
 
 function Drawer({
     isOpen,
     onClose,
     children,
-    side = DrawerSide.RIGHT,
+    side = DrawerSide.Right,
     width = "50%",
 }: Props) {
     return (
@@ -35,7 +35,6 @@ function Drawer({
                     isOpen ? styles.open : styles.close
                 } ${sideStyle[side]}`}
                 style={{ width }}
-                onClick={(e) => e.stopPropagation()}
             >
                 <div className={styles.drawerContentContainer}>{children}</div>
             </div>

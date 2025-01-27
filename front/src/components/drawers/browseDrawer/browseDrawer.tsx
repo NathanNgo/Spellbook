@@ -10,7 +10,7 @@ function BrowseDrawer({ isOpen, onClose }: Props) {
         <Drawer
             isOpen={isOpen}
             onClose={onClose}
-            side={DrawerSide.RIGHT}
+            side={DrawerSide.Right}
             width="60%"
         >
             browse ye spells here!

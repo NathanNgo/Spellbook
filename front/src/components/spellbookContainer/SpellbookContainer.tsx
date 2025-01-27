@@ -10,10 +10,10 @@ import BrowseDrawer from "components/drawers/browseDrawer/browseDrawer";
 import MenuDrawer, { Theme } from "components/drawers/menuDrawer/MenuDrawer";
 
 enum DrawerState {
-    SETTINGS,
-    BROWSE,
-    MENU,
-    NONE,
+    Settings,
+    Browse,
+    Menu,
+    None,
 }
 
 type Props = {
@@ -110,28 +110,28 @@ function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
     }, []);
 
     function handleCloseDrawer() {
-        onSetDrawerState(DrawerState.NONE);
+        onSetDrawerState(DrawerState.None);
     }
 
     return (
         <div className={styles.spellbookContainer}>
             <SettingsDrawer
-                isOpen={drawerState === DrawerState.SETTINGS}
+                isOpen={drawerState === DrawerState.Settings}
                 onClose={handleCloseDrawer}
             />
             <MenuDrawer
-                isOpen={drawerState === DrawerState.MENU}
+                isOpen={drawerState === DrawerState.Menu}
                 onClose={handleCloseDrawer}
             />
             <BrowseDrawer
-                isOpen={drawerState === DrawerState.BROWSE}
+                isOpen={drawerState === DrawerState.Browse}
                 onClose={handleCloseDrawer}
             />
             <SpellbookToolbar
                 onSearchQueryChange={handleSearchQueryChange}
                 searchQuery={searchQuery}
-                openSettings={() => onSetDrawerState(DrawerState.SETTINGS)}
-                openBrowse={() => onSetDrawerState(DrawerState.BROWSE)}
+                onOpenSettings={() => onSetDrawerState(DrawerState.Settings)}
+                onOpenBrowse={() => onSetDrawerState(DrawerState.Browse)}
             />
             {spellsLoaded ? (
                 <Spellbook spells={filteredList} />

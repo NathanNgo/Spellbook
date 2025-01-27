@@ -8,12 +8,12 @@ import SpellbookContainer, {
 function App() {
     const [characterName, setCharacterName] = useState<string>("Josh Mann");
     const [drawerState, setDrawerState] = useState<DrawerState>(
-        DrawerState.NONE
+        DrawerState.None
     );
 
     function toggleState(targetState: DrawerState) {
         setDrawerState(
-            drawerState === targetState ? DrawerState.NONE : targetState
+            drawerState === targetState ? DrawerState.None : targetState
         );
     }
 
@@ -21,8 +21,8 @@ function App() {
         <>
             <Header
                 characterName={characterName}
-                onToggleMenu={() => toggleState(DrawerState.MENU)}
-                onToggleSettings={() => toggleState(DrawerState.SETTINGS)}
+                onToggleMenu={() => toggleState(DrawerState.Menu)}
+                onToggleSettings={() => toggleState(DrawerState.Settings)}
             />
             <SpellbookContainer
                 drawerState={drawerState}

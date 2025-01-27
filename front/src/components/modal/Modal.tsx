@@ -37,7 +37,6 @@ function Modal({
                 style={{ width }}
                 onClick={(e) => e.stopPropagation()}
             >
-                <button onClick={onClose}>X</button>
                 <div>{children}</div>
             </div>
         </div>

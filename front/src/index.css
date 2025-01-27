@@ -17,7 +17,7 @@
   src: url("fonts/spellbook.ttf");
 }
 
-[data-theme="dark"] {
+:root[data-theme="dark"] {
   --background-colour: #181818;
   --light-accent-colour: #2a2a2a;
   --medium-accent-colour: #343434;
@@ -26,16 +26,11 @@
   --text-colour: #e4ddcf;
   --subheading-colour: var(--text-colour);
   --title-colour: var(--text-colour);
-}
-
-[dark-theme="dark"] > *::selection {
-  background-color: #F1C45E;
-  color: var(--background-colour);
+  --text-highlight-background-colour: #f1c45e;
 }
 
 
-[data-theme="light"] {
-
+:root[data-theme="light"] {
   --background-colour: #fafafa;
   --light-accent-colour: #f4f4f4;
   --medium-accent-colour: #eaeaea;
@@ -44,6 +39,13 @@
   --subheading-colour: black;
   --title-colour: black;
   --text-colour: black;
+  --text-highlight-background-colour: #0078D7;
+
+}
+
+*::selection {
+  background-color: var(--text-highlight-background-colour);
+  color: var(--background-colour);
 }
 
 * {
@@ -116,13 +118,13 @@
 }
 
 *:hover > .magicTwinkleIcon {
-  background-image: linear-gradient(70deg, #5e6198, #5e6198, #5e6198, #5e6198, #5e6198, #6e67bb, #8a79dd, #c4a1fc, #8a79dd, #6e67bb, #5e6198);
+  background-image: linear-gradient(90deg, #5e6198, #5e6198, #6e67bb, #8a79dd, #c4a1fc, #8a79dd, #6e67bb, #5e6198);
   background-size: 500%;
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: move 15s linear infinite;
-  transition: -webkit-text-fill-color 0.75s;
+  transition: -webkit-text-fill-color 0.3s;
 }
 
 @keyframes move {

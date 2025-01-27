@@ -35,7 +35,10 @@
     margin: 0;
 }
 
-.characterName {
+.rightDivider {
     margin-left: auto;
+}
+
+.characterName {
     padding: 0rem 1rem;
 }

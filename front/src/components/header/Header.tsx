@@ -14,6 +14,7 @@ function Header({ characterName, toggleMenu, toggleSettings }: Props) {
                     <span className="symbol">menu</span>
                 </button>
                 <h1 className={styles.pageTitle}>Spellbook</h1>
+                <div className={styles.rightDivider}></div>
                 <h2 className={styles.characterName}>
                     {characterName.toUpperCase()}
                 </h2>

@@ -1,14 +1,14 @@
-import styles from "components/modal/Modal.module.css";
+import styles from "components/drawer/Drawer.module.css";
 
 type Props = {
     isOpen: boolean;
     onClose: () => void;
     children: React.ReactNode;
-    side?: ModalSide;
+    side?: DrawerSide;
     width?: string;
 };
 
-enum ModalSide {
+enum DrawerSide {
     LEFT = "left",
     RIGHT = "right",
 }
@@ -18,30 +18,30 @@ const sideStyle = {
     right: styles.right,
 };
 
-function Modal({
+function Drawer({
     isOpen,
     onClose,
     children,
-    side = ModalSide.RIGHT,
+    side = DrawerSide.RIGHT,
     width = "50%",
 }: Props) {
     return (
         <div
-            className={`${styles.modalOverlay} ${isOpen ? styles.show : ""}`}
+            className={`${styles.drawerOverlay} ${isOpen ? styles.show : ""}`}
             onClick={onClose}
         >
             <div
-                className={`${styles.modal} ${
+                className={`${styles.drawer} ${
                     isOpen ? styles.open : styles.close
                 } ${sideStyle[side]}`}
                 style={{ width }}
                 onClick={(e) => e.stopPropagation()}
             >
-                <div className={styles.modalContentContainer}>{children}</div>
+                <div className={styles.drawerContentContainer}>{children}</div>
             </div>
         </div>
     );
 }
 
-export default Modal;
-export { ModalSide };
+export default Drawer;
+export { DrawerSide };

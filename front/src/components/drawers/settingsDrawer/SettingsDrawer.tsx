@@ -1,21 +1,21 @@
-import Modal, { ModalSide } from "components/modal/Modal";
+import Drawer, { DrawerSide } from "components/drawer/Drawer";
 
 type Props = {
     isOpen: boolean;
     onClose: () => void;
 };
 
-function SettingsModal({ isOpen, onClose }: Props) {
+function SettingsDrawer({ isOpen, onClose }: Props) {
     return (
-        <Modal
+        <Drawer
             isOpen={isOpen}
             onClose={onClose}
-            side={ModalSide.LEFT}
+            side={DrawerSide.LEFT}
             width="35%"
         >
             hi this is the new settings!
-        </Modal>
+        </Drawer>
     );
 }
 
-export default SettingsModal;
+export default SettingsDrawer;

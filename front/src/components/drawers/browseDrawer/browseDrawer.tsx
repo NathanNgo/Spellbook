@@ -1,21 +1,21 @@
-import Modal, { ModalSide } from "components/modal/Modal";
+import Drawer, { DrawerSide } from "components/drawer/Drawer";
 
 type Props = {
     isOpen: boolean;
     onClose: () => void;
 };
 
-function BrowseModal({ isOpen, onClose }: Props) {
+function BrowseDrawer({ isOpen, onClose }: Props) {
     return (
-        <Modal
+        <Drawer
             isOpen={isOpen}
             onClose={onClose}
-            side={ModalSide.RIGHT}
+            side={DrawerSide.RIGHT}
             width="60%"
         >
             browse ye spells here!
-        </Modal>
+        </Drawer>
     );
 }
 
-export default BrowseModal;
+export default BrowseDrawer;

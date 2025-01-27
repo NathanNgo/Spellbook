@@ -2,16 +2,18 @@ import { useEffect, useState } from "react";
 import "App.css";
 import Header from "components/header/Header";
 import SpellbookContainer, {
-    ModalState,
+    DrawerState,
 } from "components/spellbookContainer/SpellbookContainer";
 
 function App() {
     const [characterName, setCharacterName] = useState<string>("Josh Mann");
-    const [modalState, setModalState] = useState<ModalState>(ModalState.NONE);
+    const [drawerState, setDrawerState] = useState<DrawerState>(
+        DrawerState.NONE
+    );
 
-    function toggleState(targetState: ModalState) {
-        setModalState(
-            modalState === targetState ? ModalState.NONE : targetState
+    function toggleState(targetState: DrawerState) {
+        setDrawerState(
+            drawerState === targetState ? DrawerState.NONE : targetState
         );
     }
 
@@ -19,12 +21,12 @@ function App() {
         <>
             <Header
                 characterName={characterName}
-                toggleMenu={() => toggleState(ModalState.MENU)}
-                toggleSettings={() => toggleState(ModalState.SETTINGS)}
+                toggleMenu={() => toggleState(DrawerState.MENU)}
+                toggleSettings={() => toggleState(DrawerState.SETTINGS)}
             />
             <SpellbookContainer
-                modalState={modalState}
-                setModalState={setModalState}
+                drawerState={drawerState}
+                setDrawerState={setDrawerState}
             ></SpellbookContainer>
         </>
     );

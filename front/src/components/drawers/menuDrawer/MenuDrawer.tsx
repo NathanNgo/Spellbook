@@ -1,5 +1,5 @@
-import Modal, { ModalSide } from "components/modal/Modal";
-import styles from "components/modals/menuModal/MenuModal.module.css";
+import Drawer, { DrawerSide } from "components/drawer/Drawer";
+import styles from "components/drawers/menuDrawer/MenuDrawer.module.css";
 import { useEffect, useState } from "react";
 
 type Props = {
@@ -12,7 +12,7 @@ enum Theme {
     Dark = "dark",
 }
 
-function MenuModal({ isOpen, onClose }: Props) {
+function MenuDrawer({ isOpen, onClose }: Props) {
     const [theme, setTheme] = useState<Theme>(Theme.Light);
 
     useEffect(() => {
@@ -21,13 +21,13 @@ function MenuModal({ isOpen, onClose }: Props) {
     }, [theme]);
 
     return (
-        <Modal
+        <Drawer
             isOpen={isOpen}
             onClose={onClose}
-            side={ModalSide.LEFT}
+            side={DrawerSide.LEFT}
             width="35%"
         >
-            <div className={styles.modalContent}>
+            <div className={styles.drawerContent}>
                 <h2>THEME</h2>
                 <div className={styles.themeContainer}>
                     <button
@@ -44,9 +44,9 @@ function MenuModal({ isOpen, onClose }: Props) {
                     </button>
                 </div>
             </div>
-        </Modal>
+        </Drawer>
     );
 }
 
-export default MenuModal;
+export default MenuDrawer;
 export { Theme };

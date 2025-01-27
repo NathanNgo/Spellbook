@@ -48,8 +48,8 @@
 
 * {
   --z-index-main-header: 200;
-  --z-index-modal-overlay: 100;
-  --z-index-modal: 150;
+  --z-index-drawer-overlay: 100;
+  --z-index-drawer: 150;
   font-family: "EB Garamond";
   color: var(--text-colour);
   --block-border: 0.4rem solid var(--border-colour);

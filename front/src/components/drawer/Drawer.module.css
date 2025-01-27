@@ -1,4 +1,4 @@
-.modalOverlay {
+.drawerOverlay {
     position: fixed;
     left: 0;
     width: 100%;
@@ -7,15 +7,15 @@
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
-    z-index: var(--z-index-modal-overlay);
+    z-index: var(--z-index-drawer-overlay);
 }
 
-.modalOverlay.show {
+.drawerOverlay.show {
     opacity: 1;
     visibility: visible;
 }
 
-.modal {
+.drawer {
     height: 100%;
     background: var(--background-colour);
     display: flex;
@@ -26,33 +26,33 @@
     position: absolute;
 }
 
-.modal.right {
+.drawer.right {
     border-left: var(--block-border);
     right: 0;
 }
 
-.modal.right.open {
+.drawer.right.open {
     transform: translateX(0);
 }
 
-.modal.right.close {
+.drawer.right.close {
     transform: translateX(100%);
 }
 
-.modal.left {
+.drawer.left {
     border-right: var(--block-border);
     left: 0;
 }
 
-.modal.left.open {
+.drawer.left.open {
     transform: translateX(0);
 }
 
-.modal.left.close {
+.drawer.left.close {
     transform: translateX(-100%);
 }
 
-.modalContentContainer {
+.drawerContentContainer {
     width: 100%;
     height: 100%;
     font-size: 1.5rem;

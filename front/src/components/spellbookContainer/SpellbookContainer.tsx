@@ -1,15 +1,15 @@
 import Message from "components/message/Message";
-import Modal from "components/modal/Modal";
+import Drawer from "components/drawer/Drawer";
 import Spellbook from "components/spellbook/Spellbook";
 import SpellbookToolbar from "components/spellbookToolbar/SpellbookToolbar";
 import { Spell } from "components/spellRow/types";
 import { useEffect, useState } from "react";
 import styles from "components/SpellbookContainer/SpellbookContainer.module.css";
-import SettingsModal from "components/modals/settingsModal/SettingsModal";
-import BrowseModal from "components/modals/browseModal/browseModal";
-import MenuModal, { Theme } from "components/modals/menuModal/MenuModal";
+import SettingsDrawer from "components/drawers/settingsDrawer/SettingsDrawer";
+import BrowseDrawer from "components/drawers/browseDrawer/browseDrawer";
+import MenuDrawer, { Theme } from "components/drawers/menuDrawer/MenuDrawer";
 
-enum ModalState {
+enum DrawerState {
     SETTINGS,
     BROWSE,
     MENU,
@@ -17,8 +17,8 @@ enum ModalState {
 }
 
 type Props = {
-    modalState: ModalState;
-    setModalState: (modalState: ModalState) => void;
+    drawerState: DrawerState;
+    setDrawerState: (drawerState: DrawerState) => void;
 };
 
 type UnvalidatedSpell = {
@@ -32,7 +32,7 @@ type UnvalidatedSpell = {
     spell_resistance: string | null;
 };
 
-function SpellbookContainer({ modalState, setModalState }: Props) {
+function SpellbookContainer({ drawerState, setDrawerState }: Props) {
     const [spells, setSpells] = useState<Spell[]>([]);
     const [searchQuery, setSearchQuery] = useState<string>("");
     const [spellsLoaded, setSpellsLoaded] = useState<boolean>(false);
@@ -113,23 +113,23 @@ function SpellbookContainer({ modalState, setModalState }: Props) {
 
     return (
         <div className={styles.spellbookContainer}>
-            <SettingsModal
-                isOpen={modalState === ModalState.SETTINGS}
-                onClose={() => setModalState(ModalState.NONE)}
+            <SettingsDrawer
+                isOpen={drawerState === DrawerState.SETTINGS}
+                onClose={() => setDrawerState(DrawerState.NONE)}
             />
-            <MenuModal
-                isOpen={modalState === ModalState.MENU}
-                onClose={() => setModalState(ModalState.NONE)}
+            <MenuDrawer
+                isOpen={drawerState === DrawerState.MENU}
+                onClose={() => setDrawerState(DrawerState.NONE)}
             />
-            <BrowseModal
-                isOpen={modalState === ModalState.BROWSE}
-                onClose={() => setModalState(ModalState.NONE)}
+            <BrowseDrawer
+                isOpen={drawerState === DrawerState.BROWSE}
+                onClose={() => setDrawerState(DrawerState.NONE)}
             />
             <SpellbookToolbar
                 onSearchQueryChange={handleSearchQueryChange}
                 searchQuery={searchQuery}
-                openSettings={() => setModalState(ModalState.SETTINGS)}
-                openBrowse={() => setModalState(ModalState.BROWSE)}
+                openSettings={() => setDrawerState(DrawerState.SETTINGS)}
+                openBrowse={() => setDrawerState(DrawerState.BROWSE)}
             />
             {spellsLoaded ? (
                 <Spellbook spells={filteredList} />
@@ -140,5 +140,5 @@ function SpellbookContainer({ modalState, setModalState }: Props) {
     );
 }
 
-export { ModalState };
+export { DrawerState };
 export default SpellbookContainer;

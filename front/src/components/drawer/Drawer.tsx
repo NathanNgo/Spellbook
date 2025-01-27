@@ -35,6 +35,7 @@ function Drawer({
                     isOpen ? styles.open : styles.close
                 } ${sideStyle[side]}`}
                 style={{ width }}
+                onClick={(e) => e.stopPropagation()}
             >
                 <div className={styles.drawerContentContainer}>{children}</div>
             </div>

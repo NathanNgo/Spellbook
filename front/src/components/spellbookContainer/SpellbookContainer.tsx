@@ -111,7 +111,7 @@ function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
             .finally(() => setSpellsLoaded(true));
     }, []);
 
-    function onCloseDrawer() {
+    function handleCloseDrawer() {
         onSetDrawerState(DrawerState.NONE);
     }
 
@@ -119,15 +119,15 @@ function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
         <div className={styles.spellbookContainer}>
             <SettingsDrawer
                 isOpen={drawerState === DrawerState.SETTINGS}
-                onClose={onCloseDrawer}
+                onClose={handleCloseDrawer}
             />
             <MenuDrawer
                 isOpen={drawerState === DrawerState.MENU}
-                onClose={onCloseDrawer}
+                onClose={handleCloseDrawer}
             />
             <BrowseDrawer
                 isOpen={drawerState === DrawerState.BROWSE}
-                onClose={onCloseDrawer}
+                onClose={handleCloseDrawer}
             />
             <SpellbookToolbar
                 onSearchQueryChange={handleSearchQueryChange}

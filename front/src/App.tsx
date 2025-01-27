@@ -21,12 +21,12 @@ function App() {
         <>
             <Header
                 characterName={characterName}
-                toggleMenu={() => toggleState(DrawerState.MENU)}
-                toggleSettings={() => toggleState(DrawerState.SETTINGS)}
+                onToggleMenu={() => toggleState(DrawerState.MENU)}
+                onToggleSettings={() => toggleState(DrawerState.SETTINGS)}
             />
             <SpellbookContainer
                 drawerState={drawerState}
-                setDrawerState={setDrawerState}
+                onSetDrawerState={setDrawerState}
             ></SpellbookContainer>
         </>
     );

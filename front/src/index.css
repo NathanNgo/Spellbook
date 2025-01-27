@@ -12,51 +12,79 @@
   font-style: italic;
 }
 
-@media (prefers-color-scheme: dark) {
-  * {
-    --background-colour: #181818;
-    --light-accent-colour: #2a2a2a;
-    --medium-accent-colour: #343434;
-    --dark-accent-colour: #484848;
-    --border-colour: #9b9485;
-    --text-colour: #e4ddcf;
-    --subheading-colour: var(--text-colour);
-    --title-colour: var(--text-colour);
-  }
-
-  *::selection {
-    background-color: #F1C45E;
-    color: var(--background-colour);
-  }
+@font-face {
+  font-family: 'Spellbook';
+  src: url("fonts/spellbook.ttf");
 }
 
-@media (prefers-color-scheme: light) {
-  * {
+:root[data-theme="dark"] {
+  --background-colour: #181818;
+  --light-accent-colour: #2a2a2a;
+  --medium-accent-colour: #343434;
+  --dark-accent-colour: #484848;
+  --border-colour: #9b9485;
+  --text-colour: #e4ddcf;
+  --subheading-colour: var(--text-colour);
+  --title-colour: var(--text-colour);
+  --text-highlight-background-colour: #f1c45e;
+}
 
-    --background-colour: #fafafa;
-    --light-accent-colour: #f4f4f4;
-    --medium-accent-colour: #f1f1f1;
-    --dark-accent-colour: #e2e2e2;
-    --border-colour: black;
-    --subheading-colour: black;
-    --title-colour: black;
-    --text-colour: black;
-  }
+
+:root[data-theme="light"] {
+  --background-colour: #fafafa;
+  --light-accent-colour: #f4f4f4;
+  --medium-accent-colour: #eaeaea;
+  --dark-accent-colour: #e2e2e2;
+  --border-colour: black;
+  --subheading-colour: black;
+  --title-colour: black;
+  --text-colour: black;
+  --text-highlight-background-colour: #0078D7;
+
+}
+
+*::selection {
+  background-color: var(--text-highlight-background-colour);
+  color: var(--background-colour);
 }
 
 * {
-  --z-index-main-header: 100;
-  --z-index-modal-overlay: 150;
-  --z-index-modal: 200;
+  --z-index-main-header: 200;
+  --z-index-drawer-overlay: 100;
+  --z-index-drawer: 150;
   font-family: "EB Garamond";
   color: var(--text-colour);
+  --block-border: 0.4rem solid;
 }
 
 #root {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3rem;
+}
+
+.spellbookIcon {
+  font-family: 'Spellbook';
+  font-weight: normal;
+  /* I'm using this as an alias for the class 'material-symbols-outlined' */
+  font-style: normal;
+  font-size: inherit;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -moz-font-feature-settings: 'liga';
+  -moz-osx-font-smoothing: grayscale;
+  /* Symbol should be unselectable */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .symbol {
@@ -74,6 +102,13 @@
   direction: ltr;
   -moz-font-feature-settings: 'liga';
   -moz-osx-font-smoothing: grayscale;
+  /* Symbol should be unselectable */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .magicTwinkleIcon {
@@ -83,13 +118,13 @@
 }
 
 *:hover > .magicTwinkleIcon {
-  background-image: linear-gradient(70deg, #5e6198, #5e6198, #5e6198, #5e6198, #5e6198, #6e67bb, #8a79dd, #c4a1fc, #8a79dd, #6e67bb, #5e6198);
+  background-image: linear-gradient(90deg, #5e6198, #5e6198, #6e67bb, #8a79dd, #c4a1fc, #8a79dd, #6e67bb, #5e6198);
   background-size: 500%;
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: move 15s linear infinite;
-  transition: -webkit-text-fill-color 0.75s;
+  transition: -webkit-text-fill-color 0.3s;
 }
 
 @keyframes move {

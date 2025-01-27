@@ -1,0 +1,52 @@
+import Drawer, { DrawerSide } from "components/drawer/Drawer";
+import styles from "components/drawers/menuDrawer/MenuDrawer.module.css";
+import { useEffect, useState } from "react";
+
+type Props = {
+    isOpen: boolean;
+    onClose: () => void;
+};
+
+enum Theme {
+    Light = "light",
+    Dark = "dark",
+}
+
+function MenuDrawer({ isOpen, onClose }: Props) {
+    const [theme, setTheme] = useState<Theme>(Theme.Light);
+
+    useEffect(() => {
+        const rootNote = document.documentElement;
+        rootNote.setAttribute("data-theme", theme);
+    }, [theme]);
+
+    return (
+        <Drawer
+            isOpen={isOpen}
+            onClose={onClose}
+            side={DrawerSide.Left}
+            width="35%"
+        >
+            <div className={styles.drawerContent}>
+                <h2>THEME</h2>
+                <div className={styles.themeContainer}>
+                    <button
+                        onClick={() => setTheme(Theme.Light)}
+                        disabled={theme === Theme.Light}
+                    >
+                        Laurelin
+                    </button>
+                    <button
+                        onClick={() => setTheme(Theme.Dark)}
+                        disabled={theme === Theme.Dark}
+                    >
+                        Telperion
+                    </button>
+                </div>
+            </div>
+        </Drawer>
+    );
+}
+
+export default MenuDrawer;
+export { Theme };

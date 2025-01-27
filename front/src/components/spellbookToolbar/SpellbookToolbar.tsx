@@ -4,9 +4,16 @@ import SearchBar from "components/searchBar/SearchBar";
 type Props = {
     onSearchQueryChange: (query: string) => void;
     searchQuery: string;
+    onOpenSettings: () => void;
+    onOpenBrowse: () => void;
 };
 
-function SpellbookToolbar({ onSearchQueryChange, searchQuery }: Props) {
+function SpellbookToolbar({
+    onSearchQueryChange,
+    searchQuery,
+    onOpenSettings,
+    onOpenBrowse,
+}: Props) {
     return (
         <div className={styles.toolbar}>
             <span className={styles.searchBar}>
@@ -16,14 +23,21 @@ function SpellbookToolbar({ onSearchQueryChange, searchQuery }: Props) {
                     placeHolder="Search current spellbook"
                 />
             </span>
-            <button className={styles.browseButton}>
-                <span className="symbol magicTwinkleIcon">book_4_spark</span>
-                Browse & Manage Spells
-            </button>
-            <button className={styles.settingsButton}>
-                <span className="symbol">settings</span>
-                Settings
-            </button>
+            <span className={styles.buttonsContainer}>
+                <button className={styles.browseButton} onClick={onOpenBrowse}>
+                    <span className="symbol magicTwinkleIcon">
+                        book_4_spark
+                    </span>
+                    <p>Browse & Manage Spells</p>
+                </button>
+                <button
+                    className={styles.settingsButton}
+                    onClick={onOpenSettings}
+                >
+                    <span className="symbol">settings</span>
+                    <p>Settings</p>
+                </button>
+            </span>
         </div>
     );
 }

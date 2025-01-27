@@ -4,16 +4,18 @@ body {
 }
 
 h1 {
-    font-size: 4rem;
+    font-size: 3rem;
     color: var(--title-colour);
 }
 
 h2 {
-    font-size: 2rem;
+    font-size: 1.5rem;
     border-bottom: 0.4rem solid var(--subheading-colour);
     color: var(--subheading-colour);
     letter-spacing: 0.15rem;
     padding: 0 3rem 0 3rem;
+    text-align: center;
+    margin: unset;
 }
 
 button {
@@ -26,38 +28,47 @@ button {
     font-weight: 700;
     padding: 0.5rem;
     display: flex;
+    align-items: center;
     justify-content: center;
     gap: 0.5rem;
+}
+
+button:disabled {
+    background-color: var(--dark-accent-colour);
+    border-width: 2px;
 }
 
 button:active {
     border-width: 2px;
 }
 
-button:hover {
+button:enabled:hover {
     background-color: var(--medium-accent-colour);
 }
 
-button.symbol {
+button.symbol,
+button.spellbookIcon {
     font-size: 2rem;
-    min-width: 3rem;
 }
 
-button .symbol {
+button .symbol,
+button .spellbookIcon {
+    font-size: 2rem;
+}
+
+button p {
+    padding-bottom: 0.11rem;
+    margin: unset;
+}
+
+span.symbol,
+span.spellbookIcon {
     font-size: 2rem;
 }
 
 input {
     font: inherit;
-    border-width: 3px 1px 1px 3px;
-    border-style: solid;
-    border-color: var(--border-colour);
     background-color: var(--background-colour);
-    box-shadow: inset 2px 2px 2px #00000055;
-
-    @media (prefers-color-scheme: dark) {
-        box-shadow: inset 5px 5px 15px #00000055;
-    }
 }
 
 body > div > * {

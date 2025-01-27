@@ -2,7 +2,7 @@ export type Spell = {
     id: number;
     name: string;
     description: string;
-    level: number;
+    level: number | null;
     duration: string;
     range: string;
     savingThrow: string;

@@ -19,18 +19,25 @@ const LEVEL_TITLE = [
     "9th Level",
 ];
 
+const UNCATEGORISED_LEVEL = -1;
+
 function Spellbook({ spells }: Props) {
     return (
         <div className={styles.spellBook}>
             {Array.from(Array(LEVEL_TITLE.length), (_, level) => {
                 return (
                     <SpellTable
-                        spells={spells.filter((spell) => spell.level == level)}
+                        spells={spells.filter((spell) => spell.level === level)}
                         title={LEVEL_TITLE[level]}
                         key={level}
                     />
                 );
             })}
+            <SpellTable
+                spells={spells.filter((spell) => spell.level === null)}
+                title="Uncategorised"
+                key={UNCATEGORISED_LEVEL}
+            />
         </div>
     );
 }

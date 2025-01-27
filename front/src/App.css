@@ -42,7 +42,7 @@ button:active {
     border-width: 2px;
 }
 
-button:hover {
+button:enabled:hover {
     background-color: var(--medium-accent-colour);
 }
 

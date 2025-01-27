@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import styles from "components/SpellbookContainer/SpellbookContainer.module.css";
 import SettingsModal from "components/modals/settingsModal/SettingsModal";
 import BrowseModal from "components/modals/browseModal/browseModal";
-import MenuModal from "components/modals/menuModal/MenuModal";
+import MenuModal, { Theme } from "components/modals/menuModal/MenuModal";
 
 enum ModalState {
     SETTINGS,

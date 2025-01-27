@@ -37,7 +37,7 @@ function Modal({
                 style={{ width }}
                 onClick={(e) => e.stopPropagation()}
             >
-                <div>{children}</div>
+                <div className={styles.modalContentContainer}>{children}</div>
             </div>
         </div>
     );

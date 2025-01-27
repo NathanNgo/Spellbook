@@ -17,36 +17,33 @@
   src: url("fonts/spellbook.ttf");
 }
 
-@media (prefers-color-scheme: dark) {
-  * {
-    --background-colour: #181818;
-    --light-accent-colour: #2a2a2a;
-    --medium-accent-colour: #343434;
-    --dark-accent-colour: #484848;
-    --border-colour: #9b9485;
-    --text-colour: #e4ddcf;
-    --subheading-colour: var(--text-colour);
-    --title-colour: var(--text-colour);
-  }
-
-  *::selection {
-    background-color: #F1C45E;
-    color: var(--background-colour);
-  }
+[data-theme="dark"] {
+  --background-colour: #181818;
+  --light-accent-colour: #2a2a2a;
+  --medium-accent-colour: #343434;
+  --dark-accent-colour: #484848;
+  --border-colour: #9b9485;
+  --text-colour: #e4ddcf;
+  --subheading-colour: var(--text-colour);
+  --title-colour: var(--text-colour);
 }
 
-@media (prefers-color-scheme: light) {
-  * {
+[dark-theme="dark"] > *::selection {
+  background-color: #F1C45E;
+  color: var(--background-colour);
+}
 
-    --background-colour: #fafafa;
-    --light-accent-colour: #f4f4f4;
-    --medium-accent-colour: #eaeaea;
-    --dark-accent-colour: #e2e2e2;
-    --border-colour: black;
-    --subheading-colour: black;
-    --title-colour: black;
-    --text-colour: black;
-  }
+
+[data-theme="light"] {
+
+  --background-colour: #fafafa;
+  --light-accent-colour: #f4f4f4;
+  --medium-accent-colour: #eaeaea;
+  --dark-accent-colour: #e2e2e2;
+  --border-colour: black;
+  --subheading-colour: black;
+  --title-colour: black;
+  --text-colour: black;
 }
 
 * {
@@ -62,7 +59,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2rem;
 }
 
 .spellbookIcon {

@@ -1,0 +1,23 @@
+.modalContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    gap: 1rem;
+}
+
+.modalContent h2 {
+    width: 100%;
+    padding: unset;
+    margin: unset;
+}
+
+.themeContainer {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+}
+
+.themeContainer button {
+    flex-grow: 1;
+}

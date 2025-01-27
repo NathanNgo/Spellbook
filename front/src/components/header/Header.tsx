@@ -18,12 +18,12 @@ function Header({ characterName, toggleMenu, toggleSettings }: Props) {
                 <h2 className={styles.characterName}>
                     {characterName.toUpperCase()}
                 </h2>
-                <button
+                {/* <button
                     className={styles.characterButton}
                     onClick={toggleSettings}
                 >
                     <span className="spellbookIcon">&#xe900;</span>
-                </button>
+                </button> */}
             </header>
         </div>
     );

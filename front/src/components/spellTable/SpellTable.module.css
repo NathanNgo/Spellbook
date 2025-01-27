@@ -8,9 +8,13 @@
     border-color: var(--border-colour);
 }
 
-.spellTable tr {
+.spellTable tbody tr {
     border-bottom: 1px solid var(--border-colour);
     height: 4rem;
+}
+
+.spellTable thead tr {
+    height: 3rem;
 }
 
 .spellTable tbody tr:hover {
@@ -51,4 +55,5 @@
     display: inline-block;
     margin: 0;
     margin-bottom: 1rem;
+    font-size: 1.75rem;
 }

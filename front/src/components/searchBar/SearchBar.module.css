@@ -8,11 +8,12 @@
 
     height: 100%;
     box-sizing: border-box;
-
-    @media (prefers-color-scheme: dark) {
-        box-shadow: inset 5px 5px 15px #00000055;
-    }
 }
+
+[data-theme="light"] > .searchbar {
+    box-shadow: inset 5px 5px 15px #00000055;
+}
+
 
 .searchbar input {
     flex-grow: 11;

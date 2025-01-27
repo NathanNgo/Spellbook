@@ -54,7 +54,7 @@
   --z-index-drawer: 150;
   font-family: "EB Garamond";
   color: var(--text-colour);
-  --block-border: 0.4rem solid var(--border-colour);
+  --block-border: 0.4rem solid;
 }
 
 #root {

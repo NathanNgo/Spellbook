@@ -1,0 +1,17 @@
+.searchContainer {
+    width: 60%;
+}
+
+.levelButtonsContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.levelButtonsContainer > * {
+    min-width: 5rem;
+}

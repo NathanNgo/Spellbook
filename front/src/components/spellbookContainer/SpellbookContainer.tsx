@@ -4,10 +4,10 @@ import Spellbook from "components/spellbook/Spellbook";
 import SpellbookToolbar from "components/spellbookToolbar/SpellbookToolbar";
 import { Spell } from "components/spellRow/types";
 import { useEffect, useState } from "react";
-import styles from "components/spellbookContainer/SpellbookContainer.module.css";
-import SettingsDrawer from "components/drawers/settingsDrawer/SettingsDrawer";
-import BrowseDrawer from "components/drawers/browseDrawer/browseDrawer";
-import MenuDrawer, { Theme } from "components/drawers/menuDrawer/MenuDrawer";
+import styles from "components/SpellbookContainer/SpellbookContainer.module.css";
+import SettingsDrawer from "components/drawer/settingsDrawer/SettingsDrawer";
+import BrowseDrawer from "components/drawer/browseDrawer/browseDrawer";
+import MenuDrawer, { Theme } from "components/drawer/menuDrawer/MenuDrawer";
 
 enum DrawerState {
     Settings,

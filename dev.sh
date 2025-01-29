@@ -7,8 +7,8 @@ tmux new-session -d -s spellbookdev
 
 tmux split-window -h
 
-tmux send-keys -t spellbookdev:0.0 "cd back/ && yarn start" C-m
+tmux send-keys -t spellbookdev:0.0 "cd back/ && yarn && yarn start" C-m
 
-tmux send-keys -t spellbookdev:0.1 "cd front/ && yarn dev" C-m
+tmux send-keys -t spellbookdev:0.1 "cd front/ && yarn && yarn dev" C-m
 
 tmux attach -t spellbookdev

@@ -1,6 +1,6 @@
 import Drawer, { DrawerSide } from "components/drawer/Drawer";
 import styles from "components/drawer/menuDrawer/MenuDrawer.module.css";
-import drawerStyle from "components/drawer/Drawer.module.css";
+import drawerStyles from "components/drawer/Drawer.module.css";
 import { useEffect, useState } from "react";
 
 type Props = {
@@ -28,7 +28,7 @@ function MenuDrawer({ isOpen, onClose }: Props) {
             side={DrawerSide.Left}
             width="35%"
         >
-            <div className={drawerStyle.drawerContent}>
+            <div className={drawerStyles.drawerContent}>
                 <h2>THEME</h2>
                 <div className={styles.themeContainer}>
                     <button

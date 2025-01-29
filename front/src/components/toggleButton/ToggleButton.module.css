@@ -1,0 +1,7 @@
+.toggleOff {}
+
+.toggleOn {
+    background-color: var(--dark-accent-colour);
+    text-decoration: underline;
+    font-style: italic;
+}

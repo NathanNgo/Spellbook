@@ -6,7 +6,7 @@ import { Spell } from "components/spellRow/types";
 import { useEffect, useState } from "react";
 import styles from "components/SpellbookContainer/SpellbookContainer.module.css";
 import SettingsDrawer from "components/drawer/settingsDrawer/SettingsDrawer";
-import BrowseDrawer from "components/drawer/browseDrawer/browseDrawer";
+import BrowseDrawer from "components/drawer/browseDrawer/BrowseDrawer";
 import MenuDrawer, { Theme } from "components/drawer/menuDrawer/MenuDrawer";
 
 enum DrawerState {

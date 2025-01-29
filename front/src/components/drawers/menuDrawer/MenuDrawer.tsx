@@ -15,14 +15,7 @@ enum Theme {
 const THEME_KEY = "theme";
 
 function getLocalStoredTheme(): Theme {
-    const storedTheme = localStorage.getItem(THEME_KEY);
-    if (storedTheme === null) {
-        return Theme.Light;
-    }
-    if (storedTheme === Theme.Light) {
-        return Theme.Light;
-    }
-    return Theme.Dark;
+    return localStorage.getItem(THEME_KEY) === Theme.Dark ? Theme.Dark : Theme.Light
 }
 
 function MenuDrawer({ isOpen, onClose }: Props) {

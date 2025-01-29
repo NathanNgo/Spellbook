@@ -52,6 +52,7 @@
   --z-index-main-header: 200;
   --z-index-drawer-overlay: 100;
   --z-index-drawer: 150;
+  --header-height: 100px;
   font-family: "EB Garamond";
   color: var(--text-colour);
   --block-border: 0.4rem solid;

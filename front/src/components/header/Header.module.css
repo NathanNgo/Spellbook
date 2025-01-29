@@ -5,6 +5,7 @@
     z-index: var(--z-index-main-header);
     width: 100%;
     padding: 0;
+    height: var(--header-height);
 }
 
 .mainHeader {
@@ -15,6 +16,8 @@
     padding: 0.5rem 2rem;
     gap: 1rem;
     font-size: 1.5rem;
+    box-sizing: border-box;
+    height: 100%;
 }
 
 .menuButton {

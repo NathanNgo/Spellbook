@@ -119,13 +119,23 @@
 }
 
 *:hover > .magicTwinkleIcon {
-  background-image: linear-gradient(90deg, #5e6198, #5e6198, #6e67bb, #8a79dd, #c4a1fc, #8a79dd, #6e67bb, #5e6198);
+  --twinkleBright: #d7a9ff;
+  --twinkleMedium: #8e7ce7;
+  --twinkleDark: #6d57dc;
+  background-image: repeating-linear-gradient(90deg,
+      var(--twinkleDark),
+      var(--twinkleMedium) 15%,
+      var(--twinkleBright) 35%,
+      var(--twinkleBright) 45%,
+      var(--twinkleMedium) 65%,
+      var(--twinkleDark) 80%,
+      var(--twinkleDark) 100%);
   background-size: 500%;
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: move 15s linear infinite;
-  transition: -webkit-text-fill-color 0.3s;
+  transition: -webkit-text-fill-color 0.7s;
 }
 
 @keyframes move {

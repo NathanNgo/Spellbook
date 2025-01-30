@@ -21,8 +21,8 @@
         "zod": "^3.24.1"
     },
     "scripts": {
-        "restart": "cd src/ && ./restart.sh",
-        "start": "cd src/ && ./start.sh",
+        "restart": "cd bin/ && ./restart.sh",
+        "start": "cd bin/ && ./start.sh",
         "manual-test": "ts-node src/testing/manual.ts"
     },
     "engines": {

@@ -14,6 +14,7 @@
     "cors": "^2.8.5",
     "csv-parser": "^3.1.0",
     "express": "^4.21.2",
+    "node-fetch": "^3.3.2",
     "nodemon": "^3.1.9",
     "sqlite3": "^5.1.7",
     "ts-node": "^10.9.2",
@@ -21,6 +22,7 @@
   },
   "scripts": {
     "restart": "cd src/ && ./restart.sh",
-    "start": "cd src/ && ./start.sh"
+    "start": "cd src/ && ./start.sh",
+    "manual-test": "ts-node src/testing/manual.ts"
   }
 }

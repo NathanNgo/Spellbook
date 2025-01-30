@@ -27,6 +27,7 @@
   --subheading-colour: var(--text-colour);
   --title-colour: var(--text-colour);
   --text-highlight-background-colour: #f1c45e;
+  --searchbar-shadow: inset 5px 5px 15px #00000055;
 }
 
 
@@ -40,6 +41,7 @@
   --title-colour: black;
   --text-colour: black;
   --text-highlight-background-colour: #0078D7;
+  --searchbar-shadow: inset 2px 2px 2px #00000055;
 
 }
 

@@ -1,7 +1,10 @@
 .toggleOff {}
 
 .toggleOn {
-    background-color: var(--dark-accent-colour);
+    background-color: var(--highlight-accent-colour);
     text-decoration: underline;
-    font-style: italic;
+}
+
+.toggleOn:enabled:hover {
+    background-color: var(--highlight-dark-accent-colour);
 }

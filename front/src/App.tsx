@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import "App.css";
 import Header from "components/header/Header";
-import SpellbookContainer, {
-    DrawerState,
-} from "components/spellbookContainer/SpellbookContainer";
+import SpellbookContainer from "components/spellbookContainer/SpellbookContainer";
+import { DrawerState } from "components/spellbookContainer/SpellbookContainer";
 
 function App() {
     const [characterName, setCharacterName] = useState<string>("Josh Mann");

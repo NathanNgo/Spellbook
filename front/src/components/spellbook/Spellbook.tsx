@@ -1,9 +1,9 @@
 import SpellTable from "components/spellTable/SpellTable";
-import type { Spell } from "components/spellRow/types";
 import styles from "components/spellbook/Spellbook.module.css";
+import { Spells } from "schemas";
 
 type Props = {
-    spells: Spell[];
+    spells: Spells;
 };
 
 const LEVEL_TITLE = [
@@ -27,14 +27,14 @@ function Spellbook({ spells }: Props) {
             {Array.from(Array(LEVEL_TITLE.length), (_, level) => {
                 return (
                     <SpellTable
-                        spells={spells.filter((spell) => spell.level === level)}
+                        spells={spells.filter((spell) => spell.sor === level)}
                         title={LEVEL_TITLE[level]}
                         key={level}
                     />
                 );
             })}
             <SpellTable
-                spells={spells.filter((spell) => spell.level === null)}
+                spells={spells.filter((spell) => spell.sor === null)}
                 title="Uncategorised"
                 key={UNCATEGORISED_LEVEL}
             />

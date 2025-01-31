@@ -28,7 +28,7 @@ const LEVEL_LABELS = [
     "9TH",
 ];
 
-const MINIMUM_QUERY_LENGTH = 3;
+const MINIMUM_QUERY_LENGTH = 2;
 
 function BrowseDrawer({ isOpen, onClose, spellManifest }: Props) {
     const [searchQuery, setSearchQuery] = useState<string>("");

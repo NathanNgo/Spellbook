@@ -1,10 +1,10 @@
 import SpellRow from "components/spellRow/SpellRow";
-import type { Spell } from "components/spellRow/types";
 import styles from "components/spellTable/SpellTable.module.css";
+import { Spells } from "schemas";
 
 type Props = {
     title: string;
-    spells: Spell[];
+    spells: Spells;
 };
 
 function SpellTable({ title, spells }: Props) {

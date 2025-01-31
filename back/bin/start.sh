@@ -1,11 +1,11 @@
 #!/bin/sh
 
-DB_PATH='./database/spellbook.db'
+DB_PATH='../src/database/spellbook.db'
 
 if [ ! -f "$DB_PATH" ]; then
-    cd database/
     ./setup_database.sh
-    cd ../
 fi
+
+cd ../src/
 
 nodemon index.ts

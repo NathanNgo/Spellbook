@@ -2,13 +2,12 @@ import Message from "components/message/Message";
 import Drawer from "components/drawer/Drawer";
 import Spellbook from "components/spellbook/Spellbook";
 import SpellbookToolbar from "components/spellbookToolbar/SpellbookToolbar";
-import { Spell } from "components/spellRow/types";
 import { useEffect, useState } from "react";
-import styles from "components/SpellbookContainer/SpellbookContainer.module.css";
-import SettingsDrawer from "components/drawer/settingsDrawer/SettingsDrawer";
-import BrowseDrawer from "components/drawer/browseDrawer/BrowseDrawer";
-import MenuDrawer, { Theme } from "components/drawer/menuDrawer/MenuDrawer";
-import { ManifestSpellDetails } from "components/drawer/browseDrawer/types";
+import styles from "components/spellbookContainer/SpellbookContainer.module.css";
+import SettingsDrawer from "components/drawers/settingsDrawer/SettingsDrawer";
+import BrowseDrawer from "components/drawers/browseDrawer/browseDrawer";
+import MenuDrawer, { Theme } from "components/drawers/menuDrawer/MenuDrawer";
+import { SpellArraySchema, Spells } from "schemas";
 
 enum DrawerState {
     Settings,
@@ -22,16 +21,11 @@ type Props = {
     onSetDrawerState: (drawerState: DrawerState) => void;
 };
 
-type UnvalidatedSpell = {
-    id: number;
-    name: string;
-    short_description: string;
-    sor: number | null;
-    duration: string;
-    range: string;
-    saving_throw: string | null;
-    spell_resistance: string | null;
-};
+function sortAlphabetically(spells: Spells) {
+    spells.sort((firstSpell, secondSpell) =>
+        firstSpell.name.localeCompare(secondSpell.name)
+    );
+}
 
 type UnvalidatedManifestSpell = {
     name: string;
@@ -40,7 +34,7 @@ type UnvalidatedManifestSpell = {
 };
 
 function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
-    const [spells, setSpells] = useState<Spell[]>([]);
+    const [spells, setSpells] = useState<Spells>([]);
     const [spellManifest, setSpellManifest] = useState<ManifestSpellDetails[]>(
         []
     );
@@ -50,7 +44,7 @@ function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
         setSearchQuery(query);
     }
 
-    let filteredList: Spell[] = spells;
+    let filteredList: Spells = spells;
     const query = searchQuery.trim().toLowerCase();
 
     if (query !== "") {
@@ -89,24 +83,10 @@ function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
             }),
         })
             .then((response) => response.json())
-            .then((unvalidatedSpells: UnvalidatedSpell[]) => {
-                unvalidatedSpells.sort((a, b) => a.name.localeCompare(b.name));
-                const validatedSpells = unvalidatedSpells.map(
-                    (spell): Spell => {
-                        return {
-                            id: spell.id,
-                            name: spell.name,
-                            description: spell.short_description,
-                            level: spell.sor,
-                            duration: spell.duration,
-                            range: spell.range,
-                            savingThrow: spell.saving_throw || "",
-                            spellResistance: spell.spell_resistance || "",
-                        };
-                    }
-                );
-                setSpells(validatedSpells);
-            });
+            .then((unvalidatedSpells: Spells) => {
+                const spells = SpellArraySchema.parse(unvalidatedSpells);
+                sortAlphabetically(spells);
+                setSpells(spells);
 
         fetch("http://localhost:3000/manifest")
             .then((response) => response.json())

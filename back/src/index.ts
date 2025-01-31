@@ -1,15 +1,12 @@
 import express from "express";
 import sqlite3 from "sqlite3";
 import cors from "cors";
-import z from "zod";
+import z, { array } from "zod";
 import type { ZodObject } from "zod";
-import type {
-    ManifestSpellDetails,
-    Spell,
-    SpellWithOnlyName,
-    StringTuple,
-} from "src/types";
+import type { StringTuple } from "src/types";
 import type { Request, Response } from "express";
+import { ManifestSpellDetailArraySchema, SpellArraySchema } from "src/schemas";
+import { toCamel } from "snake-camel";
 
 const DATABASE_FILE_PATH = "database/spellbook.db";
 const ERROR_STATUS_CLIENT = 400;
@@ -30,7 +27,7 @@ let validSpellNames: string[] = [];
 let SpellRequestSchema: ZodObject<any>;
 database.all(
     `SELECT ${NAME_COLUMN} FROM ${TABLE_NAME};`,
-    (_, rows: SpellWithOnlyName[]) => {
+    (_, rows: { [key: string]: string }[]) => {
         validSpellNames = rows.map((spell) => spell.name);
         SpellRequestSchema = z.object({
             spellNames: z.array(z.enum(validSpellNames as StringTuple)),
@@ -38,7 +35,7 @@ database.all(
     }
 );
 
-let manifestDetails: ManifestSpellDetails[];
+let manifestDetails: { [key: string]: string | number | null }[];
 database.all(
     `
         SELECT
@@ -73,7 +70,7 @@ database.all(
         FROM
             ${TABLE_NAME};
     `,
-    (_, rows: ManifestSpellDetails[]) => {
+    (_, rows: { [key: string]: string | number | null }[]) => {
         manifestDetails = rows;
     }
 );
@@ -83,8 +80,9 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/manifest", async (_: Request, response: Response) => {
-    console.log(manifestDetails);
-    response.send(manifestDetails);
+    const manifest = ManifestSpellDetailArraySchema.parse(manifestDetails);
+    console.log(arrayToSnakeCase(manifest));
+    response.send(arrayToSnakeCase(manifest));
 });
 
 app.post("/spells", async (request: Request, response: Response) => {
@@ -102,10 +100,12 @@ app.post("/spells", async (request: Request, response: Response) => {
             }
         );
 
-        const spells = await queryDatabaseForSpells(spellNames);
+        const spells = SpellArraySchema.parse(
+            await queryDatabaseForSpells(spellNames)
+        );
 
-        console.log(spells);
-        response.send(spells);
+        console.log(arrayToSnakeCase(spells));
+        response.send(arrayToSnakeCase(spells));
     } catch (error) {
         console.log(error);
         response.status(ERROR_STATUS_CLIENT);
@@ -117,7 +117,9 @@ app.listen(PORT, () => {
     console.log(`Spellbook app listening on localhost:${PORT}`);
 });
 
-async function queryDatabaseForSpells(spellNames: string[]): Promise<Spell[]> {
+async function queryDatabaseForSpells(
+    spellNames: string[]
+): Promise<{ [key: string]: string | number | null }[]> {
     const placeholder_values = spellNames.map(
         () => DATABASE_PLACEHOLDER_CHARACTER
     );
@@ -128,7 +130,7 @@ async function queryDatabaseForSpells(spellNames: string[]): Promise<Spell[]> {
                 ", "
             )})`,
             spellNames,
-            (error, rows: Spell[]) => {
+            (error, rows: { [key: string]: string | number | null }[]) => {
                 if (error) {
                     reject(error);
                 } else {
@@ -137,4 +139,8 @@ async function queryDatabaseForSpells(spellNames: string[]): Promise<Spell[]> {
             }
         );
     });
+}
+
+function arrayToSnakeCase(array: any[]): any[] {
+    return array.map((item) => toCamel(item));
 }

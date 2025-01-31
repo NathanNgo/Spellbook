@@ -2,7 +2,6 @@ import sqlite3 from "sqlite3";
 import fs from "fs";
 import csv from "csv-parser";
 import z from "zod";
-import type { Spell, SpellFromCSV } from "src/types";
 
 const DATABASE_FILE_PATH = "spellbook.db";
 const INITIAL_CSV_FILE_PATH = "./spellbook.csv";
@@ -23,74 +22,74 @@ const booleanFromString = z.string().transform((val) => {
     throw new Error(`Invalid boolean value: ${val}`);
 });
 
-const numberFromNullableString = z.string().transform((val) => {
+const numberOrNullFromNullableString = z.string().transform((val) => {
     return val === STRING_NULL ? null : Number(val);
 });
 
-const stringOrNull = z.string().transform((val) => {
+const stringFromStringOrNull = z.string().transform((val) => {
     if (val === "" || val === STRING_NULL) {
-        return null;
+        return "";
     }
     return val;
 });
 
-const D20PfsrdSchema = z.object({
-    name: z.string(),
-    school: z.string(),
-    subschool: stringOrNull,
-    descriptor: stringOrNull,
-    spell_level: z.string(),
-    casting_time: z.string(),
-    components: z.string(),
+const D20PfsrdSpellSchema = z.object({
+    name: stringFromStringOrNull,
+    school: stringFromStringOrNull,
+    subschool: stringFromStringOrNull,
+    descriptor: stringFromStringOrNull,
+    spell_level: stringFromStringOrNull,
+    casting_time: stringFromStringOrNull,
+    components: stringFromStringOrNull,
     costly_components: booleanFromString,
-    range: z.string(),
-    area: stringOrNull,
-    effect: stringOrNull,
-    targets: stringOrNull,
-    duration: z.string(),
+    range: stringFromStringOrNull,
+    area: stringFromStringOrNull,
+    effect: stringFromStringOrNull,
+    targets: stringFromStringOrNull,
+    duration: stringFromStringOrNull,
     dismissible: booleanFromString,
     shapeable: booleanFromString,
-    saving_throw: stringOrNull,
-    spell_resistance: stringOrNull,
-    description: stringOrNull,
-    description_formatted: stringOrNull,
-    source: stringOrNull,
-    full_text: stringOrNull,
+    saving_throw: stringFromStringOrNull,
+    spell_resistance: stringFromStringOrNull,
+    description: stringFromStringOrNull,
+    description_formatted: stringFromStringOrNull,
+    source: stringFromStringOrNull,
+    full_text: stringFromStringOrNull,
     verbal: booleanFromString,
     somatic: booleanFromString,
     material: booleanFromString,
     focus: booleanFromString,
     divine_focus: booleanFromString,
-    sor: numberFromNullableString,
-    wiz: numberFromNullableString,
-    cleric: numberFromNullableString,
-    druid: numberFromNullableString,
-    ranger: numberFromNullableString,
-    bard: numberFromNullableString,
-    paladin: numberFromNullableString,
-    alchemist: numberFromNullableString,
-    summoner: numberFromNullableString,
-    witch: numberFromNullableString,
-    inquisitor: numberFromNullableString,
-    oracle: numberFromNullableString,
-    antipaladin: numberFromNullableString,
-    magus: numberFromNullableString,
-    adept: numberFromNullableString,
-    bloodrager: numberFromNullableString,
-    shaman: numberFromNullableString,
-    psychic: numberFromNullableString,
-    medium: numberFromNullableString,
-    mesmerist: numberFromNullableString,
-    occultist: numberFromNullableString,
-    spiritualist: numberFromNullableString,
-    skald: numberFromNullableString,
-    investigator: numberFromNullableString,
-    hunter: numberFromNullableString,
-    summoner_unchained: numberFromNullableString,
-    deity: stringOrNull,
-    SLA_Level: numberFromNullableString,
-    domain: stringOrNull,
-    short_description: stringOrNull,
+    sor: numberOrNullFromNullableString,
+    wiz: numberOrNullFromNullableString,
+    cleric: numberOrNullFromNullableString,
+    druid: numberOrNullFromNullableString,
+    ranger: numberOrNullFromNullableString,
+    bard: numberOrNullFromNullableString,
+    paladin: numberOrNullFromNullableString,
+    alchemist: numberOrNullFromNullableString,
+    summoner: numberOrNullFromNullableString,
+    witch: numberOrNullFromNullableString,
+    inquisitor: numberOrNullFromNullableString,
+    oracle: numberOrNullFromNullableString,
+    antipaladin: numberOrNullFromNullableString,
+    magus: numberOrNullFromNullableString,
+    adept: numberOrNullFromNullableString,
+    bloodrager: numberOrNullFromNullableString,
+    shaman: numberOrNullFromNullableString,
+    psychic: numberOrNullFromNullableString,
+    medium: numberOrNullFromNullableString,
+    mesmerist: numberOrNullFromNullableString,
+    occultist: numberOrNullFromNullableString,
+    spiritualist: numberOrNullFromNullableString,
+    skald: numberOrNullFromNullableString,
+    investigator: numberOrNullFromNullableString,
+    hunter: numberOrNullFromNullableString,
+    summoner_unchained: numberOrNullFromNullableString,
+    deity: stringFromStringOrNull,
+    SLA_Level: numberOrNullFromNullableString,
+    domain: stringFromStringOrNull,
+    short_description: stringFromStringOrNull,
     acid: booleanFromString,
     chaotic: booleanFromString,
     cold: booleanFromString,
@@ -118,22 +117,23 @@ const D20PfsrdSchema = z.object({
     draconic: booleanFromString,
     meditative: booleanFromString,
     mythic: booleanFromString,
-    linktext: stringOrNull,
-    material_costs: numberFromNullableString,
-    bloodline: stringOrNull,
-    patron: stringOrNull,
-    mythic_text: stringOrNull,
-    augmented: stringOrNull,
-    haunt_statistics: stringOrNull,
+    linktext: stringFromStringOrNull,
+    material_costs: numberOrNullFromNullableString,
+    bloodline: stringFromStringOrNull,
+    patron: stringFromStringOrNull,
+    mythic_text: stringFromStringOrNull,
+    augmented: stringFromStringOrNull,
+    haunt_statistics: stringFromStringOrNull,
 });
+type D20PfsrdSpell = z.infer<typeof D20PfsrdSpellSchema>;
 
 function main() {
-    const spells: Spell[] = [];
+    const spells: D20PfsrdSpell[] = [];
 
     fs.createReadStream(INITIAL_CSV_FILE_PATH)
         .pipe(csv())
-        .on("data", (data: SpellFromCSV) => {
-            const validatedData = D20PfsrdSchema.parse(data);
+        .on("data", (data: { [key: string]: string }) => {
+            const validatedData = D20PfsrdSpellSchema.parse(data);
             spells.push(validatedData);
         })
         .on("end", () => {
@@ -141,7 +141,7 @@ function main() {
         });
 }
 
-function insertIntoDatabase(spells: Spell[]) {
+function insertIntoDatabase(spells: D20PfsrdSpell[]) {
     for (const spell of spells) {
         const columnNames = Object.keys(spell).join(", ");
         const valueIndexes = Object.values(spell)

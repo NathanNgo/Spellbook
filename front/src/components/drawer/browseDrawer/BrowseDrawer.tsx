@@ -5,10 +5,14 @@ import SearchBar from "components/searchBar/SearchBar";
 import { LEVEL_TITLES } from "components/spellbook/Spellbook";
 import ToggleButton from "components/toggleButton/ToggleButton";
 import { useState } from "react";
+import { ManifestSpellDetails } from "./types";
+import SearchResultsTable from "components/searchResultsTable/SearchResultsTable";
+import Message from "components/message/Message";
 
 type Props = {
     isOpen: boolean;
     onClose: () => void;
+    spellManifest: ManifestSpellDetails[];
 };
 
 const LEVEL_LABELS = [
@@ -24,10 +28,10 @@ const LEVEL_LABELS = [
     "9TH",
 ];
 
-const levelSelection = LEVEL_LABELS.map(() => false);
+const MINIMUM_QUERY_LENGTH = 3;
 
-function BrowseDrawer({ isOpen, onClose }: Props) {
-    const [query, setQuery] = useState<string>("");
+function BrowseDrawer({ isOpen, onClose, spellManifest }: Props) {
+    const [searchQuery, setSearchQuery] = useState<string>("");
 
     const [levelSelection, setLevelSelection] = useState<boolean[]>(
         LEVEL_LABELS.map(() => false)
@@ -41,6 +45,28 @@ function BrowseDrawer({ isOpen, onClose }: Props) {
         );
     }
 
+    let filteredList: ManifestSpellDetails[] = [];
+    const query = searchQuery.trim().toLowerCase();
+
+    if (query !== "" && query.length >= MINIMUM_QUERY_LENGTH) {
+        filteredList = spellManifest.filter((spell) =>
+            spell.name.toLowerCase().includes(query)
+        );
+    }
+
+    const filteredListsByLevel = LEVEL_TITLES.map((_, levelIndex) =>
+        filteredList.filter((spell) => spell.level === levelIndex)
+    );
+
+    const noToggleSelected = levelSelection.findIndex((flag) => flag) == -1;
+
+    const noResultsFound =
+        filteredList.length === 0 ||
+        filteredListsByLevel
+            .map((spellList, index) =>
+                levelSelection[index] || noToggleSelected ? spellList.length : 0
+            )
+            .findIndex((length) => length > 0) == -1;
     return (
         <Drawer
             isOpen={isOpen}
@@ -51,8 +77,8 @@ function BrowseDrawer({ isOpen, onClose }: Props) {
             <div className={drawerStyles.drawerContent}>
                 <div className={styles.searchContainer}>
                     <SearchBar
-                        onQueryChange={setQuery}
-                        query={query}
+                        onQueryChange={setSearchQuery}
+                        query={searchQuery}
                         placeHolder={"Search spells"}
                     />
                 </div>
@@ -66,6 +92,28 @@ function BrowseDrawer({ isOpen, onClose }: Props) {
                             <p>{label}</p>
                         </ToggleButton>
                     ))}
+                </div>
+                <div className={styles.searchResults}>
+                    {noResultsFound && query.length >= MINIMUM_QUERY_LENGTH ? (
+                        <Message>No spells found</Message>
+                    ) : (
+                        LEVEL_LABELS.map((_, levelIndex) => {
+                            if (
+                                levelSelection[levelIndex] ||
+                                noToggleSelected
+                            ) {
+                                return (
+                                    <SearchResultsTable
+                                        results={filteredList.filter(
+                                            (spell) =>
+                                                spell.level === levelIndex
+                                        )}
+                                        title={LEVEL_TITLES[levelIndex]}
+                                    />
+                                );
+                            }
+                        })
+                    )}
                 </div>
             </div>
         </Drawer>

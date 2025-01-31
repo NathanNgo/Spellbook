@@ -8,6 +8,7 @@ import styles from "components/SpellbookContainer/SpellbookContainer.module.css"
 import SettingsDrawer from "components/drawer/settingsDrawer/SettingsDrawer";
 import BrowseDrawer from "components/drawer/browseDrawer/BrowseDrawer";
 import MenuDrawer, { Theme } from "components/drawer/menuDrawer/MenuDrawer";
+import { ManifestSpellDetails } from "components/drawer/browseDrawer/types";
 
 enum DrawerState {
     Settings,
@@ -26,14 +27,23 @@ type UnvalidatedSpell = {
     name: string;
     short_description: string;
     sor: number | null;
-    duration: string | null;
-    range: string | null;
+    duration: string;
+    range: string;
     saving_throw: string | null;
     spell_resistance: string | null;
 };
 
+type UnvalidatedManifestSpell = {
+    name: string;
+    short_description: string;
+    sor: number | null;
+};
+
 function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
     const [spells, setSpells] = useState<Spell[]>([]);
+    const [spellManifest, setSpellManifest] = useState<ManifestSpellDetails[]>(
+        []
+    );
     const [searchQuery, setSearchQuery] = useState<string>("");
     const spellsLoaded = spells.length > 0;
     function handleSearchQueryChange(query: string) {
@@ -50,16 +60,6 @@ function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
     }
 
     useEffect(() => {
-        const _requestedSpellNames = [
-            "Wish",
-            "Fireball",
-            "Magic Missile",
-            "Grease",
-            "Charm Person",
-            "Wall Of Fire",
-            "Wall Of Ice",
-        ];
-
         const requestedSpellNames = [
             // "Skim", // Missing from db
             "Identify",
@@ -91,21 +91,37 @@ function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
             .then((response) => response.json())
             .then((unvalidatedSpells: UnvalidatedSpell[]) => {
                 unvalidatedSpells.sort((a, b) => a.name.localeCompare(b.name));
-                const convertedSpells = unvalidatedSpells.map(
+                const validatedSpells = unvalidatedSpells.map(
                     (spell): Spell => {
                         return {
                             id: spell.id,
                             name: spell.name,
                             description: spell.short_description,
-                            level: spell.sor || null,
-                            duration: spell.duration || "",
-                            range: spell.range || "",
+                            level: spell.sor,
+                            duration: spell.duration,
+                            range: spell.range,
                             savingThrow: spell.saving_throw || "",
                             spellResistance: spell.spell_resistance || "",
                         };
                     }
                 );
-                setSpells(convertedSpells);
+                setSpells(validatedSpells);
+            });
+
+        fetch("http://localhost:3000/manifest")
+            .then((response) => response.json())
+            .then((unvalidatedManifestSpells: UnvalidatedManifestSpell[]) => {
+                const validatedManifestSpells: ManifestSpellDetails[] =
+                    unvalidatedManifestSpells.map(
+                        (spell: UnvalidatedManifestSpell) => {
+                            return {
+                                name: spell.name,
+                                short_description: spell.short_description,
+                                level: spell.sor,
+                            };
+                        }
+                    );
+                setSpellManifest(validatedManifestSpells);
             });
     }, []);
 
@@ -126,6 +142,7 @@ function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
             <BrowseDrawer
                 isOpen={drawerState === DrawerState.Browse}
                 onClose={handleCloseDrawer}
+                spellManifest={spellManifest}
             />
             <SpellbookToolbar
                 onSearchQueryChange={handleSearchQueryChange}

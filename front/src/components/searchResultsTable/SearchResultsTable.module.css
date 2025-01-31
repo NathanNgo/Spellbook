@@ -1,0 +1,46 @@
+.searchResultsTable {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 1.5rem;
+}
+
+.searchResultsTable h2 {
+    width: 30%;
+    font-size: 1.75rem;
+}
+
+.searchResult {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    min-height: 3rem;
+    gap: 1rem;
+}
+
+
+.searchResult:hover .spellName {
+    text-decoration: underline;
+    background-color: var(--dark-accent-colour);
+}
+
+.spellName:hover {
+    cursor: pointer;
+}
+
+.spellName {
+    width: auto;
+    flex-grow: 1;
+    background-color: var(--medium-accent-colour);
+    border-bottom: 1px solid;
+    font-weight: bold;
+    font-style: italic;
+    align-content: center;
+    padding-left: 0.5rem;
+}
+
+.spellButton {
+    width: 15%;
+    min-width: 10rem;
+}

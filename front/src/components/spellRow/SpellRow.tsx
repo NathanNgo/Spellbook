@@ -1,6 +1,6 @@
-import type { Spell } from "components/spellRow/types";
 import styles from "components/spellRow/SpellRow.module.css";
 import { memo } from "react";
+import { Spell } from "schemas";
 
 type Props = {
     spell: Spell;

@@ -2,12 +2,12 @@ import Message from "components/message/Message";
 import Drawer from "components/drawer/Drawer";
 import Spellbook from "components/spellbook/Spellbook";
 import SpellbookToolbar from "components/spellbookToolbar/SpellbookToolbar";
-import { Spell } from "components/spellRow/types";
 import { useEffect, useState } from "react";
 import styles from "components/spellbookContainer/SpellbookContainer.module.css";
 import SettingsDrawer from "components/drawers/settingsDrawer/SettingsDrawer";
 import BrowseDrawer from "components/drawers/browseDrawer/browseDrawer";
 import MenuDrawer, { Theme } from "components/drawers/menuDrawer/MenuDrawer";
+import { SpellArraySchema, Spells } from "schemas";
 
 enum DrawerState {
     Settings,
@@ -21,26 +21,21 @@ type Props = {
     onSetDrawerState: (drawerState: DrawerState) => void;
 };
 
-type UnvalidatedSpell = {
-    id: number;
-    name: string;
-    short_description: string;
-    sor: number | null;
-    duration: string | null;
-    range: string | null;
-    saving_throw: string | null;
-    spell_resistance: string | null;
-};
+function sortAlphabetically(spells: Spells) {
+    spells.sort((firstSpell, secondSpell) =>
+        firstSpell.name.localeCompare(secondSpell.name)
+    );
+}
 
 function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
-    const [spells, setSpells] = useState<Spell[]>([]);
+    const [spells, setSpells] = useState<Spells>([]);
     const [searchQuery, setSearchQuery] = useState<string>("");
     const spellsLoaded = spells.length > 0;
     function handleSearchQueryChange(query: string) {
         setSearchQuery(query);
     }
 
-    let filteredList: Spell[] = spells;
+    let filteredList: Spells = spells;
     const query = searchQuery.trim().toLowerCase();
 
     if (query !== "") {
@@ -89,23 +84,10 @@ function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
             }),
         })
             .then((response) => response.json())
-            .then((unvalidatedSpells: UnvalidatedSpell[]) => {
-                unvalidatedSpells.sort((a, b) => a.name.localeCompare(b.name));
-                const convertedSpells = unvalidatedSpells.map(
-                    (spell): Spell => {
-                        return {
-                            id: spell.id,
-                            name: spell.name,
-                            description: spell.short_description,
-                            level: spell.sor || null,
-                            duration: spell.duration || "",
-                            range: spell.range || "",
-                            savingThrow: spell.saving_throw || "",
-                            spellResistance: spell.spell_resistance || "",
-                        };
-                    }
-                );
-                setSpells(convertedSpells);
+            .then((unvalidatedSpells: Spells) => {
+                const spells = SpellArraySchema.parse(unvalidatedSpells);
+                sortAlphabetically(spells);
+                setSpells(spells);
             });
     }, []);
 

@@ -28,7 +28,7 @@ function Spellbook({ spells }: Props) {
                 return (
                     <SpellTable
                         spells={spells.filter((spell) => spell.sor === level)}
-                        title={LEVEL_TITLE[level]}
+                        title={LEVEL_TITLES[level]}
                         key={level}
                     />
                 );

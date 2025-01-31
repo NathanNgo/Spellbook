@@ -4,10 +4,15 @@ import Spellbook from "components/spellbook/Spellbook";
 import SpellbookToolbar from "components/spellbookToolbar/SpellbookToolbar";
 import { useEffect, useState } from "react";
 import styles from "components/spellbookContainer/SpellbookContainer.module.css";
-import SettingsDrawer from "components/drawers/settingsDrawer/SettingsDrawer";
-import BrowseDrawer from "components/drawers/browseDrawer/browseDrawer";
-import MenuDrawer, { Theme } from "components/drawers/menuDrawer/MenuDrawer";
-import { SpellArraySchema, Spells } from "schemas";
+import SettingsDrawer from "components/drawer/settingsDrawer/SettingsDrawer";
+import BrowseDrawer from "components/drawer/browseDrawer/BrowseDrawer";
+import MenuDrawer, { Theme } from "components/drawer/menuDrawer/MenuDrawer";
+import {
+    ManifestSpellDetailArraySchema,
+    ManifestSpellDetails,
+    SpellArraySchema,
+    Spells,
+} from "schemas";
 
 enum DrawerState {
     Settings,
@@ -27,15 +32,9 @@ function sortAlphabetically(spells: Spells) {
     );
 }
 
-type UnvalidatedManifestSpell = {
-    name: string;
-    short_description: string;
-    sor: number | null;
-};
-
 function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
     const [spells, setSpells] = useState<Spells>([]);
-    const [spellManifest, setSpellManifest] = useState<ManifestSpellDetails[]>(
+    const [spellManifest, setSpellManifest] = useState<ManifestSpellDetails>(
         []
     );
     const [searchQuery, setSearchQuery] = useState<string>("");
@@ -87,21 +86,16 @@ function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
                 const spells = SpellArraySchema.parse(unvalidatedSpells);
                 sortAlphabetically(spells);
                 setSpells(spells);
+            });
 
         fetch("http://localhost:3000/manifest")
             .then((response) => response.json())
-            .then((unvalidatedManifestSpells: UnvalidatedManifestSpell[]) => {
-                const validatedManifestSpells: ManifestSpellDetails[] =
-                    unvalidatedManifestSpells.map(
-                        (spell: UnvalidatedManifestSpell) => {
-                            return {
-                                name: spell.name,
-                                short_description: spell.short_description,
-                                level: spell.sor,
-                            };
-                        }
+            .then((unvalidatedManifestSpellDetails: ManifestSpellDetails) => {
+                const manifestSpellDetails =
+                    ManifestSpellDetailArraySchema.parse(
+                        unvalidatedManifestSpellDetails
                     );
-                setSpellManifest(validatedManifestSpells);
+                setSpellManifest(manifestSpellDetails);
             });
     }, []);
 

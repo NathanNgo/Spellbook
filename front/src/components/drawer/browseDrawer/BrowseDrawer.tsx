@@ -5,14 +5,14 @@ import SearchBar from "components/searchBar/SearchBar";
 import { LEVEL_TITLES } from "components/spellbook/Spellbook";
 import ToggleButton from "components/toggleButton/ToggleButton";
 import { useState } from "react";
-import { ManifestSpellDetails } from "./types";
 import SearchResultsTable from "components/searchResultsTable/SearchResultsTable";
 import Message from "components/message/Message";
+import { ManifestSpellDetails } from "schemas";
 
 type Props = {
     isOpen: boolean;
     onClose: () => void;
-    spellManifest: ManifestSpellDetails[];
+    spellManifest: ManifestSpellDetails;
 };
 
 const LEVEL_LABELS = [
@@ -45,7 +45,7 @@ function BrowseDrawer({ isOpen, onClose, spellManifest }: Props) {
         );
     }
 
-    let filteredList: ManifestSpellDetails[] = [];
+    let filteredList: ManifestSpellDetails = [];
     const query = searchQuery.trim().toLowerCase();
 
     if (query !== "" && query.length >= MINIMUM_QUERY_LENGTH) {
@@ -55,7 +55,8 @@ function BrowseDrawer({ isOpen, onClose, spellManifest }: Props) {
     }
 
     const filteredListsByLevel = LEVEL_TITLES.map((_, levelIndex) =>
-        filteredList.filter((spell) => spell.level === levelIndex)
+        // Need to generalise to level for any class based on character info
+        filteredList.filter((spell) => spell.sor === levelIndex)
     );
 
     const noToggleSelected = levelSelection.findIndex((flag) => flag) == -1;
@@ -104,10 +105,9 @@ function BrowseDrawer({ isOpen, onClose, spellManifest }: Props) {
                             ) {
                                 return (
                                     <SearchResultsTable
-                                        results={filteredList.filter(
-                                            (spell) =>
-                                                spell.level === levelIndex
-                                        )}
+                                        results={
+                                            filteredListsByLevel[levelIndex]
+                                        }
                                         title={LEVEL_TITLES[levelIndex]}
                                     />
                                 );

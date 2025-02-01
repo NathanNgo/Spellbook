@@ -97,12 +97,12 @@ function BrowseDrawer({ isOpen, onClose, spellManifest }: Props) {
                 {noResultsFound && query.length >= MINIMUM_QUERY_LENGTH ? (
                     <Message>No spells found</Message>
                 ) : (
-                    LEVEL_LABELS.map((_, levelIndex) => {
+                    LEVEL_TITLES.map((levelTitle, levelIndex) => {
                         if (levelSelection[levelIndex] || noToggleSelected) {
                             return (
                                 <SearchResultsTable
                                     results={filteredListsByLevel[levelIndex]}
-                                    title={LEVEL_TITLES[levelIndex]}
+                                    title={levelTitle}
                                 />
                             );
                         }

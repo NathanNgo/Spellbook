@@ -4,10 +4,17 @@ import Spellbook from "components/spellbook/Spellbook";
 import SpellbookToolbar from "components/spellbookToolbar/SpellbookToolbar";
 import { useEffect, useState } from "react";
 import styles from "components/spellbookContainer/SpellbookContainer.module.css";
-import SettingsDrawer from "components/drawers/settingsDrawer/SettingsDrawer";
-import BrowseDrawer from "components/drawers/browseDrawer/browseDrawer";
-import MenuDrawer, { Theme } from "components/drawers/menuDrawer/MenuDrawer";
-import { SpellArraySchema, Spells } from "schemas";
+import SettingsDrawer from "components/drawer/settingsDrawer/SettingsDrawer";
+import BrowseDrawer from "components/drawer/browseDrawer/BrowseDrawer";
+import MenuDrawer, { Theme } from "components/drawer/menuDrawer/MenuDrawer";
+import {
+    ManifestSpellDetailArraySchema,
+    SpellArraySchema,
+} from "schemas";
+import type {
+    ManifestSpellDetails,
+    Spells,
+} from "schemas";
 
 enum DrawerState {
     Settings,
@@ -29,6 +36,9 @@ function sortAlphabetically(spells: Spells) {
 
 function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
     const [spells, setSpells] = useState<Spells>([]);
+    const [spellManifest, setSpellManifest] = useState<ManifestSpellDetails>(
+        []
+    );
     const [searchQuery, setSearchQuery] = useState<string>("");
     const spellsLoaded = spells.length > 0;
     function handleSearchQueryChange(query: string) {
@@ -45,16 +55,6 @@ function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
     }
 
     useEffect(() => {
-        const _requestedSpellNames = [
-            "Wish",
-            "Fireball",
-            "Magic Missile",
-            "Grease",
-            "Charm Person",
-            "Wall Of Fire",
-            "Wall Of Ice",
-        ];
-
         const requestedSpellNames = [
             // "Skim", // Missing from db
             "Identify",
@@ -89,6 +89,16 @@ function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
                 sortAlphabetically(spells);
                 setSpells(spells);
             });
+
+        fetch("http://localhost:3000/manifest")
+            .then((response) => response.json())
+            .then((unvalidatedManifestSpellDetails: ManifestSpellDetails) => {
+                const manifestSpellDetails =
+                    ManifestSpellDetailArraySchema.parse(
+                        unvalidatedManifestSpellDetails
+                    );
+                setSpellManifest(manifestSpellDetails);
+            });
     }, []);
 
     function handleCloseDrawer() {
@@ -108,6 +118,7 @@ function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
             <BrowseDrawer
                 isOpen={drawerState === DrawerState.Browse}
                 onClose={handleCloseDrawer}
+                spellManifest={spellManifest}
             />
             <SpellbookToolbar
                 onSearchQueryChange={handleSearchQueryChange}

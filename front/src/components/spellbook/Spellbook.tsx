@@ -1,12 +1,12 @@
 import SpellTable from "components/spellTable/SpellTable";
 import styles from "components/spellbook/Spellbook.module.css";
-import { Spells } from "schemas";
+import type { Spells } from "schemas";
 
 type Props = {
     spells: Spells;
 };
 
-const LEVEL_TITLE = [
+const LEVEL_TITLES = [
     "Cantrip",
     "1st Level",
     "2nd Level",
@@ -24,11 +24,11 @@ const UNCATEGORISED_LEVEL = -1;
 function Spellbook({ spells }: Props) {
     return (
         <div className={styles.spellBook}>
-            {Array.from(Array(LEVEL_TITLE.length), (_, level) => {
+            {Array.from(Array(LEVEL_TITLES.length), (_, level) => {
                 return (
                     <SpellTable
                         spells={spells.filter((spell) => spell.sor === level)}
-                        title={LEVEL_TITLE[level]}
+                        title={LEVEL_TITLES[level]}
                         key={level}
                     />
                 );
@@ -43,3 +43,4 @@ function Spellbook({ spells }: Props) {
 }
 
 export default Spellbook;
+export { LEVEL_TITLES };

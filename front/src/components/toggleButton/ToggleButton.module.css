@@ -1,0 +1,8 @@
+.toggleOn {
+    background-color: var(--highlight-accent-colour);
+    text-decoration: underline;
+}
+
+.toggleOn:enabled:hover {
+    background-color: var(--highlight-dark-accent-colour);
+}

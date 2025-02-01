@@ -75,46 +75,39 @@ function BrowseDrawer({ isOpen, onClose, spellManifest }: Props) {
             side={DrawerSide.Right}
             width="60%"
         >
-            <div className={drawerStyles.drawerContent}>
-                <div className={styles.searchContainer}>
-                    <SearchBar
-                        onQueryChange={setSearchQuery}
-                        query={searchQuery}
-                        placeHolder={"Search spells"}
-                    />
-                </div>
-                <div className={styles.levelButtonsContainer}>
-                    {LEVEL_LABELS.map((label, index) => (
-                        <ToggleButton
-                            key={index}
-                            isOn={levelSelection[index]}
-                            onToggle={() => handleLevelSelect(index)}
-                        >
-                            <p>{label}</p>
-                        </ToggleButton>
-                    ))}
-                </div>
-                <div className={styles.searchResults}>
-                    {noResultsFound && query.length >= MINIMUM_QUERY_LENGTH ? (
-                        <Message>No spells found</Message>
-                    ) : (
-                        LEVEL_LABELS.map((_, levelIndex) => {
-                            if (
-                                levelSelection[levelIndex] ||
-                                noToggleSelected
-                            ) {
-                                return (
-                                    <SearchResultsTable
-                                        results={
-                                            filteredListsByLevel[levelIndex]
-                                        }
-                                        title={LEVEL_TITLES[levelIndex]}
-                                    />
-                                );
-                            }
-                        })
-                    )}
-                </div>
+            <div className={styles.searchContainer}>
+                <SearchBar
+                    onQueryChange={setSearchQuery}
+                    query={searchQuery}
+                    placeHolder={"Search spells"}
+                />
+            </div>
+            <div className={styles.levelButtonsContainer}>
+                {LEVEL_LABELS.map((label, index) => (
+                    <ToggleButton
+                        key={index}
+                        isOn={levelSelection[index]}
+                        onToggle={() => handleLevelSelect(index)}
+                    >
+                        <p>{label}</p>
+                    </ToggleButton>
+                ))}
+            </div>
+            <div className={styles.searchResults}>
+                {noResultsFound && query.length >= MINIMUM_QUERY_LENGTH ? (
+                    <Message>No spells found</Message>
+                ) : (
+                    LEVEL_LABELS.map((_, levelIndex) => {
+                        if (levelSelection[levelIndex] || noToggleSelected) {
+                            return (
+                                <SearchResultsTable
+                                    results={filteredListsByLevel[levelIndex]}
+                                    title={LEVEL_TITLES[levelIndex]}
+                                />
+                            );
+                        }
+                    })
+                )}
             </div>
         </Drawer>
     );

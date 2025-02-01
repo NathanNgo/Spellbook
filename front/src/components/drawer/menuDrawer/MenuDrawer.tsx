@@ -28,22 +28,20 @@ function MenuDrawer({ isOpen, onClose }: Props) {
             side={DrawerSide.Left}
             width="35%"
         >
-            <div className={drawerStyles.drawerContent}>
-                <h2>THEME</h2>
-                <div className={styles.themeContainer}>
-                    <button
-                        onClick={() => setTheme(Theme.Light)}
-                        disabled={theme === Theme.Light}
-                    >
-                        Laurelin
-                    </button>
-                    <button
-                        onClick={() => setTheme(Theme.Dark)}
-                        disabled={theme === Theme.Dark}
-                    >
-                        Telperion
-                    </button>
-                </div>
+            <h2>THEME</h2>
+            <div className={styles.themeContainer}>
+                <button
+                    onClick={() => setTheme(Theme.Light)}
+                    disabled={theme === Theme.Light}
+                >
+                    Laurelin
+                </button>
+                <button
+                    onClick={() => setTheme(Theme.Dark)}
+                    disabled={theme === Theme.Dark}
+                >
+                    Telperion
+                </button>
             </div>
         </Drawer>
     );

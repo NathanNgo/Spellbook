@@ -1,8 +1,8 @@
-import { ManifestSpellDetails } from "components/drawer/browseDrawer/types";
 import styles from "components/searchResultsTable/SearchResultsTable.module.css";
+import { ManifestSpellDetail } from "schemas";
 
 type Props = {
-    results: ManifestSpellDetails[];
+    results: ManifestSpellDetail[];
     title: string;
 };
 
@@ -13,7 +13,7 @@ function SearchResultsTable({ results, title }: Props) {
     return (
         <div className={styles.searchResultsTable}>
             <h2>{title.toUpperCase()}</h2>
-            {results.map((spell) => (
+            {results.map((spell: ManifestSpellDetail) => (
                 <div className={styles.searchResult}>
                     <div className={styles.spellName}>{spell.name}</div>
                     <button className={styles.spellButton}>+ Add Spell</button>

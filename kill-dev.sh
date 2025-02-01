@@ -1,3 +1,3 @@
 #!/bin/bash
 
-tmux kill-server
+tmux kill-session -t spellbookdev

@@ -7,6 +7,7 @@
     box-shadow: var(--searchbar-shadow);
     width: 100%;
     height: 100%;
+    position: relative;
     box-sizing: border-box;
 }
 
@@ -20,12 +21,21 @@
     width: 100%;
 }
 
-.searchbar span {
+.searchbar .searchIcon,
+.searchbar .closeIcon {
     position: absolute;
     text-align: center;
-    pointer-events: none;
     font-size: 2rem;
     min-width: 3rem;
+}
+
+.searchbar .searchIcon {
+    pointer-events: none;
+}
+
+.searchbar .closeIcon {
+    cursor: pointer;
+    right: 0
 }
 
 .searchbar input::placeholder {
@@ -38,6 +48,7 @@
 }
 
 
-.searchbar span:has(+ input:focus) {
+.searchbar:focus-within .searchIcon,
+.searchbar:focus-within .closeIcon {
     visibility: hidden;
 }

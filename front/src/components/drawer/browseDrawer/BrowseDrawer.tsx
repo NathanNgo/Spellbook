@@ -15,7 +15,7 @@ type Props = {
     spellManifest: ManifestSpellDetails;
 };
 
-const LEVEL_LABELS = [
+const TOGGLE_BUTTON_LEVEL_LABELS = [
     "Cantrip",
     "1ST",
     "2ND",
@@ -34,7 +34,7 @@ function BrowseDrawer({ isOpen, onClose, spellManifest }: Props) {
     const [searchQuery, setSearchQuery] = useState<string>("");
 
     const [levelSelection, setLevelSelection] = useState<boolean[]>(
-        LEVEL_LABELS.map(() => false)
+        TOGGLE_BUTTON_LEVEL_LABELS.map(() => false)
     );
 
     function handleLevelSelect(toggleIndex: number) {
@@ -84,7 +84,7 @@ function BrowseDrawer({ isOpen, onClose, spellManifest }: Props) {
                 />
             </div>
             <div className={styles.levelButtonsContainer}>
-                {LEVEL_LABELS.map((label, index) => (
+                {TOGGLE_BUTTON_LEVEL_LABELS.map((label, index) => (
                     <ToggleButton
                         key={index}
                         isOn={levelSelection[index]}

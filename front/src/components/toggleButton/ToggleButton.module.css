@@ -1,5 +1,3 @@
-.toggleOff {}
-
 .toggleOn {
     background-color: var(--highlight-accent-colour);
     text-decoration: underline;

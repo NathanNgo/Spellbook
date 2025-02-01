@@ -7,7 +7,7 @@ import ToggleButton from "components/toggleButton/ToggleButton";
 import { useState } from "react";
 import SearchResultsTable from "components/searchResultsTable/SearchResultsTable";
 import Message from "components/message/Message";
-import { ManifestSpellDetails } from "schemas";
+import type { ManifestSpellDetails } from "schemas";
 
 type Props = {
     isOpen: boolean;

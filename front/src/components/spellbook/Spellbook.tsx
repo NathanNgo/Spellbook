@@ -1,6 +1,6 @@
 import SpellTable from "components/spellTable/SpellTable";
 import styles from "components/spellbook/Spellbook.module.css";
-import { Spells } from "schemas";
+import type { Spells } from "schemas";
 
 type Props = {
     spells: Spells;

@@ -1,5 +1,5 @@
 import styles from "components/searchResultsTable/SearchResultsTable.module.css";
-import { ManifestSpellDetail } from "schemas";
+import type { ManifestSpellDetail } from "schemas";
 
 type Props = {
     results: ManifestSpellDetail[];

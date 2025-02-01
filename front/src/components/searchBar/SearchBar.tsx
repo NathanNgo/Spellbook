@@ -8,6 +8,10 @@ type Props = {
 };
 
 function SearchBar({ onQueryChange, query, placeHolder }: Props) {
+    function handleClearText() {
+        onQueryChange("");
+    }
+
     return (
         <div className={style.searchbar}>
             <span className="symbol">search</span>
@@ -17,6 +21,9 @@ function SearchBar({ onQueryChange, query, placeHolder }: Props) {
                 onChange={(event) => onQueryChange(event.target.value)}
                 value={query}
             />
+            <div className="symbol" onClick={handleClearText}>
+                close
+            </div>
         </div>
     );
 }

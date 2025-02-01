@@ -29,7 +29,7 @@ function Spellbook({ spellsToDisplay, totalSpellCount }: Props) {
     }
 
     if (spellsToDisplay.length === 0) {
-        return <Message>No results found</Message>;
+        return <Message>No spells found</Message>;
     }
 
     return (

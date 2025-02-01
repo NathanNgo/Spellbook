@@ -47,8 +47,10 @@
     outline-style: none;
 }
 
+.searchbar:focus-within .searchIcon {
+    visibility: hidden;
+}
 
-.searchbar:focus-within .searchIcon,
-.searchbar:focus-within .closeIcon {
+.searchbar input:placeholder-shown + .closeIcon {
     visibility: hidden;
 }

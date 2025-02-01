@@ -9,8 +9,10 @@ import BrowseDrawer from "components/drawer/browseDrawer/BrowseDrawer";
 import MenuDrawer, { Theme } from "components/drawer/menuDrawer/MenuDrawer";
 import {
     ManifestSpellDetailArraySchema,
-    ManifestSpellDetails,
     SpellArraySchema,
+} from "schemas";
+import type {
+    ManifestSpellDetails,
     Spells,
 } from "schemas";
 

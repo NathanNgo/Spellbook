@@ -68,6 +68,7 @@ function BrowseDrawer({ isOpen, onClose, spellManifest }: Props) {
                 levelSelection[index] || noToggleSelected ? spellList.length : 0
             )
             .findIndex((length) => length > 0) == -1;
+
     return (
         <Drawer
             isOpen={isOpen}

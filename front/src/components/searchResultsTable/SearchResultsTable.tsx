@@ -13,8 +13,8 @@ function SearchResultsTable({ results, title }: Props) {
     return (
         <div className={styles.searchResultsTable}>
             <h2>{title.toUpperCase()}</h2>
-            {results.map((spell: ManifestSpellDetail) => (
-                <div className={styles.searchResult}>
+            {results.map((spell, index) => (
+                <div className={styles.searchResult} key={index}>
                     <div className={styles.spellName}>{spell.name}</div>
                     <button className={styles.spellButton}>+ Add Spell</button>
                 </div>

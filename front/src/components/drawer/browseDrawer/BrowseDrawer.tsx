@@ -104,6 +104,7 @@ function BrowseDrawer({ isOpen, onClose, spellManifest }: Props) {
                                 <SearchResultsTable
                                     results={filteredListsByLevel[levelIndex]}
                                     title={levelTitle}
+                                    key={levelIndex}
                                 />
                             );
                         }

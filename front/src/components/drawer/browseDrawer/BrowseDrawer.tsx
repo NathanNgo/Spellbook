@@ -59,15 +59,16 @@ function BrowseDrawer({ isOpen, onClose, spellManifest }: Props) {
         filteredList.filter((spell) => spell.sor === levelIndex)
     );
 
-    const noToggleSelected = levelSelection.findIndex((flag) => flag) == -1;
+    const someToggleSelected = levelSelection.some((flag) => flag);
 
-    const noResultsFound =
-        filteredList.length === 0 ||
-        filteredListsByLevel
-            .map((spellList, index) =>
-                levelSelection[index] || noToggleSelected ? spellList.length : 0
-            )
-            .findIndex((length) => length > 0) == -1;
+    const resultsFound =
+        filteredList.length !== 0 &&
+        filteredListsByLevel.some(
+            (spellList, index) =>
+                (levelSelection[index] || !someToggleSelected) &&
+                spellList.length > 0
+        );
+
     return (
         <Drawer
             isOpen={isOpen}
@@ -94,11 +95,11 @@ function BrowseDrawer({ isOpen, onClose, spellManifest }: Props) {
                 ))}
             </div>
             <div className={styles.searchResults}>
-                {noResultsFound && query.length >= MINIMUM_QUERY_LENGTH ? (
+                {!resultsFound && query.length >= MINIMUM_QUERY_LENGTH ? (
                     <Message>No spells found</Message>
                 ) : (
                     LEVEL_TITLES.map((levelTitle, levelIndex) => {
-                        if (levelSelection[levelIndex] || noToggleSelected) {
+                        if (levelSelection[levelIndex] || !someToggleSelected) {
                             return (
                                 <SearchResultsTable
                                     results={filteredListsByLevel[levelIndex]}

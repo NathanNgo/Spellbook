@@ -1,4 +1,4 @@
-import style from "components/searchBar/SearchBar.module.css";
+import styles from "components/searchBar/SearchBar.module.css";
 import React, { useState } from "react";
 
 type Props = {
@@ -13,15 +13,18 @@ function SearchBar({ onQueryChange, query, placeHolder }: Props) {
     }
 
     return (
-        <div className={style.searchbar}>
-            <span className="symbol">search</span>
+        <div className={styles.searchbar}>
+            <span className={`symbol ${styles.searchIcon}`}>search</span>
             <input
                 type="text"
                 placeholder={placeHolder}
                 onChange={(event) => onQueryChange(event.target.value)}
                 value={query}
             />
-            <div className="symbol" onClick={handleClearText}>
+            <div
+                className={`symbol ${styles.closeIcon}`}
+                onClick={handleClearText}
+            >
                 close
             </div>
         </div>

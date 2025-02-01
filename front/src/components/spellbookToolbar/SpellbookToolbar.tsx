@@ -16,7 +16,7 @@ function SpellbookToolbar({
 }: Props) {
     return (
         <div className={styles.toolbar}>
-            <span className={styles.searchBar}>
+            <span className={styles.searchBarContainer}>
                 <SearchBar
                     onQueryChange={onSearchQueryChange}
                     query={searchQuery}

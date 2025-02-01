@@ -31,6 +31,15 @@
     min-width: 3rem;
 }
 
+.searchbar div {
+    position: relative;
+    text-align: center;
+    cursor: pointer;
+    font-size: 2rem;
+    min-width: 3rem;
+    right: 0
+}
+
 .searchbar input::placeholder {
     color: unset;
     opacity: 0.6;
@@ -42,5 +51,9 @@
 
 
 .searchbar span:has(+ input:focus) {
+    visibility: hidden;
+}
+
+.searchbar input:focus + div {
     visibility: hidden;
 }

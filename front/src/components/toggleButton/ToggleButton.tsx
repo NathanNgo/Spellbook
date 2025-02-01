@@ -6,6 +6,7 @@ type Props = {
     onToggle: () => void;
     children: React.ReactNode;
 };
+
 function ToggleButton({ isOn, onToggle, children }: Props) {
     return (
         <button

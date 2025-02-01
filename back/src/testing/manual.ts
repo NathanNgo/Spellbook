@@ -1,7 +1,7 @@
 import fetch from "node-fetch";
 
 const singleSpell = { spellNames: ["Identify"] };
-const multipleSpells = { spellNames: ["Wish", "Fireball", "Magic Missile"] };
+// const multipleSpells = { spellNames: ["Wish", "Fireball", "Magic Missile"] };
 
 /*
 fetch("http://localhost:3000/manifest")

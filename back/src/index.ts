@@ -1,7 +1,7 @@
 import express from "express";
 import sqlite3 from "sqlite3";
 import cors from "cors";
-import z, { array } from "zod";
+import z from "zod";
 import type { ZodObject } from "zod";
 import type { StringTuple } from "src/types";
 import type { Request, Response } from "express";
@@ -24,6 +24,7 @@ const database = new sqlite3.Database(DATABASE_FILE_PATH, (err) => {
 });
 
 let validSpellNames: string[] = [];
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let SpellRequestSchema: ZodObject<any>;
 database.all(
     `SELECT ${NAME_COLUMN} FROM ${TABLE_NAME};`,
@@ -141,6 +142,7 @@ async function queryDatabaseForSpells(
     });
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function arrayToSnakeCase(array: any[]): any[] {
     return array.map((item) => toCamel(item));
 }

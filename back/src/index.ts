@@ -41,6 +41,7 @@ database.all(
     `
         SELECT
             name,
+            id,
             short_description,
             sor,
             wiz,

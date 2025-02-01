@@ -99,6 +99,7 @@ export type Spells = z.infer<typeof SpellArraySchema>;
 
 export const ManifestSpellDetailSchema = z.object({
     name: z.string(),
+    id: z.number(),
     shortDescription: z.string(),
     sor: z.number().nullable(),
     wiz: z.number().nullable(),

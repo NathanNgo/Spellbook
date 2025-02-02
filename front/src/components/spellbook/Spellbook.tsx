@@ -4,8 +4,7 @@ import styles from "components/spellbook/Spellbook.module.css";
 import type { Spells } from "schemas";
 
 type Props = {
-    spellsToDisplay: Spells;
-    totalSpellCount: number;
+    spells: Spells;
 };
 
 const LEVEL_TITLES = [
@@ -23,12 +22,8 @@ const LEVEL_TITLES = [
 
 const UNCATEGORISED_LEVEL = -1;
 
-function Spellbook({ spellsToDisplay, totalSpellCount }: Props) {
-    if (totalSpellCount === 0) {
-        return <Message>Spellbook is empty</Message>;
-    }
-
-    if (spellsToDisplay.length === 0) {
+function Spellbook({ spells }: Props) {
+    if (spells.length === 0) {
         return <Message>No spells found</Message>;
     }
 
@@ -37,16 +32,14 @@ function Spellbook({ spellsToDisplay, totalSpellCount }: Props) {
             {Array.from(Array(LEVEL_TITLES.length), (_, level) => {
                 return (
                     <SpellTable
-                        spells={spellsToDisplay.filter(
-                            (spell) => spell.sor === level
-                        )}
+                        spells={spells.filter((spell) => spell.sor === level)}
                         title={LEVEL_TITLES[level]}
                         key={level}
                     />
                 );
             })}
             <SpellTable
-                spells={spellsToDisplay.filter((spell) => spell.sor === null)}
+                spells={spells.filter((spell) => spell.sor === null)}
                 title="Uncategorised"
                 key={UNCATEGORISED_LEVEL}
             />

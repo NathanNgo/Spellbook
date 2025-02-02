@@ -7,14 +7,8 @@ import styles from "components/spellbookContainer/SpellbookContainer.module.css"
 import SettingsDrawer from "components/drawer/settingsDrawer/SettingsDrawer";
 import BrowseDrawer from "components/drawer/browseDrawer/BrowseDrawer";
 import MenuDrawer, { Theme } from "components/drawer/menuDrawer/MenuDrawer";
-import {
-    ManifestSpellDetailArraySchema,
-    SpellArraySchema,
-} from "schemas";
-import type {
-    ManifestSpellDetails,
-    Spells,
-} from "schemas";
+import { ManifestSpellDetailArraySchema, SpellArraySchema } from "schemas";
+import type { ManifestSpellDetails, Spell, Spells } from "schemas";
 
 enum DrawerState {
     Settings,
@@ -54,6 +48,37 @@ function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
         );
     }
 
+    function requestSpells(requestedSpellNames: string[]) {
+        fetch("http://localhost:3000/spells", {
+            headers: { "Content-Type": "application/json" },
+            method: "POST",
+            body: JSON.stringify({
+                spellNames: requestedSpellNames,
+            }),
+        })
+            .then((response) => response.json())
+            .then((unvalidatedSpells: Spells) => {
+                const responseSpells =
+                    SpellArraySchema.parse(unvalidatedSpells);
+                sortAlphabetically(responseSpells);
+                if (spells.length === 0) {
+                    setSpells(responseSpells);
+                } else {
+                    setSpells((prevSpells) => {
+                        const spellToAdd = responseSpells.filter(
+                            (spell) =>
+                                !prevSpells.some(
+                                    (prevSpell) => prevSpell.id === spell.id
+                                )
+                        );
+                        const newSpells = [...prevSpells, ...spellToAdd];
+                        sortAlphabetically(newSpells);
+                        return newSpells;
+                    });
+                }
+            });
+    }
+
     useEffect(() => {
         const requestedSpellNames = [
             // "Skim", // Missing from db
@@ -76,19 +101,7 @@ function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
             "Wish",
         ];
 
-        fetch("http://localhost:3000/spells", {
-            headers: { "Content-Type": "application/json" },
-            method: "POST",
-            body: JSON.stringify({
-                spellNames: requestedSpellNames,
-            }),
-        })
-            .then((response) => response.json())
-            .then((unvalidatedSpells: Spells) => {
-                const spells = SpellArraySchema.parse(unvalidatedSpells);
-                sortAlphabetically(spells);
-                setSpells(spells);
-            });
+        requestSpells(requestedSpellNames);
 
         fetch("http://localhost:3000/manifest")
             .then((response) => response.json())
@@ -105,6 +118,24 @@ function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
         onSetDrawerState(DrawerState.None);
     }
 
+    function handleAddSpell(spellId: number) {
+        if (spells.some((spell) => spell.id === spellId)) {
+            return;
+        }
+        const requestedSpell =
+            spellManifest.find((spell) => spell.id == spellId)?.name || "";
+        requestSpells([requestedSpell]);
+    }
+
+    function handleRemoveSpell(spellId: number) {
+        if (!spells.some((spell) => spell.id === spellId)) {
+            return;
+        }
+        setSpells((previousSpells) =>
+            previousSpells.filter((spell) => spell.id !== spellId)
+        );
+    }
+
     return (
         <div className={styles.spellbookContainer}>
             <SettingsDrawer
@@ -119,6 +150,9 @@ function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
                 isOpen={drawerState === DrawerState.Browse}
                 onClose={handleCloseDrawer}
                 spellManifest={spellManifest}
+                spellbookIdSet={new Set(spells.map((spell) => spell.id))}
+                handleAddSpell={handleAddSpell}
+                handleRemoveSpell={handleRemoveSpell}
             />
             <SpellbookToolbar
                 onSearchQueryChange={handleSearchQueryChange}

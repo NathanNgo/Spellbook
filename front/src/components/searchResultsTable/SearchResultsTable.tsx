@@ -1,12 +1,22 @@
+import AddRemoveButton from "components/addRemoveButton/AddRemoveButton";
 import styles from "components/searchResultsTable/SearchResultsTable.module.css";
 import type { ManifestSpellDetail } from "schemas";
 
 type Props = {
     results: ManifestSpellDetail[];
     title: string;
+    spellbookIdSet: Set<number>;
+    handleAddSpell: (id: number) => void;
+    handleRemoveSpell: (id: number) => void;
 };
 
-function SearchResultsTable({ results, title }: Props) {
+function SearchResultsTable({
+    results,
+    title,
+    spellbookIdSet,
+    handleAddSpell,
+    handleRemoveSpell,
+}: Props) {
     if (results.length === 0) {
         return;
     }
@@ -16,7 +26,12 @@ function SearchResultsTable({ results, title }: Props) {
             {results.map((spell, index) => (
                 <div className={styles.searchResult} key={index}>
                     <div className={styles.spellName}>{spell.name}</div>
-                    <button className={styles.spellButton}>+ Add Spell</button>
+                    <AddRemoveButton
+                        addable={!spellbookIdSet.has(spell.id)}
+                        handleAdd={() => handleAddSpell(spell.id)}
+                        handleRemove={() => handleRemoveSpell(spell.id)}
+                        className={styles.addButton}
+                    ></AddRemoveButton>
                 </div>
             ))}
         </div>

@@ -1,20 +1,13 @@
 import Message from "components/message/Message";
-import Drawer from "components/drawer/Drawer";
 import Spellbook from "components/spellbook/Spellbook";
 import SpellbookToolbar from "components/spellbookToolbar/SpellbookToolbar";
 import { useEffect, useState } from "react";
 import styles from "components/spellbookContainer/SpellbookContainer.module.css";
-import SettingsDrawer from "components/drawer/settingsDrawer/SettingsDrawer";
+import CharacterSettingsDrawer from "components/drawer/charcterSettingsDrawer/CharacterSettingsDrawer";
 import BrowseDrawer from "components/drawer/browseDrawer/BrowseDrawer";
-import MenuDrawer, { Theme } from "components/drawer/menuDrawer/MenuDrawer";
-import {
-    ManifestSpellDetailArraySchema,
-    SpellArraySchema,
-} from "schemas";
-import type {
-    ManifestSpellDetails,
-    Spells,
-} from "schemas";
+import MenuDrawer from "components/drawer/menuDrawer/MenuDrawer";
+import { ManifestSpellDetailArraySchema, SpellArraySchema } from "schemas";
+import type { ManifestSpellDetails, Spells } from "schemas";
 
 enum DrawerState {
     Settings,
@@ -26,6 +19,8 @@ enum DrawerState {
 type Props = {
     drawerState: DrawerState;
     onSetDrawerState: (drawerState: DrawerState) => void;
+    characterName: string;
+    onCharacterNameChanged: (characterName: string) => void;
 };
 
 function sortAlphabetically(spells: Spells) {
@@ -34,7 +29,12 @@ function sortAlphabetically(spells: Spells) {
     );
 }
 
-function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
+function SpellbookContainer({
+    drawerState,
+    onSetDrawerState,
+    characterName,
+    onCharacterNameChanged,
+}: Props) {
     const [spells, setSpells] = useState<Spells>([]);
     const [spellManifest, setSpellManifest] = useState<ManifestSpellDetails>(
         []
@@ -107,9 +107,11 @@ function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
 
     return (
         <div className={styles.spellbookContainer}>
-            <SettingsDrawer
+            <CharacterSettingsDrawer
                 isOpen={drawerState === DrawerState.Settings}
                 onClose={handleCloseDrawer}
+                characterName={characterName}
+                onCharacterNameChanged={onCharacterNameChanged}
             />
             <MenuDrawer
                 isOpen={drawerState === DrawerState.Menu}

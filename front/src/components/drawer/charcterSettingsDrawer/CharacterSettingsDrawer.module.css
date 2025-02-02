@@ -1,0 +1,8 @@
+.nameInput {
+    flex-grow: 11;
+    font-size: 2rem;
+    text-align: center;
+    border-style: hidden;
+    background-color: transparent;
+    width: 100%;
+}

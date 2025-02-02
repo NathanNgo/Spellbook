@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "App.css";
 import Header from "components/header/Header";
 import SpellbookContainer, {
@@ -27,6 +27,8 @@ function App() {
             <SpellbookContainer
                 drawerState={drawerState}
                 onSetDrawerState={setDrawerState}
+                characterName={characterName}
+                onCharacterNameChanged={setCharacterName}
             ></SpellbookContainer>
         </>
     );

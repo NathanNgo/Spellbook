@@ -1,12 +1,11 @@
 import Message from "components/message/Message";
-import Drawer from "components/drawer/Drawer";
 import Spellbook from "components/spellbook/Spellbook";
 import SpellbookToolbar from "components/spellbookToolbar/SpellbookToolbar";
 import { useEffect, useState } from "react";
 import styles from "components/spellbookContainer/SpellbookContainer.module.css";
 import SettingsDrawer from "components/drawer/settingsDrawer/SettingsDrawer";
 import BrowseDrawer from "components/drawer/browseDrawer/BrowseDrawer";
-import MenuDrawer, { Theme } from "components/drawer/menuDrawer/MenuDrawer";
+import MenuDrawer from "components/drawer/menuDrawer/MenuDrawer";
 import { ManifestSpellDetailArraySchema, SpellArraySchema } from "schemas";
 import type { ManifestSpellDetails, Spells } from "schemas";
 
@@ -64,6 +63,7 @@ function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
                 if (spells.length === 0) {
                     setSpells(responseSpells);
                 } else {
+                    setSpellsLoaded(true);
                     setSpells((prevSpells) => {
                         const spellToAdd = responseSpells.filter(
                             (spell) =>

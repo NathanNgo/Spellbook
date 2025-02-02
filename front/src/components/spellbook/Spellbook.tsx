@@ -1,3 +1,4 @@
+import Message from "components/message/Message";
 import SpellTable from "components/spellTable/SpellTable";
 import styles from "components/spellbook/Spellbook.module.css";
 import type { Spells } from "schemas";
@@ -22,6 +23,10 @@ const LEVEL_TITLES = [
 const UNCATEGORISED_LEVEL = -1;
 
 function Spellbook({ spells }: Props) {
+    if (spells.length === 0) {
+        return <Message>No spells found</Message>;
+    }
+
     return (
         <div className={styles.spellBook}>
             {Array.from(Array(LEVEL_TITLES.length), (_, level) => {

@@ -40,7 +40,7 @@ function SpellbookContainer({
         []
     );
     const [searchQuery, setSearchQuery] = useState<string>("");
-    const spellsLoaded = spells.length > 0;
+    const [spellsLoaded, setSpellsLoaded] = useState<boolean>(false);
     function handleSearchQueryChange(query: string) {
         setSearchQuery(query);
     }
@@ -88,6 +88,7 @@ function SpellbookContainer({
                 const spells = SpellArraySchema.parse(unvalidatedSpells);
                 sortAlphabetically(spells);
                 setSpells(spells);
+                setSpellsLoaded(true);
             });
 
         fetch("http://localhost:3000/manifest")
@@ -104,6 +105,14 @@ function SpellbookContainer({
     function handleCloseDrawer() {
         onSetDrawerState(DrawerState.None);
     }
+
+    const loadingMessage = <Message>Loading...</Message>;
+
+    const emptySpellbookMessage = <Message>Spellbook is empty</Message>;
+
+    const noSpellsDisplayMessage = !spellsLoaded
+        ? loadingMessage
+        : emptySpellbookMessage;
 
     return (
         <div className={styles.spellbookContainer}>
@@ -128,10 +137,11 @@ function SpellbookContainer({
                 onOpenSettings={() => onSetDrawerState(DrawerState.Settings)}
                 onOpenBrowse={() => onSetDrawerState(DrawerState.Browse)}
             />
-            {spellsLoaded ? (
-                <Spellbook spells={filteredList} />
+
+            {spells.length === 0 ? (
+                noSpellsDisplayMessage
             ) : (
-                <Message>Loading...</Message>
+                <Spellbook spells={filteredList} />
             )}
         </div>
     );

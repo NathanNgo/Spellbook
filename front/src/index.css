@@ -61,6 +61,7 @@
   font-family: "EB Garamond";
   color: var(--text-colour);
   --block-border: 0.4rem solid;
+  overscroll-behavior: none;
 }
 
 #root {

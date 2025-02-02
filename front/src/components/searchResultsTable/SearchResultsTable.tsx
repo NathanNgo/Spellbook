@@ -26,12 +26,13 @@ function SearchResultsTable({
             {results.map((spell, index) => (
                 <div className={styles.searchResult} key={index}>
                     <div className={styles.spellName}>{spell.name}</div>
-                    <AddRemoveButton
-                        addable={!spellbookIdSet.has(spell.id)}
-                        handleAdd={() => handleAddSpell(spell.id)}
-                        handleRemove={() => handleRemoveSpell(spell.id)}
-                        className={styles.addButton}
-                    ></AddRemoveButton>
+                    <div className={styles.addButtonContainer}>
+                        <AddRemoveButton
+                            addable={!spellbookIdSet.has(spell.id)}
+                            handleAdd={() => handleAddSpell(spell.id)}
+                            handleRemove={() => handleRemoveSpell(spell.id)}
+                        ></AddRemoveButton>
+                    </div>
                 </div>
             ))}
         </div>

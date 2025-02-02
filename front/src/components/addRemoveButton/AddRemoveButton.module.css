@@ -1,0 +1,12 @@
+.justAdded {
+    background-color: var(--green-accent-colour);
+}
+
+.justAdded:enabled:hover {
+    background-color: var(--green-accent-colour);
+}
+
+.addButton {
+    width: 100%;
+    height: 100%;
+}

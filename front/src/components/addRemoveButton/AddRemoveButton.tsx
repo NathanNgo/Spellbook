@@ -1,4 +1,5 @@
 import { useState } from "react";
+import styles from "components/addRemoveButton/AddRemoveButton.module.css";
 
 type Props = {
     addable: boolean;
@@ -19,15 +20,15 @@ function AddRemoveButton({
     addText = "+ Add",
     removeText = "- Remove",
     addedText = "Added",
-    addingText = "Adding...",
-    delayTimeMs = 3000,
-    className = "",
+    delayTimeMs = 1000,
 }: Props) {
     const [justAdded, setJustAdded] = useState<boolean>(false);
 
     const addOrRemoveText = addable ? addText : removeText;
-    const justAddedDisplay = addable ? addingText : addedText;
-    const displayText = justAdded ? justAddedDisplay : addOrRemoveText;
+    const displayText = justAdded ? addedText : addOrRemoveText;
+    const className = `${styles.addButton} ${
+        justAdded ? styles.justAdded : ""
+    }`;
 
     function handleClick() {
         if (addable) {

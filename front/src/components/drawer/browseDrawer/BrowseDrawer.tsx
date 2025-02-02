@@ -1,5 +1,4 @@
 import Drawer, { DrawerSide } from "components/drawer/Drawer";
-import drawerStyles from "components/drawer/Drawer.module.css";
 import styles from "components/drawer/browseDrawer/BrowserDrawer.module.css";
 import SearchBar from "components/searchBar/SearchBar";
 import { LEVEL_TITLES } from "components/spellbook/Spellbook";
@@ -13,6 +12,9 @@ type Props = {
     isOpen: boolean;
     onClose: () => void;
     spellManifest: ManifestSpellDetails;
+    spellbookIdSet: Set<number>;
+    handleAddSpell: (id: number) => void;
+    handleRemoveSpell: (id: number) => void;
 };
 
 const TOGGLE_BUTTON_LEVEL_LABELS = [
@@ -30,7 +32,14 @@ const TOGGLE_BUTTON_LEVEL_LABELS = [
 
 const MINIMUM_QUERY_LENGTH = 2;
 
-function BrowseDrawer({ isOpen, onClose, spellManifest }: Props) {
+function BrowseDrawer({
+    isOpen,
+    onClose,
+    spellManifest,
+    spellbookIdSet,
+    handleAddSpell,
+    handleRemoveSpell,
+}: Props) {
     const [searchQuery, setSearchQuery] = useState<string>("");
 
     const [levelSelection, setLevelSelection] = useState<boolean[]>(
@@ -104,6 +113,9 @@ function BrowseDrawer({ isOpen, onClose, spellManifest }: Props) {
                                 <SearchResultsTable
                                     results={filteredListsByLevel[levelIndex]}
                                     title={levelTitle}
+                                    spellbookIdSet={spellbookIdSet}
+                                    handleAddSpell={handleAddSpell}
+                                    handleRemoveSpell={handleRemoveSpell}
                                     key={levelIndex}
                                 />
                             );

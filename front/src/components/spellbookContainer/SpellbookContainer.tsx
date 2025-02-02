@@ -8,7 +8,7 @@ import SettingsDrawer from "components/drawer/settingsDrawer/SettingsDrawer";
 import BrowseDrawer from "components/drawer/browseDrawer/BrowseDrawer";
 import MenuDrawer, { Theme } from "components/drawer/menuDrawer/MenuDrawer";
 import { ManifestSpellDetailArraySchema, SpellArraySchema } from "schemas";
-import type { ManifestSpellDetails, Spell, Spells } from "schemas";
+import type { ManifestSpellDetails, Spells } from "schemas";
 
 enum DrawerState {
     Settings,
@@ -34,7 +34,7 @@ function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
         []
     );
     const [searchQuery, setSearchQuery] = useState<string>("");
-    const spellsLoaded = spells.length > 0;
+    const [spellsLoaded, setSpellsLoaded] = useState<boolean>(false);
     function handleSearchQueryChange(query: string) {
         setSearchQuery(query);
     }
@@ -136,6 +136,14 @@ function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
         );
     }
 
+    const loadingMessage = <Message>Loading...</Message>;
+
+    const emptySpellbookMessage = <Message>Spellbook is empty</Message>;
+
+    const noSpellsDisplayMessage = !spellsLoaded
+        ? loadingMessage
+        : emptySpellbookMessage;
+
     return (
         <div className={styles.spellbookContainer}>
             <SettingsDrawer
@@ -160,10 +168,11 @@ function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
                 onOpenSettings={() => onSetDrawerState(DrawerState.Settings)}
                 onOpenBrowse={() => onSetDrawerState(DrawerState.Browse)}
             />
-            {spellsLoaded ? (
-                <Spellbook spells={filteredList} />
+
+            {spells.length === 0 ? (
+                noSpellsDisplayMessage
             ) : (
-                <Message>Loading...</Message>
+                <Spellbook spells={filteredList} />
             )}
         </div>
     );

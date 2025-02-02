@@ -1,5 +1,5 @@
-import styles from "components/searchBar/SearchBar.module.css";
-import React, { useState } from "react";
+import TextInput from "components/textInput/TextInput";
+import { useMemo } from "react";
 
 type Props = {
     onQueryChange: (query: string) => void;
@@ -8,26 +8,19 @@ type Props = {
 };
 
 function SearchBar({ onQueryChange, query, placeHolder }: Props) {
-    function handleClearText() {
-        onQueryChange("");
-    }
+    const searchIcon = useMemo(
+        () => <span className="symbol">search</span>,
+        []
+    );
 
     return (
-        <div className={styles.searchbar}>
-            <span className={`symbol ${styles.searchIcon}`}>search</span>
-            <input
-                type="text"
-                placeholder={placeHolder}
-                onChange={(event) => onQueryChange(event.target.value)}
-                value={query}
-            />
-            <div
-                className={`symbol ${styles.closeIcon}`}
-                onClick={handleClearText}
-            >
-                close
-            </div>
-        </div>
+        <TextInput
+            onTextChange={onQueryChange}
+            textValue={query}
+            placeHolder={placeHolder}
+            leftIcon={searchIcon}
+            showClearButton
+        />
     );
 }
 

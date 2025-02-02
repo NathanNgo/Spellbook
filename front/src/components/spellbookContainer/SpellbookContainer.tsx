@@ -100,6 +100,10 @@ function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
         onSetDrawerState(DrawerState.None);
     }
 
+    const loadingMessage = <Message>Loading...</Message>;
+
+    const emptySpellsMessage = <Message>Spellbook is empty</Message>;
+
     return (
         <div className={styles.spellbookContainer}>
             <SettingsDrawer
@@ -121,13 +125,13 @@ function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
                 onOpenSettings={() => onSetDrawerState(DrawerState.Settings)}
                 onOpenBrowse={() => onSetDrawerState(DrawerState.Browse)}
             />
-            {spellsLoaded ? (
-                <Spellbook
-                    spellsToDisplay={filteredList}
-                    totalSpellCount={spells.length}
-                />
+
+            {!spellsLoaded ? (
+                loadingMessage
+            ) : spells.length === 0 ? (
+                emptySpellsMessage
             ) : (
-                <Message>Loading...</Message>
+                <Spellbook spells={filteredList} />
             )}
         </div>
     );

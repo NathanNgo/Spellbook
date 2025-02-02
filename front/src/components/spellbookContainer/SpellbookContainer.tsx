@@ -21,7 +21,7 @@ type Props = {
     onSetDrawerState: (drawerState: DrawerState) => void;
 };
 
-function sortAlphabetically(spells: Spells) {
+function sortAlphabetically(spells: Spells | ManifestSpellDetails) {
     spells.sort((firstSpell, secondSpell) =>
         firstSpell.name.localeCompare(secondSpell.name)
     );
@@ -60,10 +60,10 @@ function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
                 const responseSpells =
                     SpellArraySchema.parse(unvalidatedSpells);
                 sortAlphabetically(responseSpells);
+                setSpellsLoaded(true);
                 if (spells.length === 0) {
                     setSpells(responseSpells);
                 } else {
-                    setSpellsLoaded(true);
                     setSpells((prevSpells) => {
                         const spellToAdd = responseSpells.filter(
                             (spell) =>
@@ -110,6 +110,7 @@ function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
                     ManifestSpellDetailArraySchema.parse(
                         unvalidatedManifestSpellDetails
                     );
+                sortAlphabetically(manifestSpellDetails);
                 setSpellManifest(manifestSpellDetails);
             });
     }, []);

@@ -1,6 +1,6 @@
-import AddRemoveButton from "components/addRemoveButton/AddRemoveButton";
 import styles from "components/searchResultsTable/SearchResultsTable.module.css";
 import type { ManifestSpellDetail } from "schemas";
+import StatusButton, { Status } from "components/statusButton/StatusButton";
 
 type Props = {
     results: ManifestSpellDetail[];
@@ -32,11 +32,23 @@ function SearchResultsTable({
                         <p>{spell.name}</p>
                     </div>
                     <div className={styles.addButtonContainer}>
-                        <AddRemoveButton
-                            addable={!spellbookIdSet.has(spell.id)}
-                            handleAdd={() => handleAddSpell(spell.id)}
-                            handleRemove={() => handleRemoveSpell(spell.id)}
-                        ></AddRemoveButton>
+                        <StatusButton
+                            status={
+                                !spellbookIdSet.has(spell.id)
+                                    ? Status.First
+                                    : Status.Second
+                            }
+                            handleChangeToSecond={() =>
+                                handleAddSpell(spell.id)
+                            }
+                            handleChangeToFirst={() =>
+                                handleRemoveSpell(spell.id)
+                            }
+                            firstText="+ Add"
+                            secondText="- Remove"
+                            transitionFromFirstText="Added"
+                            transitionFromSecondText="Removed"
+                        />
                     </div>
                 </div>
             ))}

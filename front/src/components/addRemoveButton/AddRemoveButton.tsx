@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type Props = {
     addable: boolean;
@@ -7,7 +7,9 @@ type Props = {
     addText?: string;
     removeText?: string;
     addedText?: string;
+    addingText?: string;
     delayTimeMs?: number;
+    className?: string;
 };
 
 function AddRemoveButton({
@@ -17,21 +19,34 @@ function AddRemoveButton({
     addText = "+ Add",
     removeText = "- Remove",
     addedText = "Added",
-    delayTimeMs = 1000,
+    addingText = "Adding...",
+    delayTimeMs = 3000,
+    className = "",
 }: Props) {
-    const [delayedText, setDelayedText] = useState<string>(
-        addable ? addText : removeText
-    );
+    const [justAdded, setJustAdded] = useState<boolean>(false);
+
+    const addOrRemoveText = addable ? addText : removeText;
+    const justAddedDisplay = addable ? addingText : addedText;
+    const displayText = justAdded ? justAddedDisplay : addOrRemoveText;
 
     function handleClick() {
         if (addable) {
             handleAdd();
-            setDelayedText(addedText);
-            setTimeout(() => setDelayedText(removeText), delayTimeMs);
+            setJustAdded(true);
+            setTimeout(() => {
+                setJustAdded(false);
+            }, delayTimeMs);
         } else {
             handleRemove();
+            setJustAdded(false);
         }
     }
 
-    return <button onClick={handleClick}>{delayedText}</button>;
+    return (
+        <button onClick={handleClick} className={className}>
+            {displayText}
+        </button>
+    );
 }
+
+export default AddRemoveButton;

@@ -13,12 +13,21 @@ enum Theme {
     Dark = "dark",
 }
 
+const THEME_KEY = "theme";
+
+function getLocalStoredTheme(): Theme {
+    return localStorage.getItem(THEME_KEY) === Theme.Dark
+        ? Theme.Dark
+        : Theme.Light;
+}
+
 function MenuDrawer({ isOpen, onClose }: Props) {
-    const [theme, setTheme] = useState<Theme>(Theme.Light);
+    const [theme, setTheme] = useState<Theme>(getLocalStoredTheme());
 
     useEffect(() => {
         const rootNote = document.documentElement;
         rootNote.setAttribute("data-theme", theme);
+        localStorage.setItem(THEME_KEY, theme);
     }, [theme]);
 
     return (

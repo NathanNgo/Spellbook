@@ -21,7 +21,7 @@
 }
 
 .textInput .leftIcon,
-.textInput .rightIcon {
+.textInput .clearButton {
     position: absolute;
     text-align: center;
     font-size: 2rem;
@@ -32,7 +32,7 @@
     pointer-events: none;
 }
 
-.textInput .rightIcon {
+.textInput .clearButton {
     cursor: pointer;
     right: 0;
 }
@@ -50,6 +50,6 @@
     visibility: hidden;
 }
 
-.textInput input:placeholder-shown + .rightIcon {
+.textInput input:placeholder-shown + .clearButton {
     visibility: hidden;
 }

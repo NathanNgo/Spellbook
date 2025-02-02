@@ -1,5 +1,5 @@
 import TextInput from "components/textInput/TextInput";
-import { useCallback, useMemo } from "react";
+import { useMemo } from "react";
 
 type Props = {
     onQueryChange: (query: string) => void;
@@ -8,22 +8,9 @@ type Props = {
 };
 
 function SearchBar({ onQueryChange, query, placeHolder }: Props) {
-    const handleClearText = useCallback(() => {
-        onQueryChange("");
-    }, [onQueryChange]);
-
     const searchIcon = useMemo(
         () => <span className="symbol">search</span>,
         []
-    );
-
-    const clearButton = useMemo(
-        () => (
-            <div className="symbol" onClick={handleClearText}>
-                close
-            </div>
-        ),
-        [handleClearText]
     );
 
     return (
@@ -32,7 +19,7 @@ function SearchBar({ onQueryChange, query, placeHolder }: Props) {
             textValue={query}
             placeHolder={placeHolder}
             leftIcon={searchIcon}
-            rightIcon={clearButton}
+            showClearButton
         />
     );
 }

@@ -6,7 +6,7 @@ type Props = {
     textValue: string;
     placeHolder: string;
     leftIcon?: React.ReactElement;
-    rightIcon?: React.ReactElement;
+    showClearButton?: boolean;
 };
 
 function TextInput({
@@ -14,8 +14,12 @@ function TextInput({
     textValue,
     placeHolder,
     leftIcon,
-    rightIcon,
+    showClearButton = false,
 }: Props) {
+    function handleClearText() {
+        onTextChange("");
+    }
+
     return (
         <div className={styles.textInput}>
             <div className={`symbol ${styles.leftIcon}`}>{leftIcon}</div>
@@ -25,7 +29,14 @@ function TextInput({
                 onChange={(event) => onTextChange(event.target.value)}
                 value={textValue}
             />
-            <div className={`symbol ${styles.rightIcon}`}>{rightIcon}</div>
+            {showClearButton ? (
+                <div
+                    className={`symbol ${styles.clearButton}`}
+                    onClick={handleClearText}
+                >
+                    close
+                </div>
+            ) : undefined}
         </div>
     );
 }

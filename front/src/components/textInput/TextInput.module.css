@@ -1,4 +1,4 @@
-.searchbar {
+.textInput {
     display: flex;
     align-items: center;
     border-width: 3px 1px 1px 3px;
@@ -11,8 +11,7 @@
     box-sizing: border-box;
 }
 
-
-.searchbar input {
+.textInput input {
     flex-grow: 11;
     font-size: 2rem;
     text-align: center;
@@ -21,36 +20,36 @@
     width: 100%;
 }
 
-.searchbar .searchIcon,
-.searchbar .closeIcon {
+.textInput .leftIcon,
+.textInput .rightIcon {
     position: absolute;
     text-align: center;
     font-size: 2rem;
     min-width: 3rem;
 }
 
-.searchbar .searchIcon {
+.textInput .leftIcon {
     pointer-events: none;
 }
 
-.searchbar .closeIcon {
+.textInput .rightIcon {
     cursor: pointer;
-    right: 0
+    right: 0;
 }
 
-.searchbar input::placeholder {
+.textInput input::placeholder {
     color: unset;
     opacity: 0.6;
 }
 
-.searchbar input:focus {
+.textInput input:focus {
     outline-style: none;
 }
 
-.searchbar:focus-within .searchIcon {
+.textInput:focus-within .leftIcon {
     visibility: hidden;
 }
 
-.searchbar input:placeholder-shown + .closeIcon {
+.textInput input:placeholder-shown + .rightIcon {
     visibility: hidden;
 }

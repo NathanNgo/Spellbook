@@ -25,7 +25,12 @@ function SearchResultsTable({
             <h2>{title.toUpperCase()}</h2>
             {results.map((spell, index) => (
                 <div className={styles.searchResult} key={index}>
-                    <div className={styles.spellName}>{spell.name}</div>
+                    <div className={styles.spellName}>
+                        <span className="symbol">
+                            {spellbookIdSet.has(spell.id) ? "book_4_spark" : ""}
+                        </span>
+                        <p>{spell.name}</p>
+                    </div>
                     <div className={styles.addButtonContainer}>
                         <AddRemoveButton
                             addable={!spellbookIdSet.has(spell.id)}

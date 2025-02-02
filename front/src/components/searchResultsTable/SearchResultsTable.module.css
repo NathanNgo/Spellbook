@@ -21,8 +21,11 @@
 
 
 .searchResult:hover .spellName {
-    text-decoration: underline;
     background-color: var(--dark-accent-colour);
+}
+
+.searchResult:hover .spellName p {
+    text-decoration: underline;
 }
 
 .spellName:hover {
@@ -30,17 +33,28 @@
 }
 
 .spellName {
+    display: flex;
     width: auto;
     flex-grow: 1;
     background-color: var(--medium-accent-colour);
     border-bottom: 1px solid;
     font-weight: bold;
     font-style: italic;
-    align-content: center;
-    padding-left: 0.5rem;
+    align-items: center;
+    padding-left: 1rem;
+    gap: 1rem
 }
 
 .addButtonContainer {
     width: 15%;
     min-width: 10rem;
+}
+
+.spellName p {
+    margin: unset
+}
+
+.spellName span {
+    width: 2rem;
+    text-align: center;
 }

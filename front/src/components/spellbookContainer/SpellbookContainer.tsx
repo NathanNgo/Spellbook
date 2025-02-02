@@ -102,11 +102,11 @@ function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
 
     const loadingMessage = <Message>Loading...</Message>;
 
-    const emptySpellsMessage = <Message>Spellbook is empty</Message>;
+    const emptySpellbookMessage = <Message>Spellbook is empty</Message>;
 
     const noSpellsDisplayMessage = !spellsLoaded
         ? loadingMessage
-        : emptySpellsMessage;
+        : emptySpellbookMessage;
 
     return (
         <div className={styles.spellbookContainer}>

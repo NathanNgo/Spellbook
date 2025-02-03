@@ -1,6 +1,5 @@
 import Drawer, { DrawerSide } from "components/drawer/Drawer";
 import styles from "components/drawer/menuDrawer/MenuDrawer.module.css";
-import drawerStyles from "components/drawer/Drawer.module.css";
 import { useEffect, useState } from "react";
 
 type Props = {

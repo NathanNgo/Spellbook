@@ -1,4 +1,4 @@
-import TextInput from "components/textInput/TextInput";
+import Input from "components/input/Input";
 import { useMemo } from "react";
 
 type Props = {
@@ -14,9 +14,9 @@ function SearchBar({ onQueryChange, query, placeHolder }: Props) {
     );
 
     return (
-        <TextInput
-            onTextChange={onQueryChange}
-            textValue={query}
+        <Input
+            onValueChange={onQueryChange}
+            value={query}
             placeHolder={placeHolder}
             leftIcon={searchIcon}
             showClearButton

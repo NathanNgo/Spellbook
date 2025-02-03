@@ -1,8 +1,33 @@
-.nameInput {
-    flex-grow: 11;
-    font-size: 2rem;
-    text-align: center;
-    border-style: hidden;
-    background-color: transparent;
+.nameContainer {
+    display: flex;
+    gap: 1rem;
     width: 100%;
+    margin-bottom: 0.6rem;
+}
+
+.characterContainer {
+    display: flex;
+    justify-content: center;
+    gap: 0.4rem;
+    width: 100%;
+    flex-direction: column;
+}
+
+.characterSection {
+    display: flex;
+    gap: 0.8rem;
+    flex-direction: column;
+    width: 100%;
+}
+
+.spellbookSection {
+    display: flex;
+    gap: 0.5rem;
+    flex-direction: column;
+    width: 100%;
+}
+
+.spellcastingModifierContainer {
+    max-width: 8rem;
+    margin: auto;
 }

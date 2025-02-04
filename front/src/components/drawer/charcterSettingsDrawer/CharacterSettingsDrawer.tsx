@@ -2,6 +2,10 @@ import Drawer, { DrawerSide } from "components/drawer/Drawer";
 import Input from "components/input/Input";
 import styles from "components/drawer/charcterSettingsDrawer/CharacterSettingsDrawer.module.css";
 import { useState } from "react";
+import Dropdown from "components/dropdown/Dropdown";
+import Checkbox from "components/checkbox/Checkbox";
+
+const CHARACTER_OPTIONS = ["Wizard", "Cleric", "Druid"];
 
 type Props = {
     isOpen: boolean;
@@ -17,6 +21,10 @@ function CharacterSettingsDrawer({
     onCharacterNameChanged,
 }: Props) {
     const [spellcastingModifier, setSpellcastingModifier] = useState<number>(0);
+    const [characterClass, setCharacterClass] = useState<string>(
+        CHARACTER_OPTIONS[0]
+    );
+    const [showSpellSaveDC, setShowSpellSaveDC] = useState<boolean>(false);
 
     return (
         <Drawer
@@ -34,9 +42,21 @@ function CharacterSettingsDrawer({
             </div>
             <div className={styles.characterSection}>
                 <h2>CHARACTER</h2>
-                <div className={styles.characterContainer}>
-                    <h3> Spellcasting Modifier </h3>
-                    <div className={styles.spellcastingModifierContainer}>
+                <div className={styles.subheadingContainer}>
+                    <h3>Class</h3>
+                    <div className={styles.classInputContainer}>
+                        <Dropdown
+                            dropdownOptions={CHARACTER_OPTIONS}
+                            currentOption={characterClass}
+                            onCurrentOptionChange={(option) =>
+                                setCharacterClass(option)
+                            }
+                        />
+                    </div>
+                </div>
+                <div className={styles.subheadingContainer}>
+                    <h3>Spellcasting Modifier</h3>
+                    <div className={styles.spellcastingModifierInputContainer}>
                         <Input
                             placeHolder={"John Spellbook"}
                             onValueChange={setSpellcastingModifier}
@@ -48,6 +68,17 @@ function CharacterSettingsDrawer({
             </div>
             <div className={styles.spellbookSection}>
                 <h2>SPELLBOOK</h2>
+                <div className={styles.subheadingContainer}>
+                    <h3>Show Spell Save DC's</h3>
+                    <div className={styles.spellcastingModifierInputContainer}>
+                        <Checkbox
+                            isEnabled={showSpellSaveDC}
+                            onClick={() =>
+                                setShowSpellSaveDC((prevValue) => !prevValue)
+                            }
+                        />
+                    </div>
+                </div>
             </div>
         </Drawer>
     );

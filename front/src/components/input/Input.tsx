@@ -51,14 +51,14 @@ function Input({
                 onChange={handleChange}
                 value={value}
             />
-            {showClearButton ? (
+            {showClearButton && (
                 <div
                     className={`symbol ${styles.clearButton}`}
                     onClick={handleClearText}
                 >
                     close
                 </div>
-            ) : undefined}
+            )}
         </div>
     );
 }

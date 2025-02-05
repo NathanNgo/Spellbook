@@ -12,7 +12,7 @@ type Props = {
     isOpen: boolean;
     onClose: () => void;
     spellManifest: ManifestSpellDetails;
-    spellbookIdSet: Set<number>;
+    spellbookIds: number[];
     handleAddSpell: (id: number) => void;
     handleRemoveSpell: (id: number) => void;
 };
@@ -36,7 +36,7 @@ function BrowseDrawer({
     isOpen,
     onClose,
     spellManifest,
-    spellbookIdSet,
+    spellbookIds,
     handleAddSpell,
     handleRemoveSpell,
 }: Props) {
@@ -113,7 +113,7 @@ function BrowseDrawer({
                                 <SearchResultsTable
                                     results={filteredListsByLevel[levelIndex]}
                                     title={levelTitle}
-                                    spellbookIdSet={spellbookIdSet}
+                                    spellbookIds={spellbookIds}
                                     handleAddSpell={handleAddSpell}
                                     handleRemoveSpell={handleRemoveSpell}
                                     key={levelIndex}

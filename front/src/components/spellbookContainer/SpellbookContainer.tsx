@@ -159,7 +159,7 @@ function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
                 isOpen={drawerState === DrawerState.Browse}
                 onClose={handleCloseDrawer}
                 spellManifest={spellManifest}
-                spellbookIdSet={new Set(spells.map((spell) => spell.id))}
+                spellbookIds={spells.map((spell) => spell.id)}
                 handleAddSpell={handleAddSpell}
                 handleRemoveSpell={handleRemoveSpell}
             />

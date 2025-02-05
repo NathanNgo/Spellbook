@@ -5,7 +5,7 @@ import StatusButton, { Status } from "components/statusButton/StatusButton";
 type Props = {
     results: ManifestSpellDetail[];
     title: string;
-    spellbookIdSet: Set<number>;
+    spellbookIds: number[];
     handleAddSpell: (id: number) => void;
     handleRemoveSpell: (id: number) => void;
 };
@@ -13,7 +13,7 @@ type Props = {
 function SearchResultsTable({
     results,
     title,
-    spellbookIdSet,
+    spellbookIds,
     handleAddSpell,
     handleRemoveSpell,
 }: Props) {
@@ -27,14 +27,16 @@ function SearchResultsTable({
                 <div className={styles.searchResult} key={index}>
                     <div className={styles.spellName}>
                         <span className="symbol">
-                            {spellbookIdSet.has(spell.id) ? "book_4_spark" : ""}
+                            {spellbookIds.includes(spell.id)
+                                ? "book_4_spark"
+                                : ""}
                         </span>
                         <p>{spell.name}</p>
                     </div>
                     <div className={styles.addButtonContainer}>
                         <StatusButton
                             status={
-                                !spellbookIdSet.has(spell.id)
+                                !spellbookIds.includes(spell.id)
                                     ? Status.First
                                     : Status.Second
                             }

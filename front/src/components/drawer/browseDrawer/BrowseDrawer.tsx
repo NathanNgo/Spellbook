@@ -13,8 +13,8 @@ type Props = {
     onClose: () => void;
     spellManifest: ManifestSpellDetails;
     spellbookIds: number[];
-    handleAddSpell: (id: number) => void;
-    handleRemoveSpell: (id: number) => void;
+    onAddSpell: (id: number) => void;
+    onRemoveSpell: (id: number) => void;
 };
 
 const TOGGLE_BUTTON_LEVEL_LABELS = [
@@ -37,8 +37,8 @@ function BrowseDrawer({
     onClose,
     spellManifest,
     spellbookIds,
-    handleAddSpell,
-    handleRemoveSpell,
+    onAddSpell,
+    onRemoveSpell,
 }: Props) {
     const [searchQuery, setSearchQuery] = useState<string>("");
 
@@ -114,8 +114,8 @@ function BrowseDrawer({
                                     results={filteredListsByLevel[levelIndex]}
                                     title={levelTitle}
                                     spellbookIds={spellbookIds}
-                                    handleAddSpell={handleAddSpell}
-                                    handleRemoveSpell={handleRemoveSpell}
+                                    onAddSpell={onAddSpell}
+                                    onRemoveSpell={onRemoveSpell}
                                     key={levelIndex}
                                 />
                             );

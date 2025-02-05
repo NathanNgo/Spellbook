@@ -8,8 +8,8 @@ enum Status {
 
 type Props = {
     status: Status;
-    handleChangeToSecond: () => void;
-    handleChangeToFirst: () => void;
+    onChangeToSecond: () => void;
+    onChangeToFirst: () => void;
     firstText?: string;
     secondText?: string;
     transitionFromFirstText?: string;
@@ -20,8 +20,8 @@ type Props = {
 
 function StatusButton({
     status,
-    handleChangeToFirst,
-    handleChangeToSecond,
+    onChangeToFirst,
+    onChangeToSecond,
     firstText = "First State",
     secondText = "Second State",
     transitionFromFirstText = "First -> Second",
@@ -58,9 +58,9 @@ function StatusButton({
                 ? delayFromFirstTimeMs
                 : delayFromSecondTimeMs;
         if (status === Status.First) {
-            handleChangeToSecond();
+            onChangeToSecond();
         } else {
-            handleChangeToFirst();
+            onChangeToFirst();
         }
         setTimeout(() => {
             setTransitioning(false);

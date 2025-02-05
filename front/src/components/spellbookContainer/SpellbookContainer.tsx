@@ -154,8 +154,8 @@ function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
                 onClose={handleCloseDrawer}
                 spellManifest={spellManifest}
                 spellbookIds={spells.map((spell) => spell.id)}
-                handleAddSpell={handleAddSpell}
-                handleRemoveSpell={handleRemoveSpell}
+                onAddSpell={handleAddSpell}
+                onRemoveSpell={handleRemoveSpell}
             />
             <SpellbookToolbar
                 onSearchQueryChange={handleSearchQueryChange}

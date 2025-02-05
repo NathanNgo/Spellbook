@@ -6,16 +6,16 @@ type Props = {
     results: ManifestSpellDetail[];
     title: string;
     spellbookIds: number[];
-    handleAddSpell: (id: number) => void;
-    handleRemoveSpell: (id: number) => void;
+    onAddSpell: (id: number) => void;
+    onRemoveSpell: (id: number) => void;
 };
 
 function SearchResultsTable({
     results,
     title,
     spellbookIds,
-    handleAddSpell,
-    handleRemoveSpell,
+    onAddSpell,
+    onRemoveSpell,
 }: Props) {
     if (results.length === 0) {
         return;
@@ -40,12 +40,8 @@ function SearchResultsTable({
                                     ? Status.First
                                     : Status.Second
                             }
-                            handleChangeToSecond={() =>
-                                handleAddSpell(spell.id)
-                            }
-                            handleChangeToFirst={() =>
-                                handleRemoveSpell(spell.id)
-                            }
+                            onChangeToSecond={() => onAddSpell(spell.id)}
+                            onChangeToFirst={() => onRemoveSpell(spell.id)}
                             firstText="+ Add"
                             secondText="- Remove"
                             transitionFromFirstText="Added"

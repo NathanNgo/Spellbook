@@ -8,6 +8,7 @@ import BrowseDrawer from "components/drawer/browseDrawer/BrowseDrawer";
 import MenuDrawer from "components/drawer/menuDrawer/MenuDrawer";
 import { ManifestSpellDetailArraySchema, SpellArraySchema } from "schemas";
 import type { ManifestSpellDetails, Spells } from "schemas";
+import useFetchSpells from "hooks/useFetchSpells";
 
 enum DrawerState {
     Settings,
@@ -25,6 +26,18 @@ function sortAlphabetically(spells: Spells | ManifestSpellDetails) {
     spells.sort((firstSpell, secondSpell) =>
         firstSpell.name.localeCompare(secondSpell.name)
     );
+}
+
+function combineSpells(previousSpells: Spells, newSpells: Spells) {
+    const spellsToAdd = newSpells.filter(
+        (spell) =>
+            !previousSpells.some(
+                (previousSpell) => previousSpell.id === spell.id
+            )
+    );
+    const combinedSpells = [...previousSpells, ...spellsToAdd];
+    sortAlphabetically(combinedSpells);
+    return combinedSpells;
 }
 
 function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
@@ -47,36 +60,17 @@ function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
         );
     }
 
-    function requestSpells(requestedSpellNames: string[]) {
-        fetch("http://localhost:3000/spells", {
-            headers: { "Content-Type": "application/json" },
-            method: "POST",
-            body: JSON.stringify({
-                spellNames: requestedSpellNames,
-            }),
-        })
-            .then((response) => response.json())
-            .then((unvalidatedSpells: Spells) => {
-                const responseSpells =
-                    SpellArraySchema.parse(unvalidatedSpells);
-                sortAlphabetically(responseSpells);
-                setSpellsLoaded(true);
-                if (spells.length === 0) {
-                    setSpells(responseSpells);
-                } else {
-                    setSpells((prevSpells) => {
-                        const spellToAdd = responseSpells.filter(
-                            (spell) =>
-                                !prevSpells.some(
-                                    (prevSpell) => prevSpell.id === spell.id
-                                )
-                        );
-                        const newSpells = [...prevSpells, ...spellToAdd];
-                        sortAlphabetically(newSpells);
-                        return newSpells;
-                    });
-                }
-            });
+    async function requestSpells(requestedSpellNames: string[]) {
+        const responseSpells = await useFetchSpells(requestedSpellNames);
+
+        sortAlphabetically(responseSpells);
+        if (spells.length === 0) {
+            setSpells(responseSpells);
+        } else {
+            setSpells((previousSpells) =>
+                combineSpells(previousSpells, responseSpells)
+            );
+        }
     }
 
     useEffect(() => {
@@ -101,7 +95,7 @@ function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
             "Wish",
         ];
 
-        requestSpells(requestedSpellNames);
+        requestSpells(requestedSpellNames).then(() => setSpellsLoaded(true));
 
         fetch("http://localhost:3000/manifest")
             .then((response) => response.json())

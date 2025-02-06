@@ -5,8 +5,19 @@ import SpellbookContainer, {
     DrawerState,
 } from "components/spellbookContainer/SpellbookContainer";
 
+type Character = {
+    name: string;
+    class: string;
+    spellCastingModifier: number;
+};
+
 function App() {
-    const [characterName, setCharacterName] = useState<string>("Josh Mann");
+    const [character, setCharacter] = useState<Character>({
+        name: "Josh Mann",
+        class: "Sorcerer",
+        spellCastingModifier: 0,
+    });
+
     const [drawerState, setDrawerState] = useState<DrawerState>(
         DrawerState.None
     );
@@ -20,18 +31,19 @@ function App() {
     return (
         <>
             <Header
-                characterName={characterName}
+                characterName={character.name}
                 onToggleMenu={() => toggleState(DrawerState.Menu)}
                 onToggleSettings={() => toggleState(DrawerState.Settings)}
             />
             <SpellbookContainer
                 drawerState={drawerState}
                 onSetDrawerState={setDrawerState}
-                characterName={characterName}
-                onCharacterNameChanged={setCharacterName}
+                character={character}
+                onCharacterChanged={setCharacter}
             ></SpellbookContainer>
         </>
     );
 }
 
 export default App;
+export type { Character };

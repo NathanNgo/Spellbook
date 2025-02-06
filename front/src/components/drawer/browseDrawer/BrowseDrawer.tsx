@@ -2,17 +2,19 @@ import Drawer, { DrawerSide } from "components/drawer/Drawer";
 import drawerStyles from "components/drawer/Drawer.module.css";
 import styles from "components/drawer/browseDrawer/BrowserDrawer.module.css";
 import SearchBar from "components/searchBar/SearchBar";
-import { LEVEL_TITLES } from "components/spellbook/Spellbook";
+import { classToCode, LEVEL_TITLES } from "components/spellbook/Spellbook";
 import ToggleButton from "components/toggleButton/ToggleButton";
 import { useState } from "react";
 import SearchResultsTable from "components/searchResultsTable/SearchResultsTable";
 import Message from "components/message/Message";
 import type { ManifestSpellDetails } from "schemas";
+import { Character } from "App";
 
 type Props = {
     isOpen: boolean;
     onClose: () => void;
     spellManifest: ManifestSpellDetails;
+    character: Character;
 };
 
 const TOGGLE_BUTTON_LEVEL_LABELS = [
@@ -30,7 +32,7 @@ const TOGGLE_BUTTON_LEVEL_LABELS = [
 
 const MINIMUM_QUERY_LENGTH = 2;
 
-function BrowseDrawer({ isOpen, onClose, spellManifest }: Props) {
+function BrowseDrawer({ isOpen, onClose, spellManifest, character }: Props) {
     const [searchQuery, setSearchQuery] = useState<string>("");
 
     const [levelSelection, setLevelSelection] = useState<boolean[]>(
@@ -56,7 +58,9 @@ function BrowseDrawer({ isOpen, onClose, spellManifest }: Props) {
 
     const filteredListsByLevel = LEVEL_TITLES.map((_, levelIndex) =>
         // Need to generalise to level for any class based on character info
-        filteredList.filter((spell) => spell.sor === levelIndex)
+        filteredList.filter(
+            (spell) => spell[classToCode(character.class)] === levelIndex
+        )
     );
 
     const someToggleSelected = levelSelection.some((flag) => flag);

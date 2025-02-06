@@ -8,6 +8,7 @@ import BrowseDrawer from "components/drawer/browseDrawer/BrowseDrawer";
 import MenuDrawer from "components/drawer/menuDrawer/MenuDrawer";
 import { ManifestSpellDetailArraySchema, SpellArraySchema } from "schemas";
 import type { ManifestSpellDetails, Spells } from "schemas";
+import type { Character } from "App";
 
 enum DrawerState {
     Settings,
@@ -19,8 +20,8 @@ enum DrawerState {
 type Props = {
     drawerState: DrawerState;
     onSetDrawerState: (drawerState: DrawerState) => void;
-    characterName: string;
-    onCharacterNameChanged: (characterName: string) => void;
+    character: Character;
+    onCharacterChanged: (character: Character) => void;
 };
 
 function sortAlphabetically(spells: Spells) {
@@ -32,8 +33,8 @@ function sortAlphabetically(spells: Spells) {
 function SpellbookContainer({
     drawerState,
     onSetDrawerState,
-    characterName,
-    onCharacterNameChanged,
+    character,
+    onCharacterChanged,
 }: Props) {
     const [spells, setSpells] = useState<Spells>([]);
     const [spellManifest, setSpellManifest] = useState<ManifestSpellDetails>(
@@ -119,8 +120,8 @@ function SpellbookContainer({
             <CharacterSettingsDrawer
                 isOpen={drawerState === DrawerState.Settings}
                 onClose={handleCloseDrawer}
-                characterName={characterName}
-                onCharacterNameChanged={onCharacterNameChanged}
+                character={character}
+                onCharacterChanged={onCharacterChanged}
             />
             <MenuDrawer
                 isOpen={drawerState === DrawerState.Menu}
@@ -130,6 +131,7 @@ function SpellbookContainer({
                 isOpen={drawerState === DrawerState.Browse}
                 onClose={handleCloseDrawer}
                 spellManifest={spellManifest}
+                character={character}
             />
             <SpellbookToolbar
                 onSearchQueryChange={handleSearchQueryChange}
@@ -141,7 +143,7 @@ function SpellbookContainer({
             {spells.length === 0 ? (
                 noSpellsDisplayMessage
             ) : (
-                <Spellbook spells={filteredList} />
+                <Spellbook spells={filteredList} character={character} />
             )}
         </div>
     );

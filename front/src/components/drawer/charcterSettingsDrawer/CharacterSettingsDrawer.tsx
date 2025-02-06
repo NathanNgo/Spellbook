@@ -4,26 +4,23 @@ import styles from "components/drawer/charcterSettingsDrawer/CharacterSettingsDr
 import { useState } from "react";
 import Dropdown from "components/dropdown/Dropdown";
 import Checkbox from "components/checkbox/Checkbox";
+import type { Character } from "App";
 
-const CHARACTER_OPTIONS = ["Wizard", "Cleric", "Druid"];
+const CHARACTER_OPTIONS = ["Sorcerer", "Wizard", "Cleric", "Druid"];
 
 type Props = {
     isOpen: boolean;
     onClose: () => void;
-    characterName: string;
-    onCharacterNameChanged: (characterName: string) => void;
+    character: Character;
+    onCharacterChanged: (characterName: Character) => void;
 };
 
 function CharacterSettingsDrawer({
     isOpen,
     onClose,
-    characterName,
-    onCharacterNameChanged,
+    character,
+    onCharacterChanged,
 }: Props) {
-    const [spellcastingModifier, setSpellcastingModifier] = useState<number>(0);
-    const [characterClass, setCharacterClass] = useState<string>(
-        CHARACTER_OPTIONS[0]
-    );
     const [showSpellSaveDC, setShowSpellSaveDC] = useState<boolean>(false);
 
     return (
@@ -36,8 +33,10 @@ function CharacterSettingsDrawer({
             <div className={styles.nameContainer}>
                 <Input
                     placeHolder={"John Spellbook"}
-                    onValueChange={onCharacterNameChanged}
-                    value={characterName}
+                    onValueChange={(newName: string) =>
+                        onCharacterChanged({ ...character, name: newName })
+                    }
+                    value={character.name}
                 />
             </div>
             <div className={styles.characterSection}>
@@ -47,9 +46,12 @@ function CharacterSettingsDrawer({
                     <div className={styles.classInputContainer}>
                         <Dropdown
                             dropdownOptions={CHARACTER_OPTIONS}
-                            currentOption={characterClass}
-                            onCurrentOptionChange={(option) =>
-                                setCharacterClass(option)
+                            currentOption={character.class}
+                            onCurrentOptionChange={(newClass) =>
+                                onCharacterChanged({
+                                    ...character,
+                                    class: newClass,
+                                })
                             }
                         />
                     </div>
@@ -59,8 +61,14 @@ function CharacterSettingsDrawer({
                     <div className={styles.spellcastingModifierInputContainer}>
                         <Input
                             placeHolder={"John Spellbook"}
-                            onValueChange={setSpellcastingModifier}
-                            value={String(spellcastingModifier)}
+                            value={character.spellCastingModifier}
+                            onValueChange={(newSpellCastingModifer: number) =>
+                                onCharacterChanged({
+                                    ...character,
+                                    spellCastingModifier:
+                                        newSpellCastingModifer,
+                                })
+                            }
                             numberInput
                         />
                     </div>

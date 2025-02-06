@@ -1,11 +1,27 @@
 import Message from "components/message/Message";
 import SpellTable from "components/spellTable/SpellTable";
 import styles from "components/spellbook/Spellbook.module.css";
-import type { Spells } from "schemas";
+import type { Spells, Spell, ManifestSpellDetail } from "schemas";
+import type { Character } from "App";
 
 type Props = {
     spells: Spells;
+    character: Character;
 };
+
+function classToCode(className: string) {
+    className = className.toLowerCase();
+    if (className == "wizard") {
+        return "wiz";
+    }
+    if (className == "sorcerer") {
+        return "sor";
+    }
+    if (className == "summoner unchained") {
+        return "summonerUnchained";
+    }
+    return className as keyof (Spell | ManifestSpellDetail);
+}
 
 const LEVEL_TITLES = [
     "Cantrip",
@@ -22,7 +38,7 @@ const LEVEL_TITLES = [
 
 const UNCATEGORISED_LEVEL = -1;
 
-function Spellbook({ spells }: Props) {
+function Spellbook({ spells, character }: Props) {
     if (spells.length === 0) {
         return <Message>No spells found</Message>;
     }
@@ -32,14 +48,19 @@ function Spellbook({ spells }: Props) {
             {Array.from(Array(LEVEL_TITLES.length), (_, level) => {
                 return (
                     <SpellTable
-                        spells={spells.filter((spell) => spell.sor === level)}
+                        spells={spells.filter(
+                            (spell) =>
+                                spell[classToCode(character.class)] === level
+                        )}
                         title={LEVEL_TITLES[level]}
                         key={level}
                     />
                 );
             })}
             <SpellTable
-                spells={spells.filter((spell) => spell.sor === null)}
+                spells={spells.filter(
+                    (spell) => spell[classToCode(character.class)] === null
+                )}
                 title="Uncategorised"
                 key={UNCATEGORISED_LEVEL}
             />
@@ -48,4 +69,4 @@ function Spellbook({ spells }: Props) {
 }
 
 export default Spellbook;
-export { LEVEL_TITLES };
+export { LEVEL_TITLES, classToCode };

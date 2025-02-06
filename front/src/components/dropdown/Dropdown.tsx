@@ -1,5 +1,5 @@
-import { useState } from "react";
 import styles from "components/dropdown/Dropdown.module.css";
+import useOpenStateWithClickAway from "hooks/useClickAway";
 
 type Props = {
     dropdownOptions: string[];
@@ -12,7 +12,8 @@ function Dropdown({
     currentOption,
     onCurrentOptionChange,
 }: Props) {
-    const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
+    const { isOpen, setIsOpen, handleToggleState, dropdownRef } =
+        useOpenStateWithClickAway();
 
     const options = dropdownOptions.map((option) => {
         return (
@@ -30,22 +31,19 @@ function Dropdown({
 
     function handleOptionClick(event: React.MouseEvent<HTMLDivElement>) {
         onCurrentOptionChange(event.currentTarget.title);
-        setDropdownOpen(false);
+        setIsOpen(false);
     }
 
     return (
-        <>
-            <div className={styles.clickAway}></div>
-            <div className={styles.dropdownContainer}>
-                <div
-                    className={styles.dropdownHeader}
-                    onClick={() => setDropdownOpen((prevValue) => !prevValue)}
-                >
-                    {currentOption}
-                </div>
-                {dropdownOpen && dropdownMenu}
+        <div className={styles.dropdownContainer} ref={dropdownRef}>
+            <div
+                className={styles.dropdownHeader}
+                onClick={() => handleToggleState()}
+            >
+                {currentOption}
             </div>
-        </>
+            {isOpen && dropdownMenu}
+        </div>
     );
 }
 

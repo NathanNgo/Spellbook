@@ -27,9 +27,7 @@ function SearchResultsTable({
                 <div className={styles.searchResult} key={index}>
                     <div className={styles.spellName}>
                         <span className="symbol">
-                            {spellbookIds.includes(spell.id)
-                                ? "book_4_spark"
-                                : ""}
+                            {spellbookIds.includes(spell.id) && "book_4_spark"}
                         </span>
                         <p>{spell.name}</p>
                     </div>

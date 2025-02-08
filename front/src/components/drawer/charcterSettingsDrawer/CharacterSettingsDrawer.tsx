@@ -5,7 +5,14 @@ import { useState } from "react";
 import Dropdown from "components/dropdown/Dropdown";
 import Checkbox from "components/checkbox/Checkbox";
 
-const CHARACTER_OPTIONS = ["Wizard", "Cleric", "Druid"];
+const CHARACTER_OPTIONS = [
+    "Wizard",
+    "Cleric",
+    "Druid",
+    "Sorcerer",
+    "Arcanist",
+    "Summoner",
+];
 
 type Props = {
     isOpen: boolean;
@@ -70,7 +77,7 @@ function CharacterSettingsDrawer({
                 <h2>SPELLBOOK</h2>
                 <div className={styles.subheadingContainer}>
                     <h3>Show Spell Save DC's</h3>
-                    <div className={styles.spellcastingModifierInputContainer}>
+                    <div className={styles.spellSaveDCInputContainer}>
                         <Checkbox
                             isEnabled={showSpellSaveDC}
                             onClick={() =>

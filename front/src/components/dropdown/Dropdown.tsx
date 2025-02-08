@@ -37,7 +37,9 @@ function Dropdown({
     return (
         <div className={styles.dropdownContainer} ref={dropdownRef}>
             <div
-                className={styles.dropdownHeader}
+                className={`${styles.dropdownHeader} ${
+                    isOpen && styles.dropdownHeaderSelected
+                }`}
                 onClick={() => handleToggleState()}
             >
                 {currentOption}

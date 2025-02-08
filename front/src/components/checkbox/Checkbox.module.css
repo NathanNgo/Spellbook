@@ -1,4 +1,24 @@
 .checkbox {
-    outline: solid 2px red;
-    width: 50px;
+    display: inline-block;
+    position: relative;
+    appearance: none;
+    border: solid var(--border-colour);
+    border-width: 2px 1px 1px 3px;
+    width: 20px;
+    height: 20px;
+    box-shadow: var(--searchbar-shadow);
+    box-sizing: border-box;
+    margin: 0;
+    cursor: pointer;
+}
+
+.checkbox:checked::before {
+    background-color: var(--border-colour);
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    content: "";
 }

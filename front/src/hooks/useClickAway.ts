@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 function useOpenStateWithClickAway() {
     const [isOpen, setIsOpen] = useState<boolean>(false);
-    const dropdownRef = useRef<HTMLDivElement>(null);
+    const areaRef = useRef<HTMLDivElement>(null);
 
     const handleToggleState = useCallback(() => {
         setIsOpen((prevValue) => !prevValue);

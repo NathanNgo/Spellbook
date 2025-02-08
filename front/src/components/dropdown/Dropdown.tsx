@@ -35,7 +35,7 @@ function Dropdown({
     }
 
     return (
-        <div className={styles.dropdownContainer} ref={dropdownRef}>
+        <div className={styles.dropdownContainer} ref={areaRef}>
             <div
                 className={`${styles.dropdownHeader} ${
                     isOpen && styles.dropdownHeaderSelected

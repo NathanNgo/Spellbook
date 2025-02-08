@@ -63,15 +63,9 @@ function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
 
     async function requestSpells(requestedSpellNames: string[]) {
         const responseSpells = await useFetchSpells(requestedSpellNames);
-
-        sortAlphabetically(responseSpells);
-        if (spells.length === 0) {
-            setSpells(responseSpells);
-        } else {
-            setSpells((previousSpells) =>
-                combineSpells(previousSpells, responseSpells)
-            );
-        }
+        setSpells((previousSpells) =>
+            combineSpells(previousSpells, responseSpells)
+        );
     }
 
     useEffect(() => {

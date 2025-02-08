@@ -1,12 +1,22 @@
 import styles from "components/searchResultsTable/SearchResultsTable.module.css";
 import type { ManifestSpellDetail } from "schemas";
+import SearchResult from "components/SearchResult/SearchResult";
 
 type Props = {
     results: ManifestSpellDetail[];
     title: string;
+    spellbookIds: number[];
+    onAddSpell: (spell: ManifestSpellDetail) => void;
+    onRemoveSpell: (spell: ManifestSpellDetail) => void;
 };
 
-function SearchResultsTable({ results, title }: Props) {
+function SearchResultsTable({
+    results,
+    title,
+    spellbookIds,
+    onAddSpell,
+    onRemoveSpell,
+}: Props) {
     if (results.length === 0) {
         return;
     }
@@ -14,10 +24,13 @@ function SearchResultsTable({ results, title }: Props) {
         <div className={styles.searchResultsTable}>
             <h2>{title.toUpperCase()}</h2>
             {results.map((spell, index) => (
-                <div className={styles.searchResult} key={index}>
-                    <div className={styles.spellName}>{spell.name}</div>
-                    <button className={styles.spellButton}>+ Add Spell</button>
-                </div>
+                <SearchResult
+                    spell={spell}
+                    spellbookIds={spellbookIds}
+                    onAddSpell={() => onAddSpell(spell)}
+                    onRemoveSpell={() => onRemoveSpell(spell)}
+                    key={index}
+                />
             ))}
         </div>
     );

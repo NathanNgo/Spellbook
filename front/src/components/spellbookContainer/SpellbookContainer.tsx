@@ -30,11 +30,9 @@ function sortAlphabetically(spells: Spells | ManifestSpellDetails) {
 }
 
 function combineSpells(previousSpells: Spells, newSpells: Spells) {
+    const previousSpellIds = previousSpells.map((spell) => spell.id);
     const spellsToAdd = newSpells.filter(
-        (spell) =>
-            !previousSpells.some(
-                (previousSpell) => previousSpell.id === spell.id
-            )
+        (newSpell) => !previousSpellIds.includes(newSpell.id)
     );
     const combinedSpells = [...previousSpells, ...spellsToAdd];
     sortAlphabetically(combinedSpells);

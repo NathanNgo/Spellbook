@@ -6,13 +6,13 @@ import styles from "components/spellbookContainer/SpellbookContainer.module.css"
 import CharacterSettingsDrawer from "components/drawer/charcterSettingsDrawer/CharacterSettingsDrawer";
 import BrowseDrawer from "components/drawer/browseDrawer/BrowseDrawer";
 import MenuDrawer from "components/drawer/menuDrawer/MenuDrawer";
-import { ManifestSpellDetailArraySchema, SpellArraySchema } from "schemas";
+import { ManifestSpellDetailArraySchema } from "schemas";
 import type {
     ManifestSpellDetail,
     ManifestSpellDetails,
     Spells,
 } from "schemas";
-import useFetchSpells from "hooks/useFetchSpells";
+import fetchSpells from "remote/fetchSpells";
 import { MANIFEST_ENDPOINT } from "urls";
 
 enum DrawerState {
@@ -71,7 +71,7 @@ function SpellbookContainer({
     }
 
     async function requestSpells(requestedSpellNames: string[]) {
-        const responseSpells = await useFetchSpells(requestedSpellNames);
+        const responseSpells = await fetchSpells(requestedSpellNames);
         setSpells((previousSpells) =>
             combineSpells(previousSpells, responseSpells)
         );

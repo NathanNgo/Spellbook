@@ -1,7 +1,7 @@
 import { SpellArraySchema } from "schemas";
 import { SPELLS_ENDPOINT } from "urls";
 
-async function useFetchSpells(spellNames: string[]) {
+async function fetchSpells(spellNames: string[]) {
     const response = await fetch(SPELLS_ENDPOINT, {
         headers: { "Content-Type": "application/json" },
         method: "POST",
@@ -11,4 +11,4 @@ async function useFetchSpells(spellNames: string[]) {
     return SpellArraySchema.parse(await response.json());
 }
 
-export default useFetchSpells;
+export default fetchSpells;

@@ -1,6 +1,6 @@
 import styles from "components/searchResultsTable/SearchResultsTable.module.css";
 import type { ManifestSpellDetail } from "schemas";
-import StatusButton, { Status } from "components/statusButton/StatusButton";
+import SearchResult from "components/SearchResult/SearchResult";
 
 type Props = {
     results: ManifestSpellDetail[];
@@ -24,29 +24,13 @@ function SearchResultsTable({
         <div className={styles.searchResultsTable}>
             <h2>{title.toUpperCase()}</h2>
             {results.map((spell, index) => (
-                <div className={styles.searchResult} key={index}>
-                    <div className={styles.spellName}>
-                        <span className="symbol">
-                            {spellbookIds.includes(spell.id) && "book_4_spark"}
-                        </span>
-                        <p>{spell.name}</p>
-                    </div>
-                    <div className={styles.addButtonContainer}>
-                        <StatusButton
-                            status={
-                                !spellbookIds.includes(spell.id)
-                                    ? Status.First
-                                    : Status.Second
-                            }
-                            onChangeToSecond={() => onAddSpell(spell)}
-                            onChangeToFirst={() => onRemoveSpell(spell)}
-                            firstText="+ Add"
-                            secondText="- Remove"
-                            transitionFromFirstText="Added"
-                            transitionFromSecondText="Removed"
-                        />
-                    </div>
-                </div>
+                <SearchResult
+                    spell={spell}
+                    spellbookIds={spellbookIds}
+                    onAddSpell={() => onAddSpell(spell)}
+                    onRemoveSpell={() => onRemoveSpell(spell)}
+                    key={index}
+                />
             ))}
         </div>
     );

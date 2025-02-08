@@ -76,7 +76,7 @@ function CharacterSettingsDrawer({
             <div className={styles.spellbookSection}>
                 <h2>SPELLBOOK</h2>
                 <div className={styles.subheadingContainer}>
-                    <h3>Show Spell Save DC's</h3>
+                    <h3>Show Spell Save DC</h3>
                     <div className={styles.spellSaveDCInputContainer}>
                         <Checkbox
                             isEnabled={showSpellSaveDC}

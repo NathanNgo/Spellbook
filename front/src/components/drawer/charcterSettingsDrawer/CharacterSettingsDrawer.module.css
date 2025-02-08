@@ -35,5 +35,5 @@
 .spellSaveDCInputContainer {
     max-width: 8rem;
     margin: 0 auto;
-    font-size: none;
+    font-size: 0;
 }

@@ -2,11 +2,9 @@
     display: inline-block;
     position: relative;
     appearance: none;
-    border: solid var(--border-colour);
-    border-width: 2px 1px 1px 3px;
+    border: 2px solid var(--border-colour);
     width: 20px;
     height: 20px;
-    box-shadow: var(--searchbar-shadow);
     box-sizing: border-box;
     margin: 0;
     cursor: pointer;

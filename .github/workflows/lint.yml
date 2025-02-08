@@ -32,9 +32,7 @@ jobs:
         run: npm install
 
       - name: Run linters
-        uses: wearerequired/lint-action@v2
-        with:
-          eslint: true
+      - run: npm run lint
           
   run-linter-backend:
     name: Run linter on the backend
@@ -57,6 +55,4 @@ jobs:
         run: npm install
 
       - name: Run linters
-        uses: wearerequired/lint-action@v2
-        with:
-          eslint: true
+        run: npm run lint

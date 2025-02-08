@@ -11,14 +11,42 @@ on:
       - main
 
 jobs:
-  run-linters:
-    name: Run linters
+  run-linter-frontend:
+    name: Run linter on the frontend
     runs-on: ubuntu-latest
 
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v4
 
+      - name: Move to front/
+        run: cd front/
+  
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      # ESLint and Prettier must be in `package.json`
+      - name: Install Node.js dependencies
+        run: npm ci
+
+      - name: Run linters
+        uses: wearerequired/lint-action@v2
+        with:
+          eslint: true
+          
+  run-linter-backend:
+    name: Run linter on the backend
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v4
+
+      - name: Move to back/
+        run: cd back/
+  
       - name: Set up Node.js
         uses: actions/setup-node@v1
         with:

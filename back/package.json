@@ -31,7 +31,8 @@
     "scripts": {
         "restart": "cd bin/ && ./restart.sh",
         "start": "cd bin/ && ./start.sh",
-        "manual-test": "ts-node src/testing/manual.ts"
+        "manual-test": "ts-node src/testing/manual.ts",
+        "lint": "eslint ."
     },
     "engines": {
         "node": ">=23"

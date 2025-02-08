@@ -29,7 +29,7 @@ function useOpenStateWithClickAway() {
         };
     }, []);
 
-    return { isOpen, setIsOpen, handleToggleState, dropdownRef };
+    return { isOpen, setIsOpen, handleToggleOpen, areaRef };
 }
 
 export default useOpenStateWithClickAway;

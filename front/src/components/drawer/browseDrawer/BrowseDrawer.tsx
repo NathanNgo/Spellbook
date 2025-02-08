@@ -6,15 +6,15 @@ import ToggleButton from "components/toggleButton/ToggleButton";
 import { useState } from "react";
 import SearchResultsTable from "components/searchResultsTable/SearchResultsTable";
 import Message from "components/message/Message";
-import type { ManifestSpellDetails } from "schemas";
+import type { ManifestSpellDetail, ManifestSpellDetails } from "schemas";
 
 type Props = {
     isOpen: boolean;
     onClose: () => void;
     spellManifest: ManifestSpellDetails;
     spellbookIds: number[];
-    onAddSpell: (id: number) => void;
-    onRemoveSpell: (id: number) => void;
+    onAddSpell: (spell: ManifestSpellDetail) => void;
+    onRemoveSpell: (spell: ManifestSpellDetail) => void;
 };
 
 const TOGGLE_BUTTON_LEVEL_LABELS = [

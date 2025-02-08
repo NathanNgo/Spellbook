@@ -6,8 +6,12 @@ import styles from "components/spellbookContainer/SpellbookContainer.module.css"
 import SettingsDrawer from "components/drawer/settingsDrawer/SettingsDrawer";
 import BrowseDrawer from "components/drawer/browseDrawer/BrowseDrawer";
 import MenuDrawer from "components/drawer/menuDrawer/MenuDrawer";
-import { ManifestSpellDetailArraySchema, SpellArraySchema } from "schemas";
-import type { ManifestSpellDetails, Spells } from "schemas";
+import { ManifestSpellDetailArraySchema } from "schemas";
+import type {
+    ManifestSpellDetail,
+    ManifestSpellDetails,
+    Spells,
+} from "schemas";
 import useFetchSpells from "hooks/useFetchSpells";
 import { MANIFEST_ENDPOINT } from "urls";
 
@@ -106,21 +110,20 @@ function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
         onSetDrawerState(DrawerState.None);
     }
 
-    function handleAddSpell(spellId: number) {
-        if (spells.some((spell) => spell.id === spellId)) {
+    function handleAddSpell(requestedSpell: ManifestSpellDetail) {
+        if (spells.some((spell) => spell.id === requestedSpell.id)) {
             return;
         }
-        const requestedSpell =
-            spellManifest.find((spell) => spell.id == spellId)?.name || "";
-        requestSpells([requestedSpell]);
+
+        requestSpells([requestedSpell.name]);
     }
 
-    function handleRemoveSpell(spellId: number) {
-        if (!spells.some((spell) => spell.id === spellId)) {
+    function handleRemoveSpell(requestedSpell: ManifestSpellDetail) {
+        if (!spells.some((spell) => spell.id === requestedSpell.id)) {
             return;
         }
         setSpells((previousSpells) =>
-            previousSpells.filter((spell) => spell.id !== spellId)
+            previousSpells.filter((spell) => spell.id !== requestedSpell.id)
         );
     }
 

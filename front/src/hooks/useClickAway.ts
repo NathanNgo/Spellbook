@@ -4,7 +4,7 @@ function useOpenStateWithClickAway() {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const areaRef = useRef<HTMLDivElement>(null);
 
-    const handleToggleState = useCallback(() => {
+    const handleToggleOpen = useCallback(() => {
         setIsOpen((prevValue) => !prevValue);
     }, []);
 

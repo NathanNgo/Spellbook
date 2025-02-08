@@ -9,6 +9,7 @@ import MenuDrawer from "components/drawer/menuDrawer/MenuDrawer";
 import { ManifestSpellDetailArraySchema, SpellArraySchema } from "schemas";
 import type { ManifestSpellDetails, Spells } from "schemas";
 import useFetchSpells from "hooks/useFetchSpells";
+import { MANIFEST_ENDPOINT } from "urls";
 
 enum DrawerState {
     Settings,
@@ -97,7 +98,7 @@ function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
 
         requestSpells(requestedSpellNames).then(() => setSpellsLoaded(true));
 
-        fetch("http://localhost:3000/manifest")
+        fetch(MANIFEST_ENDPOINT)
             .then((response) => response.json())
             .then((unvalidatedManifestSpellDetails: ManifestSpellDetails) => {
                 const manifestSpellDetails =

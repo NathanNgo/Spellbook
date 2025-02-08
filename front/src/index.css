@@ -30,6 +30,8 @@
   --searchbar-shadow: inset 5px 5px 15px #00000055;
   --highlight-accent-colour: #253650;
   --highlight-dark-accent-colour: #3d526d;
+  --green-accent-colour: #1e3f1e;
+  --red-accent-colour: #431a1a;
 }
 
 
@@ -46,6 +48,8 @@
   --searchbar-shadow: inset 2px 2px 2px #00000055;
   --highlight-accent-colour: #dfe0ff;
   --highlight-dark-accent-colour: #cdcef3;
+  --green-accent-colour: #d4f0d2;
+  --red-accent-colour: #ffd6d6;
 }
 
 *::selection {

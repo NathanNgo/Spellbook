@@ -12,7 +12,7 @@ function Dropdown({
     currentOption,
     onCurrentOptionChange,
 }: Props) {
-    const { isOpen, setIsOpen, handleToggleState, dropdownRef } =
+    const { isOpen, setIsOpen, handleToggleOpen, areaRef } =
         useOpenStateWithClickAway();
 
     const options = dropdownOptions.map((option) => {

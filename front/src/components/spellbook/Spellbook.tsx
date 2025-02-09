@@ -43,4 +43,3 @@ function Spellbook({ spells, character }: Props) {
 }
 
 export default Spellbook;
-export { classToCode };

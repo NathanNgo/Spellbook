@@ -9,7 +9,7 @@ import MenuDrawer from "components/drawer/menuDrawer/MenuDrawer";
 import { SpellSummaryArraySchema } from "schemas";
 import type { SpellSummary, Spell } from "schemas";
 import fetchSpells from "remote/fetchSpells";
-import { MANIFEST_ENDPOINT } from "urls";
+import { SPELL_SUMMARIES_ENDPOINT } from "urls";
 
 enum DrawerState {
     Settings,
@@ -95,7 +95,7 @@ function SpellbookContainer({
 
         requestSpells(requestedSpellNames).then(() => setSpellsLoaded(true));
 
-        fetch(MANIFEST_ENDPOINT)
+        fetch(SPELL_SUMMARIES_ENDPOINT)
             .then((response) => response.json())
             .then((unvalidatedSpellSummarys: SpellSummary[]) => {
                 const spellSummaries = SpellSummaryArraySchema.parse(

@@ -3,7 +3,7 @@ import Spellbook from "components/spellbook/Spellbook";
 import SpellbookToolbar from "components/spellbookToolbar/SpellbookToolbar";
 import { useEffect, useState } from "react";
 import styles from "components/spellbookContainer/SpellbookContainer.module.css";
-import SettingsDrawer from "components/drawer/settingsDrawer/SettingsDrawer";
+import CharacterSettingsDrawer from "components/drawer/charcterSettingsDrawer/CharacterSettingsDrawer";
 import BrowseDrawer from "components/drawer/browseDrawer/BrowseDrawer";
 import MenuDrawer from "components/drawer/menuDrawer/MenuDrawer";
 import { ManifestSpellDetailArraySchema } from "schemas";
@@ -12,7 +12,7 @@ import type {
     ManifestSpellDetails,
     Spells,
 } from "schemas";
-import useFetchSpells from "hooks/useFetchSpells";
+import fetchSpells from "remote/fetchSpells";
 import { MANIFEST_ENDPOINT } from "urls";
 
 enum DrawerState {
@@ -25,6 +25,8 @@ enum DrawerState {
 type Props = {
     drawerState: DrawerState;
     onSetDrawerState: (drawerState: DrawerState) => void;
+    characterName: string;
+    onCharacterNameChanged: (characterName: string) => void;
 };
 
 function sortAlphabetically(spells: Spells | ManifestSpellDetails) {
@@ -43,7 +45,12 @@ function combineSpells(previousSpells: Spells, newSpells: Spells) {
     return combinedSpells;
 }
 
-function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
+function SpellbookContainer({
+    drawerState,
+    onSetDrawerState,
+    characterName,
+    onCharacterNameChanged,
+}: Props) {
     const [spells, setSpells] = useState<Spells>([]);
     const [spellManifest, setSpellManifest] = useState<ManifestSpellDetails>(
         []
@@ -64,7 +71,7 @@ function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
     }
 
     async function requestSpells(requestedSpellNames: string[]) {
-        const responseSpells = await useFetchSpells(requestedSpellNames);
+        const responseSpells = await fetchSpells(requestedSpellNames);
         setSpells((previousSpells) =>
             combineSpells(previousSpells, responseSpells)
         );
@@ -137,9 +144,11 @@ function SpellbookContainer({ drawerState, onSetDrawerState }: Props) {
 
     return (
         <div className={styles.spellbookContainer}>
-            <SettingsDrawer
+            <CharacterSettingsDrawer
                 isOpen={drawerState === DrawerState.Settings}
                 onClose={handleCloseDrawer}
+                characterName={characterName}
+                onCharacterNameChanged={onCharacterNameChanged}
             />
             <MenuDrawer
                 isOpen={drawerState === DrawerState.Menu}

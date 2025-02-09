@@ -27,6 +27,8 @@ function App() {
             <SpellbookContainer
                 drawerState={drawerState}
                 onSetDrawerState={setDrawerState}
+                characterName={characterName}
+                onCharacterNameChanged={setCharacterName}
             ></SpellbookContainer>
         </>
     );

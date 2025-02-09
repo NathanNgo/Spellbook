@@ -1,4 +1,4 @@
-.textInput {
+.input {
     display: flex;
     align-items: center;
     border-width: 3px 1px 1px 3px;
@@ -11,7 +11,7 @@
     box-sizing: border-box;
 }
 
-.textInput input {
+.input input {
     flex-grow: 11;
     font-size: 2rem;
     text-align: center;
@@ -20,36 +20,48 @@
     width: 100%;
 }
 
-.textInput .leftIcon,
-.textInput .clearButton {
+.input .leftIcon,
+.input .clearButton {
     position: absolute;
     text-align: center;
     font-size: 2rem;
     min-width: 3rem;
 }
 
-.textInput .leftIcon {
+.input .leftIcon {
     pointer-events: none;
 }
 
-.textInput .clearButton {
+.input .clearButton {
     cursor: pointer;
     right: 0;
 }
 
-.textInput input::placeholder {
+.input input::placeholder {
     color: unset;
     opacity: 0.6;
 }
 
-.textInput input:focus {
+.input input:focus {
     outline-style: none;
 }
 
-.textInput:focus-within .leftIcon {
+.input:focus-within .leftIcon {
     visibility: hidden;
 }
 
-.textInput input:placeholder-shown + .clearButton {
+.input input:placeholder-shown + .clearButton {
     visibility: hidden;
+}
+
+.input input::-webkit-outer-spin-button,
+.input input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.input input[type="number"] {
+    -moz-appearance: textfield;
+    -webkit-appearance: textfield;
+    appearance: textfield;
 }

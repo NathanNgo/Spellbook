@@ -42,7 +42,7 @@ function Dropdown({
                 }`}
                 onClick={() => handleToggleOpen()}
             >
-                {currentOption}
+                <p>{currentOption}</p>
             </div>
             {isOpen && dropdownMenu}
         </div>

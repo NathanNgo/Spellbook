@@ -6,9 +6,8 @@ import ToggleButton from "components/toggleButton/ToggleButton";
 import { useState } from "react";
 import SearchResultsTable from "components/searchResultsTable/SearchResultsTable";
 import Message from "components/message/Message";
-import type { ManifestSpellDetails } from "schemas";
+import type { ManifestSpellDetails, ManifestSpellDetail } from "schemas";
 import { Character } from "App";
-
 
 type Props = {
     isOpen: boolean;
@@ -40,7 +39,7 @@ function BrowseDrawer({
     onClose,
     spellManifest,
     spellbookIds,
-    character
+    character,
     onAddSpell,
     onRemoveSpell,
 }: Props) {

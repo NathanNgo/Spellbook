@@ -9,6 +9,7 @@ type Character = {
     name: string;
     class: string;
     spellCastingModifier: number;
+    showSpellSaveDC: boolean;
 };
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         name: "Josh Mann",
         class: "Sorcerer",
         spellCastingModifier: 0,
+        showSpellSaveDC: true,
     });
 
     const [drawerState, setDrawerState] = useState<DrawerState>(

@@ -28,8 +28,6 @@ function CharacterSettingsDrawer({
     character,
     onCharacterChanged,
 }: Props) {
-    const [showSpellSaveDC, setShowSpellSaveDC] = useState<boolean>(false);
-
     return (
         <Drawer
             isOpen={isOpen}
@@ -87,9 +85,12 @@ function CharacterSettingsDrawer({
                     <h3>Show Spell Save DC</h3>
                     <div className={styles.spellSaveDCInputContainer}>
                         <Checkbox
-                            isEnabled={showSpellSaveDC}
+                            isEnabled={character.showSpellSaveDC}
                             onClick={() =>
-                                setShowSpellSaveDC((prevValue) => !prevValue)
+                                onCharacterChanged({
+                                    ...character,
+                                    showSpellSaveDC: !character.showSpellSaveDC,
+                                })
                             }
                         />
                     </div>

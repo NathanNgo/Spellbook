@@ -35,7 +35,7 @@ function SpellbookToolbar({
                     onClick={onOpenSettings}
                 >
                     <span className="symbol">settings</span>
-                    <p>Settings</p>
+                    <p>Manage Character</p>
                 </button>
             </span>
         </div>

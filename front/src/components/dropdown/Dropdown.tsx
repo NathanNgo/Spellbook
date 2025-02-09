@@ -12,7 +12,7 @@ function Dropdown({
     currentOption,
     onCurrentOptionChange,
 }: Props) {
-    const { isOpen, setIsOpen, handleToggleState, dropdownRef } =
+    const { isOpen, setIsOpen, handleToggleOpen, areaRef } =
         useOpenStateWithClickAway();
 
     const options = dropdownOptions.map((option) => {
@@ -35,10 +35,12 @@ function Dropdown({
     }
 
     return (
-        <div className={styles.dropdownContainer} ref={dropdownRef}>
+        <div className={styles.dropdownContainer} ref={areaRef}>
             <div
-                className={styles.dropdownHeader}
-                onClick={() => handleToggleState()}
+                className={`${styles.dropdownHeader} ${
+                    isOpen && styles.dropdownHeaderSelected
+                }`}
+                onClick={() => handleToggleOpen()}
             >
                 {currentOption}
             </div>

@@ -6,9 +6,16 @@ import styles from "components/spellbookContainer/SpellbookContainer.module.css"
 import CharacterSettingsDrawer from "components/drawer/charcterSettingsDrawer/CharacterSettingsDrawer";
 import BrowseDrawer from "components/drawer/browseDrawer/BrowseDrawer";
 import MenuDrawer from "components/drawer/menuDrawer/MenuDrawer";
+
 import { ManifestSpellDetailArraySchema, SpellArraySchema } from "schemas";
-import type { ManifestSpellDetails, Spells } from "schemas";
 import type { Character } from "App";
+import type {
+    ManifestSpellDetail,
+    ManifestSpellDetails,
+    Spells,
+} from "schemas";
+import fetchSpells from "remote/fetchSpells";
+import { MANIFEST_ENDPOINT } from "urls";
 
 enum DrawerState {
     Settings,
@@ -24,10 +31,20 @@ type Props = {
     onCharacterChanged: (character: Character) => void;
 };
 
-function sortAlphabetically(spells: Spells) {
+function sortAlphabetically(spells: Spells | ManifestSpellDetails) {
     spells.sort((firstSpell, secondSpell) =>
         firstSpell.name.localeCompare(secondSpell.name)
     );
+}
+
+function combineSpells(previousSpells: Spells, newSpells: Spells) {
+    const previousSpellIds = previousSpells.map((spell) => spell.id);
+    const spellsToAdd = newSpells.filter(
+        (newSpell) => !previousSpellIds.includes(newSpell.id)
+    );
+    const combinedSpells = [...previousSpells, ...spellsToAdd];
+    sortAlphabetically(combinedSpells);
+    return combinedSpells;
 }
 
 function SpellbookContainer({
@@ -55,6 +72,13 @@ function SpellbookContainer({
         );
     }
 
+    async function requestSpells(requestedSpellNames: string[]) {
+        const responseSpells = await fetchSpells(requestedSpellNames);
+        setSpells((previousSpells) =>
+            combineSpells(previousSpells, responseSpells)
+        );
+    }
+
     useEffect(() => {
         const requestedSpellNames = [
             // "Skim", // Missing from db
@@ -77,34 +101,39 @@ function SpellbookContainer({
             "Wish",
         ];
 
-        fetch("http://localhost:3000/spells", {
-            headers: { "Content-Type": "application/json" },
-            method: "POST",
-            body: JSON.stringify({
-                spellNames: requestedSpellNames,
-            }),
-        })
-            .then((response) => response.json())
-            .then((unvalidatedSpells: Spells) => {
-                const spells = SpellArraySchema.parse(unvalidatedSpells);
-                sortAlphabetically(spells);
-                setSpells(spells);
-                setSpellsLoaded(true);
-            });
+        requestSpells(requestedSpellNames).then(() => setSpellsLoaded(true));
 
-        fetch("http://localhost:3000/manifest")
+        fetch(MANIFEST_ENDPOINT)
             .then((response) => response.json())
             .then((unvalidatedManifestSpellDetails: ManifestSpellDetails) => {
                 const manifestSpellDetails =
                     ManifestSpellDetailArraySchema.parse(
                         unvalidatedManifestSpellDetails
                     );
+                sortAlphabetically(manifestSpellDetails);
                 setSpellManifest(manifestSpellDetails);
             });
     }, []);
 
     function handleCloseDrawer() {
         onSetDrawerState(DrawerState.None);
+    }
+
+    function handleAddSpell(requestedSpell: ManifestSpellDetail) {
+        if (spells.some((spell) => spell.id === requestedSpell.id)) {
+            return;
+        }
+
+        requestSpells([requestedSpell.name]);
+    }
+
+    function handleRemoveSpell(requestedSpell: ManifestSpellDetail) {
+        if (!spells.some((spell) => spell.id === requestedSpell.id)) {
+            return;
+        }
+        setSpells((previousSpells) =>
+            previousSpells.filter((spell) => spell.id !== requestedSpell.id)
+        );
     }
 
     const loadingMessage = <Message>Loading...</Message>;
@@ -132,6 +161,9 @@ function SpellbookContainer({
                 onClose={handleCloseDrawer}
                 spellManifest={spellManifest}
                 character={character}
+                spellbookIds={spells.map((spell) => spell.id)}
+                onAddSpell={handleAddSpell}
+                onRemoveSpell={handleRemoveSpell}
             />
             <SpellbookToolbar
                 onSearchQueryChange={handleSearchQueryChange}

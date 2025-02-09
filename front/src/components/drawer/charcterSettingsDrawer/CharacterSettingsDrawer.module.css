@@ -31,3 +31,9 @@
     max-width: 8rem;
     margin: auto;
 }
+
+.spellSaveDCInputContainer {
+    max-width: 8rem;
+    margin: 0 auto;
+    font-size: 0;
+}

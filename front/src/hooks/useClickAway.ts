@@ -2,9 +2,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 function useOpenStateWithClickAway() {
     const [isOpen, setIsOpen] = useState<boolean>(false);
-    const dropdownRef = useRef<HTMLDivElement>(null);
+    const areaRef = useRef<HTMLDivElement>(null);
 
-    const handleToggleState = useCallback(() => {
+    const handleToggleOpen = useCallback(() => {
         setIsOpen((prevValue) => !prevValue);
     }, []);
 
@@ -29,7 +29,7 @@ function useOpenStateWithClickAway() {
         };
     }, []);
 
-    return { isOpen, setIsOpen, handleToggleState, dropdownRef };
+    return { isOpen, setIsOpen, handleToggleOpen, areaRef };
 }
 
 export default useOpenStateWithClickAway;

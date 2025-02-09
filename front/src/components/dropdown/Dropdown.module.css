@@ -1,22 +1,26 @@
-.clickAway {
-    position: fixed;
-    width: 100vh;
-    height: 100vw;
-    background-color: black;
-    display: inline-block;
-}
-
 .dropdownContainer {
     position: relative;
     max-width: 100%;
 }
 
 .dropdownHeader {
+    display: block;
     width: 100%;
-    border: 2px solid red;
+    height: 44.5px;
+    font-size: 2rem;
+    border: solid var(--border-colour);
+    border-width: 2px 1px 1px 3px;
     box-sizing: border-box;
     text-align: center;
     background-color: var(--background-colour);
+    box-shadow: var(--searchbar-shadow);
+    padding: auto 0;
+}
+
+.dropdownHeaderSelected {
+    box-shadow: none;
+    border-width: 1px;
+    background-color: var(--dark-accent-colour);
 }
 
 .dropdownHeader:hover {
@@ -24,20 +28,29 @@
 }
 
 .dropdownMenu {
+    box-sizing: border-box;
     position: absolute;
     z-index: 9999;
+    max-height: 11.6rem;
+    border: solid var(--border-colour);
+    border-width: 0 1px 1px 1px;
     display: flex;
     flex-direction: column;
     width: 100%;
+    box-shadow: 5px 5px 10px #00000055;
+    overflow-y: scroll;
 }
 
 .dropdownOption {
-    border: 4px solid red;
     box-sizing: border-box;
     text-align: center;
     background-color: var(--background-colour);
+    margin-top: -1px;
+    font-size: 2rem;
+    height: 44.5px;
 }
 
 .dropdownOption:hover {
     cursor: pointer;
+    background-color: var(--medium-accent-colour);
 }

@@ -35,9 +35,15 @@ function Input({
         }
     }
 
+    function handleClickAway() {
+        if (numberInput && value === 0) {
+            (onValueChange as numberOnValueChange)(0);
+        }
+    }
+
     function formatValue() {
         if (value === 0 && signOfNumber(value) < 0) {
-            return "-";
+            return MINUS_SIGN;
         }
         return value.toString();
     }
@@ -66,6 +72,7 @@ function Input({
                 placeholder={placeHolder}
                 onChange={handleChange}
                 value={formatValue()}
+                onBlur={handleClickAway}
             />
             {showClearButton && (
                 <div

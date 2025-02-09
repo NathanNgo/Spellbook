@@ -6,15 +6,15 @@ import ToggleButton from "components/toggleButton/ToggleButton";
 import { useState } from "react";
 import SearchResultsTable from "components/searchResultsTable/SearchResultsTable";
 import Message from "components/message/Message";
-import type { ManifestSpellDetail } from "schemas";
+import type { SpellSummary } from "schemas";
 
 type Props = {
     isOpen: boolean;
     onClose: () => void;
-    spellManifest: ManifestSpellDetail[];
+    spellManifest: SpellSummary[];
     spellbookIds: number[];
-    onAddSpell: (spell: ManifestSpellDetail) => void;
-    onRemoveSpell: (spell: ManifestSpellDetail) => void;
+    onAddSpell: (spell: SpellSummary) => void;
+    onRemoveSpell: (spell: SpellSummary) => void;
 };
 
 const TOGGLE_BUTTON_LEVEL_LABELS = [
@@ -54,7 +54,7 @@ function BrowseDrawer({
         );
     }
 
-    let filteredList: ManifestSpellDetail[] = [];
+    let filteredList: SpellSummary[] = [];
     const query = searchQuery.trim().toLowerCase();
 
     if (query !== "" && query.length >= MINIMUM_QUERY_LENGTH) {

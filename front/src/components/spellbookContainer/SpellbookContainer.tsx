@@ -48,7 +48,7 @@ function SpellbookContainer({
     onCharacterNameChanged,
 }: Props) {
     const [spells, setSpells] = useState<Spell[]>([]);
-    const [spellManifest, setSpellManifest] = useState<SpellSummary[]>([]);
+    const [spellSummaries, setSpellSummaries] = useState<SpellSummary[]>([]);
     const [searchQuery, setSearchQuery] = useState<string>("");
     const [spellsLoaded, setSpellsLoaded] = useState<boolean>(false);
     function handleSearchQueryChange(query: string) {
@@ -102,7 +102,7 @@ function SpellbookContainer({
                     unvalidatedSpellSummarys
                 );
                 sortAlphabetically(spellSummaries);
-                setSpellManifest(spellSummaries);
+                setSpellSummaries(spellSummaries);
             });
     }, []);
 
@@ -150,7 +150,7 @@ function SpellbookContainer({
             <BrowseDrawer
                 isOpen={drawerState === DrawerState.Browse}
                 onClose={handleCloseDrawer}
-                spellManifest={spellManifest}
+                spellSummaries={spellSummaries}
                 spellbookIds={spells.map((spell) => spell.id)}
                 onAddSpell={handleAddSpell}
                 onRemoveSpell={handleRemoveSpell}

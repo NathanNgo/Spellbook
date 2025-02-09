@@ -10,7 +10,7 @@ import { SpellSummaryArraySchema } from "schemas";
 import type { Character } from "App";
 import type { SpellSummary, Spell } from "schemas";
 import fetchSpells from "remote/fetchSpells";
-import { MANIFEST_ENDPOINT } from "urls";
+import { SPELL_SUMMARIES_ENDPOINT } from "urls";
 
 enum DrawerState {
     Settings,
@@ -49,7 +49,7 @@ function SpellbookContainer({
     onCharacterChanged,
 }: Props) {
     const [spells, setSpells] = useState<Spell[]>([]);
-    const [spellManifest, setSpellManifest] = useState<SpellSummary[]>([]);
+    const [spellSummaries, setSpellSummaries] = useState<SpellSummary[]>([]);
     const [searchQuery, setSearchQuery] = useState<string>("");
     const [spellsLoaded, setSpellsLoaded] = useState<boolean>(false);
     function handleSearchQueryChange(query: string) {
@@ -96,14 +96,14 @@ function SpellbookContainer({
 
         requestSpells(requestedSpellNames).then(() => setSpellsLoaded(true));
 
-        fetch(MANIFEST_ENDPOINT)
+        fetch(SPELL_SUMMARIES_ENDPOINT)
             .then((response) => response.json())
             .then((unvalidatedSpellSummarys: SpellSummary[]) => {
                 const spellSummaries = SpellSummaryArraySchema.parse(
                     unvalidatedSpellSummarys
                 );
                 sortAlphabetically(spellSummaries);
-                setSpellManifest(spellSummaries);
+                setSpellSummaries(spellSummaries);
             });
     }, []);
 
@@ -151,7 +151,7 @@ function SpellbookContainer({
             <BrowseDrawer
                 isOpen={drawerState === DrawerState.Browse}
                 onClose={handleCloseDrawer}
-                spellManifest={spellManifest}
+                spellManifest={spellSummaries}
                 character={character}
                 spellbookIds={spells.map((spell) => spell.id)}
                 onAddSpell={handleAddSpell}

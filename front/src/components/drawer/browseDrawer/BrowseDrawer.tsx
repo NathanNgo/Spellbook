@@ -13,7 +13,7 @@ import type { SpellSummary } from "schemas";
 type Props = {
     isOpen: boolean;
     onClose: () => void;
-    spellManifest: SpellSummary[];
+    spellSummaries: SpellSummary[];
     character: Character;
     spellbookIds: number[];
     onAddSpell: (spell: SpellSummary) => void;
@@ -38,7 +38,7 @@ const MINIMUM_QUERY_LENGTH = 2;
 function BrowseDrawer({
     isOpen,
     onClose,
-    spellManifest,
+    spellSummaries,
     spellbookIds,
     character,
     onAddSpell,
@@ -62,7 +62,7 @@ function BrowseDrawer({
     const query = searchQuery.trim().toLowerCase();
 
     if (query !== "" && query.length >= MINIMUM_QUERY_LENGTH) {
-        filteredList = spellManifest.filter((spell) =>
+        filteredList = spellSummaries.filter((spell) =>
             spell.name.toLowerCase().includes(query)
         );
     }

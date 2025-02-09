@@ -4,7 +4,7 @@ const singleSpell = { spellNames: ["Identify"] };
 // const multipleSpells = { spellNames: ["Wish", "Fireball", "Magic Missile"] };
 
 /*
-fetch("http://localhost:3000/manifest")
+fetch("http://localhost:3000/spellSummaries")
     .then((response) => response.json())
     .then((response) => console.log(response));
 */

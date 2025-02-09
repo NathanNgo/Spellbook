@@ -1,22 +1,23 @@
 import Drawer, { DrawerSide } from "components/drawer/Drawer";
 import styles from "components/drawer/browseDrawer/BrowserDrawer.module.css";
 import SearchBar from "components/searchBar/SearchBar";
-import { classToCode, LEVEL_TITLES } from "components/spellbook/Spellbook";
+import { classToCode } from "components/spellbook/Spellbook";
+import { LEVEL_TITLES } from "components/spellbook/spellDetails";
 import ToggleButton from "components/toggleButton/ToggleButton";
 import { useState } from "react";
 import SearchResultsTable from "components/searchResultsTable/SearchResultsTable";
 import Message from "components/message/Message";
-import type { ManifestSpellDetails, ManifestSpellDetail } from "schemas";
 import { Character } from "App";
+import type { SpellSummary } from "schemas";
 
 type Props = {
     isOpen: boolean;
     onClose: () => void;
-    spellManifest: ManifestSpellDetails;
+    spellManifest: SpellSummary[];
     character: Character;
     spellbookIds: number[];
-    onAddSpell: (spell: ManifestSpellDetail) => void;
-    onRemoveSpell: (spell: ManifestSpellDetail) => void;
+    onAddSpell: (spell: SpellSummary) => void;
+    onRemoveSpell: (spell: SpellSummary) => void;
 };
 
 const TOGGLE_BUTTON_LEVEL_LABELS = [
@@ -57,7 +58,7 @@ function BrowseDrawer({
         );
     }
 
-    let filteredList: ManifestSpellDetails = [];
+    let filteredList: SpellSummary[] = [];
     const query = searchQuery.trim().toLowerCase();
 
     if (query !== "" && query.length >= MINIMUM_QUERY_LENGTH) {

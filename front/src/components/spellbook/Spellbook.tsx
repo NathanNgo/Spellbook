@@ -1,11 +1,12 @@
 import Message from "components/message/Message";
 import SpellTable from "components/spellTable/SpellTable";
 import styles from "components/spellbook/Spellbook.module.css";
-import type { Spells, Spell, ManifestSpellDetail } from "schemas";
+import type { Spell, SpellSummary } from "schemas";
 import type { Character } from "App";
+import { LEVEL_TITLES } from "components/spellbook/spellDetails";
 
 type Props = {
-    spells: Spells;
+    spells: Spell[];
     character: Character;
 };
 
@@ -20,22 +21,8 @@ function classToCode(className: string) {
     if (className == "summoner unchained") {
         return "summonerUnchained";
     }
-    return className as keyof (Spell | ManifestSpellDetail);
+    return className as keyof (Spell | SpellSummary);
 }
-
-const LEVEL_TITLES = [
-    "Cantrip",
-    "1st Level",
-    "2nd Level",
-    "3rd Level",
-    "4th Level",
-    "5th Level",
-    "6th Level",
-    "7th Level",
-    "8th Level",
-    "9th Level",
-];
-
 const UNCATEGORISED_LEVEL = -1;
 
 function Spellbook({ spells, character }: Props) {
@@ -69,4 +56,4 @@ function Spellbook({ spells, character }: Props) {
 }
 
 export default Spellbook;
-export { LEVEL_TITLES, classToCode };
+export { classToCode };

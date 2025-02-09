@@ -6,14 +6,9 @@ import styles from "components/spellbookContainer/SpellbookContainer.module.css"
 import CharacterSettingsDrawer from "components/drawer/charcterSettingsDrawer/CharacterSettingsDrawer";
 import BrowseDrawer from "components/drawer/browseDrawer/BrowseDrawer";
 import MenuDrawer from "components/drawer/menuDrawer/MenuDrawer";
-
-import { ManifestSpellDetailArraySchema } from "schemas";
+import { SpellSummaryArraySchema } from "schemas";
 import type { Character } from "App";
-import type {
-    ManifestSpellDetail,
-    ManifestSpellDetails,
-    Spells,
-} from "schemas";
+import type { SpellSummary, Spell } from "schemas";
 import fetchSpells from "remote/fetchSpells";
 import { MANIFEST_ENDPOINT } from "urls";
 
@@ -31,13 +26,13 @@ type Props = {
     onCharacterChanged: (character: Character) => void;
 };
 
-function sortAlphabetically(spells: Spells | ManifestSpellDetails) {
+function sortAlphabetically(spells: Spell[] | SpellSummary[]) {
     spells.sort((firstSpell, secondSpell) =>
         firstSpell.name.localeCompare(secondSpell.name)
     );
 }
 
-function combineSpells(previousSpells: Spells, newSpells: Spells) {
+function combineSpells(previousSpells: Spell[], newSpells: Spell[]) {
     const previousSpellIds = previousSpells.map((spell) => spell.id);
     const spellsToAdd = newSpells.filter(
         (newSpell) => !previousSpellIds.includes(newSpell.id)
@@ -53,17 +48,15 @@ function SpellbookContainer({
     character,
     onCharacterChanged,
 }: Props) {
-    const [spells, setSpells] = useState<Spells>([]);
-    const [spellManifest, setSpellManifest] = useState<ManifestSpellDetails>(
-        []
-    );
+    const [spells, setSpells] = useState<Spell[]>([]);
+    const [spellManifest, setSpellManifest] = useState<SpellSummary[]>([]);
     const [searchQuery, setSearchQuery] = useState<string>("");
     const [spellsLoaded, setSpellsLoaded] = useState<boolean>(false);
     function handleSearchQueryChange(query: string) {
         setSearchQuery(query);
     }
 
-    let filteredList: Spells = spells;
+    let filteredList: Spell[] = spells;
     const query = searchQuery.trim().toLowerCase();
 
     if (query !== "") {
@@ -105,13 +98,12 @@ function SpellbookContainer({
 
         fetch(MANIFEST_ENDPOINT)
             .then((response) => response.json())
-            .then((unvalidatedManifestSpellDetails: ManifestSpellDetails) => {
-                const manifestSpellDetails =
-                    ManifestSpellDetailArraySchema.parse(
-                        unvalidatedManifestSpellDetails
-                    );
-                sortAlphabetically(manifestSpellDetails);
-                setSpellManifest(manifestSpellDetails);
+            .then((unvalidatedSpellSummarys: SpellSummary[]) => {
+                const spellSummaries = SpellSummaryArraySchema.parse(
+                    unvalidatedSpellSummarys
+                );
+                sortAlphabetically(spellSummaries);
+                setSpellManifest(spellSummaries);
             });
     }, []);
 
@@ -119,7 +111,7 @@ function SpellbookContainer({
         onSetDrawerState(DrawerState.None);
     }
 
-    function handleAddSpell(requestedSpell: ManifestSpellDetail) {
+    function handleAddSpell(requestedSpell: SpellSummary) {
         if (spells.some((spell) => spell.id === requestedSpell.id)) {
             return;
         }
@@ -127,7 +119,7 @@ function SpellbookContainer({
         requestSpells([requestedSpell.name]);
     }
 
-    function handleRemoveSpell(requestedSpell: ManifestSpellDetail) {
+    function handleRemoveSpell(requestedSpell: SpellSummary) {
         if (!spells.some((spell) => spell.id === requestedSpell.id)) {
             return;
         }

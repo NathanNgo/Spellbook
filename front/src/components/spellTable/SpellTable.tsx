@@ -1,10 +1,10 @@
 import SpellRow from "components/spellRow/SpellRow";
 import styles from "components/spellTable/SpellTable.module.css";
-import type { Spells } from "schemas";
+import type { Spell } from "schemas";
 
 type Props = {
     title: string;
-    spells: Spells;
+    spells: Spell[];
 };
 
 function SpellTable({ title, spells }: Props) {
@@ -26,7 +26,7 @@ function SpellTable({ title, spells }: Props) {
                     </tr>
                 </thead>
                 <tbody>
-                    {spells.map((spell, index) => (
+                    {spells.map((spell) => (
                         <SpellRow spell={spell} key={spell.id} />
                     ))}
                 </tbody>

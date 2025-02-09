@@ -1,9 +1,9 @@
-import { ManifestSpellDetail } from "schemas";
+import { SpellSummary } from "schemas";
 import StatusButton, { Status } from "components/statusButton/StatusButton";
 import styles from "components/SearchResult/SearchResult.module.css";
 
 type Props = {
-    spell: ManifestSpellDetail;
+    spell: SpellSummary;
     spellbookIds: number[];
     onAddSpell: () => void;
     onRemoveSpell: () => void;

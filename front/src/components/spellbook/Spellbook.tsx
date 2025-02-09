@@ -1,28 +1,15 @@
 import Message from "components/message/Message";
 import SpellTable from "components/spellTable/SpellTable";
 import styles from "components/spellbook/Spellbook.module.css";
-import type { Spell, SpellSummary } from "schemas";
+import type { Spell } from "schemas";
 import type { Character } from "App";
-import { LEVEL_TITLES } from "components/spellbook/spellDetails";
+import { LEVEL_TITLES, classToCode } from "components/spellbook/spellDetails";
 
 type Props = {
     spells: Spell[];
     character: Character;
 };
 
-function classToCode(className: string) {
-    className = className.toLowerCase();
-    if (className == "wizard") {
-        return "wiz";
-    }
-    if (className == "sorcerer") {
-        return "sor";
-    }
-    if (className == "summoner unchained") {
-        return "summonerUnchained";
-    }
-    return className as keyof (Spell | SpellSummary);
-}
 const UNCATEGORISED_LEVEL = -1;
 
 function Spellbook({ spells, character }: Props) {

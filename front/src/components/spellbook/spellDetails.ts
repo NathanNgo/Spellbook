@@ -1,3 +1,5 @@
+import type { Spell, SpellSummary } from "schemas";
+
 export const LEVEL_TITLES = [
     "Cantrip",
     "1st Level",
@@ -10,3 +12,22 @@ export const LEVEL_TITLES = [
     "8th Level",
     "9th Level",
 ];
+
+export function classToCode(className: string) {
+    className = className.toLowerCase();
+    let classCode = className;
+
+    switch (className) {
+        case "wizard":
+        case "arcanist":
+            classCode = "wiz";
+            break;
+        case "sorcerer":
+            classCode = "sor";
+            break;
+        case "summoner unchained":
+            classCode = "summonerUnchained";
+            break;
+    }
+    return classCode as keyof (Spell | SpellSummary);
+}

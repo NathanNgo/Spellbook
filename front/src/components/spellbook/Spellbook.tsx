@@ -1,10 +1,10 @@
 import Message from "components/message/Message";
 import SpellTable from "components/spellTable/SpellTable";
 import styles from "components/spellbook/Spellbook.module.css";
-import type { Spells } from "schemas";
+import type { Spell } from "schemas";
 
 type Props = {
-    spells: Spells;
+    spells: Spell[];
 };
 
 const LEVEL_TITLES = [

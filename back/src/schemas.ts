@@ -97,7 +97,6 @@ export const SpellSchema = z.object({
 });
 export type Spell = z.infer<typeof SpellSchema>;
 export const SpellArraySchema = z.array(SpellSchema);
-export type Spells = z.infer<typeof SpellArraySchema>;
 
 export const ManifestSpellDetailSchema = z.object({
     name: z.string(),
@@ -134,6 +133,3 @@ export type ManifestSpellDetail = z.infer<typeof ManifestSpellDetailSchema>;
 export const ManifestSpellDetailArraySchema = z.array(
     ManifestSpellDetailSchema
 );
-export type ManifestSpellDetails = z.infer<
-    typeof ManifestSpellDetailArraySchema
->;

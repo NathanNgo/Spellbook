@@ -7,11 +7,7 @@ import CharacterSettingsDrawer from "components/drawer/charcterSettingsDrawer/Ch
 import BrowseDrawer from "components/drawer/browseDrawer/BrowseDrawer";
 import MenuDrawer from "components/drawer/menuDrawer/MenuDrawer";
 import { ManifestSpellDetailArraySchema } from "schemas";
-import type {
-    ManifestSpellDetail,
-    ManifestSpellDetails,
-    Spells,
-} from "schemas";
+import type { ManifestSpellDetail, Spell } from "schemas";
 import fetchSpells from "remote/fetchSpells";
 import { MANIFEST_ENDPOINT } from "urls";
 
@@ -29,13 +25,13 @@ type Props = {
     onCharacterNameChanged: (characterName: string) => void;
 };
 
-function sortAlphabetically(spells: Spells | ManifestSpellDetails) {
+function sortAlphabetically(spells: Spell[] | ManifestSpellDetail[]) {
     spells.sort((firstSpell, secondSpell) =>
         firstSpell.name.localeCompare(secondSpell.name)
     );
 }
 
-function combineSpells(previousSpells: Spells, newSpells: Spells) {
+function combineSpells(previousSpells: Spell[], newSpells: Spell[]) {
     const previousSpellIds = previousSpells.map((spell) => spell.id);
     const spellsToAdd = newSpells.filter(
         (newSpell) => !previousSpellIds.includes(newSpell.id)
@@ -51,8 +47,8 @@ function SpellbookContainer({
     characterName,
     onCharacterNameChanged,
 }: Props) {
-    const [spells, setSpells] = useState<Spells>([]);
-    const [spellManifest, setSpellManifest] = useState<ManifestSpellDetails>(
+    const [spells, setSpells] = useState<Spell[]>([]);
+    const [spellManifest, setSpellManifest] = useState<ManifestSpellDetail[]>(
         []
     );
     const [searchQuery, setSearchQuery] = useState<string>("");
@@ -61,7 +57,7 @@ function SpellbookContainer({
         setSearchQuery(query);
     }
 
-    let filteredList: Spells = spells;
+    let filteredList: Spell[] = spells;
     const query = searchQuery.trim().toLowerCase();
 
     if (query !== "") {
@@ -103,7 +99,7 @@ function SpellbookContainer({
 
         fetch(MANIFEST_ENDPOINT)
             .then((response) => response.json())
-            .then((unvalidatedManifestSpellDetails: ManifestSpellDetails) => {
+            .then((unvalidatedManifestSpellDetails: ManifestSpellDetail[]) => {
                 const manifestSpellDetails =
                     ManifestSpellDetailArraySchema.parse(
                         unvalidatedManifestSpellDetails

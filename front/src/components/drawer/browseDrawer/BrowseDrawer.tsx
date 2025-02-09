@@ -1,17 +1,17 @@
 import Drawer, { DrawerSide } from "components/drawer/Drawer";
 import styles from "components/drawer/browseDrawer/BrowserDrawer.module.css";
 import SearchBar from "components/searchBar/SearchBar";
-import { LEVEL_TITLES } from "components/spellbook/Spellbook";
+import { LEVEL_TITLES } from "components/spellbook/spellDetails";
 import ToggleButton from "components/toggleButton/ToggleButton";
 import { useState } from "react";
 import SearchResultsTable from "components/searchResultsTable/SearchResultsTable";
 import Message from "components/message/Message";
-import type { ManifestSpellDetail, ManifestSpellDetails } from "schemas";
+import type { ManifestSpellDetail } from "schemas";
 
 type Props = {
     isOpen: boolean;
     onClose: () => void;
-    spellManifest: ManifestSpellDetails;
+    spellManifest: ManifestSpellDetail[];
     spellbookIds: number[];
     onAddSpell: (spell: ManifestSpellDetail) => void;
     onRemoveSpell: (spell: ManifestSpellDetail) => void;
@@ -54,7 +54,7 @@ function BrowseDrawer({
         );
     }
 
-    let filteredList: ManifestSpellDetails = [];
+    let filteredList: ManifestSpellDetail[] = [];
     const query = searchQuery.trim().toLowerCase();
 
     if (query !== "" && query.length >= MINIMUM_QUERY_LENGTH) {

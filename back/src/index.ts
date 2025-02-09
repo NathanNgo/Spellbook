@@ -5,6 +5,7 @@ import z from "zod";
 import type { ZodObject } from "zod";
 import type { StringTuple } from "src/types";
 import type { Request, Response } from "express";
+import type { ManifestSpellDetail, Spell } from "src/schemas";
 import { ManifestSpellDetailArraySchema, SpellArraySchema } from "src/schemas";
 import { toCamel } from "snake-camel";
 
@@ -82,7 +83,8 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/manifest", async (_: Request, response: Response) => {
-    const manifest = ManifestSpellDetailArraySchema.parse(manifestDetails);
+    const manifest: ManifestSpellDetail[] =
+        ManifestSpellDetailArraySchema.parse(manifestDetails);
     console.log(arrayToSnakeCase(manifest));
     response.send(arrayToSnakeCase(manifest));
 });
@@ -102,7 +104,7 @@ app.post("/spells", async (request: Request, response: Response) => {
             }
         );
 
-        const spells = SpellArraySchema.parse(
+        const spells: Spell[] = SpellArraySchema.parse(
             await queryDatabaseForSpells(spellNames)
         );
 

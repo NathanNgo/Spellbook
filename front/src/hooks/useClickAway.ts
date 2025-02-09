@@ -14,10 +14,7 @@ function useOpenStateWithClickAway() {
                 return;
             }
 
-            if (
-                dropdownRef.current &&
-                !dropdownRef.current.contains(event.target)
-            ) {
+            if (areaRef.current && !areaRef.current.contains(event.target)) {
                 setIsOpen(false);
             }
         }

@@ -6,7 +6,7 @@ type Props = {
     onToggleSettings: () => void;
 };
 
-function Header({ characterName, onToggleMenu, onToggleSettings }: Props) {
+function Header({ characterName, onToggleMenu }: Props) {
     return (
         <div className={styles.stickyHeaderContainer}>
             <header className={styles.mainHeader}>

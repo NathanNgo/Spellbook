@@ -13,6 +13,12 @@ type Props = {
     numberInput?: boolean;
 };
 
+const MINUS_SIGN = "-";
+
+function signOfNumber(value: number) {
+    return 1 / value > 0 ? 1 : -1;
+}
+
 function Input({
     onValueChange,
     value,
@@ -29,11 +35,21 @@ function Input({
         }
     }
 
+    function formatValue() {
+        if (value === 0 && signOfNumber(value) < 0) {
+            return "-";
+        }
+        return value.toString();
+    }
+
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
         const newValue = event.target.value;
 
         if (numberInput) {
-            const parsedValue = newValue === "" ? 0 : Number(newValue);
+            let parsedValue = newValue === "" ? 0 : Number(newValue);
+            if (newValue === MINUS_SIGN) {
+                parsedValue = -0;
+            }
             if (!isNaN(parsedValue)) {
                 (onValueChange as numberOnValueChange)(parsedValue);
             }
@@ -46,10 +62,10 @@ function Input({
         <div className={styles.input}>
             <div className={`symbol ${styles.leftIcon}`}>{leftIcon}</div>
             <input
-                type={numberInput ? "number" : "text"}
+                type={"text"}
                 placeholder={placeHolder}
                 onChange={handleChange}
-                value={value.toString()}
+                value={formatValue()}
             />
             {showClearButton && (
                 <div

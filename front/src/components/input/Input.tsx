@@ -49,7 +49,7 @@ function Input({
                 type={numberInput ? "number" : "text"}
                 placeholder={placeHolder}
                 onChange={handleChange}
-                value={value}
+                value={value.toString()}
             />
             {showClearButton && (
                 <div

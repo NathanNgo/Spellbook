@@ -14,6 +14,7 @@ type Props = {
 };
 
 const MINUS_SIGN = "-";
+const ZERO_TEXT = "0";
 
 function signOfNumber(value: number) {
     return 1 / value > 0 ? 1 : -1;
@@ -53,7 +54,12 @@ function Input({
 
         if (numberInput) {
             let parsedValue = newValue === "" ? 0 : Number(newValue);
-            if (newValue === MINUS_SIGN) {
+            // Check if the user has typed the minus sign, either after the default zero
+            // if they just replaced the text with the minus sign
+            if (
+                newValue === ZERO_TEXT + MINUS_SIGN ||
+                newValue === MINUS_SIGN
+            ) {
                 parsedValue = -0;
             }
             if (!isNaN(parsedValue)) {

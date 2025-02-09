@@ -7,7 +7,7 @@ import CharacterSettingsDrawer from "components/drawer/charcterSettingsDrawer/Ch
 import BrowseDrawer from "components/drawer/browseDrawer/BrowseDrawer";
 import MenuDrawer from "components/drawer/menuDrawer/MenuDrawer";
 
-import { ManifestSpellDetailArraySchema, SpellArraySchema } from "schemas";
+import { ManifestSpellDetailArraySchema } from "schemas";
 import type { Character } from "App";
 import type {
     ManifestSpellDetail,

@@ -1,7 +1,6 @@
 import Drawer, { DrawerSide } from "components/drawer/Drawer";
 import Input from "components/input/Input";
 import styles from "components/drawer/charcterSettingsDrawer/CharacterSettingsDrawer.module.css";
-import { useState } from "react";
 import Dropdown from "components/dropdown/Dropdown";
 import Checkbox from "components/checkbox/Checkbox";
 import type { Character } from "App";

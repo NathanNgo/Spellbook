@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
-function useOpenStateWithClickAway() {
-    const [isOpen, setIsOpen] = useState<boolean>(false);
+function useActiveStateWithClickAway() {
+    const [isActive, setIsActive] = useState<boolean>(false);
     const areaRef = useRef<HTMLDivElement>(null);
 
-    const handleToggleOpen = useCallback(() => {
-        setIsOpen((prevValue) => !prevValue);
+    const handleToggleActive = useCallback(() => {
+        setIsActive((prevValue) => !prevValue);
     }, []);
 
     useEffect(() => {
@@ -14,11 +14,8 @@ function useOpenStateWithClickAway() {
                 return;
             }
 
-            if (
-                dropdownRef.current &&
-                !dropdownRef.current.contains(event.target)
-            ) {
-                setIsOpen(false);
+            if (areaRef.current && !areaRef.current.contains(event.target)) {
+                setIsActive(false);
             }
         }
 
@@ -29,7 +26,7 @@ function useOpenStateWithClickAway() {
         };
     }, []);
 
-    return { isOpen, setIsOpen, handleToggleOpen, areaRef };
+    return { isActive, setIsActive, handleToggleActive, areaRef };
 }
 
-export default useOpenStateWithClickAway;
+export default useActiveStateWithClickAway;

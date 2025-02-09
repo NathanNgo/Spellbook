@@ -42,6 +42,9 @@ function Dropdown({
                 }`}
                 onClick={() => handleToggleOpen()}
             >
+                <span className={`symbol ${styles.dropdownIcon}`}>
+                    keyboard_arrow_down
+                </span>
                 <p>{currentOption}</p>
             </div>
             {isOpen && dropdownMenu}

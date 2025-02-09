@@ -56,3 +56,9 @@
     cursor: pointer;
     background-color: var(--medium-accent-colour);
 }
+
+.dropdownIcon {
+    right: 0;
+    position: absolute;
+    padding: 0rem 0.5rem;
+}

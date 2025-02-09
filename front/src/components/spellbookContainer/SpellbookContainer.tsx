@@ -151,7 +151,7 @@ function SpellbookContainer({
             <BrowseDrawer
                 isOpen={drawerState === DrawerState.Browse}
                 onClose={handleCloseDrawer}
-                spellManifest={spellSummaries}
+                spellSummaries={spellSummaries}
                 character={character}
                 spellbookIds={spells.map((spell) => spell.id)}
                 onAddSpell={handleAddSpell}

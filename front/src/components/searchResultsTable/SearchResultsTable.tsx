@@ -1,13 +1,13 @@
 import styles from "components/searchResultsTable/SearchResultsTable.module.css";
-import type { ManifestSpellDetail } from "schemas";
+import type { SpellSummary } from "schemas";
 import SearchResult from "components/SearchResult/SearchResult";
 
 type Props = {
-    results: ManifestSpellDetail[];
+    results: SpellSummary[];
     title: string;
     spellbookIds: number[];
-    onAddSpell: (spell: ManifestSpellDetail) => void;
-    onRemoveSpell: (spell: ManifestSpellDetail) => void;
+    onAddSpell: (spell: SpellSummary) => void;
+    onRemoveSpell: (spell: SpellSummary) => void;
 };
 
 function SearchResultsTable({

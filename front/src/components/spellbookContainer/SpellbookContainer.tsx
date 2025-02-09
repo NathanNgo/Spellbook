@@ -6,8 +6,8 @@ import styles from "components/spellbookContainer/SpellbookContainer.module.css"
 import CharacterSettingsDrawer from "components/drawer/charcterSettingsDrawer/CharacterSettingsDrawer";
 import BrowseDrawer from "components/drawer/browseDrawer/BrowseDrawer";
 import MenuDrawer from "components/drawer/menuDrawer/MenuDrawer";
-import { ManifestSpellDetailArraySchema } from "schemas";
-import type { ManifestSpellDetail, Spell } from "schemas";
+import { SpellSummaryArraySchema } from "schemas";
+import type { SpellSummary, Spell } from "schemas";
 import fetchSpells from "remote/fetchSpells";
 import { MANIFEST_ENDPOINT } from "urls";
 
@@ -25,7 +25,7 @@ type Props = {
     onCharacterNameChanged: (characterName: string) => void;
 };
 
-function sortAlphabetically(spells: Spell[] | ManifestSpellDetail[]) {
+function sortAlphabetically(spells: Spell[] | SpellSummary[]) {
     spells.sort((firstSpell, secondSpell) =>
         firstSpell.name.localeCompare(secondSpell.name)
     );
@@ -48,9 +48,7 @@ function SpellbookContainer({
     onCharacterNameChanged,
 }: Props) {
     const [spells, setSpells] = useState<Spell[]>([]);
-    const [spellManifest, setSpellManifest] = useState<ManifestSpellDetail[]>(
-        []
-    );
+    const [spellManifest, setSpellManifest] = useState<SpellSummary[]>([]);
     const [searchQuery, setSearchQuery] = useState<string>("");
     const [spellsLoaded, setSpellsLoaded] = useState<boolean>(false);
     function handleSearchQueryChange(query: string) {
@@ -99,13 +97,12 @@ function SpellbookContainer({
 
         fetch(MANIFEST_ENDPOINT)
             .then((response) => response.json())
-            .then((unvalidatedManifestSpellDetails: ManifestSpellDetail[]) => {
-                const manifestSpellDetails =
-                    ManifestSpellDetailArraySchema.parse(
-                        unvalidatedManifestSpellDetails
-                    );
-                sortAlphabetically(manifestSpellDetails);
-                setSpellManifest(manifestSpellDetails);
+            .then((unvalidatedSpellSummarys: SpellSummary[]) => {
+                const spellSummaries = SpellSummaryArraySchema.parse(
+                    unvalidatedSpellSummarys
+                );
+                sortAlphabetically(spellSummaries);
+                setSpellManifest(spellSummaries);
             });
     }, []);
 
@@ -113,7 +110,7 @@ function SpellbookContainer({
         onSetDrawerState(DrawerState.None);
     }
 
-    function handleAddSpell(requestedSpell: ManifestSpellDetail) {
+    function handleAddSpell(requestedSpell: SpellSummary) {
         if (spells.some((spell) => spell.id === requestedSpell.id)) {
             return;
         }
@@ -121,7 +118,7 @@ function SpellbookContainer({
         requestSpells([requestedSpell.name]);
     }
 
-    function handleRemoveSpell(requestedSpell: ManifestSpellDetail) {
+    function handleRemoveSpell(requestedSpell: SpellSummary) {
         if (!spells.some((spell) => spell.id === requestedSpell.id)) {
             return;
         }

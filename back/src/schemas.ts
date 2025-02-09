@@ -98,7 +98,7 @@ export const SpellSchema = z.object({
 export type Spell = z.infer<typeof SpellSchema>;
 export const SpellArraySchema = z.array(SpellSchema);
 
-export const ManifestSpellDetailSchema = z.object({
+export const SpellSummarySchema = z.object({
     name: z.string(),
     id: z.number(),
     short_description: z.string(),
@@ -134,7 +134,5 @@ export const ManifestSpellDetailSchema = z.object({
     hunter: z.number().nullable(),
     summoner_unchained: z.number().nullable(),
 });
-export type ManifestSpellDetail = z.infer<typeof ManifestSpellDetailSchema>;
-export const ManifestSpellDetailArraySchema = z.array(
-    ManifestSpellDetailSchema
-);
+export type SpellSummary = z.infer<typeof SpellSummarySchema>;
+export const SpellSummaryArraySchema = z.array(SpellSummarySchema);

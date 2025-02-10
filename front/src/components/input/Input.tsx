@@ -21,6 +21,13 @@ function signOfNumber(value: number) {
     return 1 / value > 0 ? 1 : -1;
 }
 
+function formatValue(value: number | string) {
+    if (value === 0 && signOfNumber(value) < 0) {
+        return MINUS_SIGN;
+    }
+    return value.toString();
+}
+
 function Input({
     onValueChange,
     value,
@@ -41,13 +48,6 @@ function Input({
         if (numberInput && value === 0) {
             (onValueChange as numberOnValueChange)(0);
         }
-    }
-
-    function formatValue() {
-        if (value === 0 && signOfNumber(value) < 0) {
-            return MINUS_SIGN;
-        }
-        return value.toString();
     }
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -77,7 +77,7 @@ function Input({
                 type={"text"}
                 placeholder={placeHolder}
                 onChange={handleChange}
-                value={formatValue()}
+                value={formatValue(value)}
                 onBlur={handleClickAway}
             />
             {showClearButton && (

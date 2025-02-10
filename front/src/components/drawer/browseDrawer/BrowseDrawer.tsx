@@ -1,7 +1,10 @@
 import Drawer, { DrawerSide } from "components/drawer/Drawer";
 import styles from "components/drawer/browseDrawer/BrowserDrawer.module.css";
 import SearchBar from "components/searchBar/SearchBar";
-import { LEVEL_TITLES, classToCode } from "components/spellbook/spellDetails";
+import {
+    LEVEL_TITLES,
+    classNameToClassCode,
+} from "components/spellbook/spellDetails";
 import ToggleButton from "components/toggleButton/ToggleButton";
 import { useState } from "react";
 import SearchResultsTable from "components/searchResultsTable/SearchResultsTable";
@@ -68,7 +71,8 @@ function BrowseDrawer({
     const filteredListsByLevel = LEVEL_TITLES.map((_, levelIndex) =>
         // Need to generalise to level for any class based on character info
         filteredList.filter(
-            (spell) => spell[classToCode(character.class)] === levelIndex
+            (spell) =>
+                spell[classNameToClassCode(character.class)] === levelIndex
         )
     );
 

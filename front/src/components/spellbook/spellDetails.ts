@@ -13,21 +13,29 @@ export const LEVEL_TITLES = [
     "9th Level",
 ];
 
-export function classToCode(className: string) {
-    className = className.toLowerCase();
-    let classCode = className;
+enum ClassName {
+    Wizard = "Wizard",
+    Arcanist = "Arcanist",
+    Sorcerer = "Sorcerer",
+    SummonerUnchained = "Summoner Unchained",
+}
 
-    switch (className) {
-        case "wizard":
-        case "arcanist":
-            classCode = "wiz";
-            break;
-        case "sorcerer":
-            classCode = "sor";
-            break;
-        case "summoner unchained":
-            classCode = "summonerUnchained";
-            break;
-    }
+enum ClassCode {
+    Wiz = "wiz",
+    Sor = "sor",
+    SummonerUnchained = "summonerUnchained",
+}
+const classNameToClassCodeMapping: Record<ClassName, ClassCode> = {
+    [ClassName.Wizard]: ClassCode.Wiz,
+    [ClassName.Arcanist]: ClassCode.Wiz,
+    [ClassName.Sorcerer]: ClassCode.Sor,
+    [ClassName.SummonerUnchained]: ClassCode.SummonerUnchained,
+};
+export function classNameToClassCode(
+    className: string
+): keyof (Spell | SpellSummary) {
+    const classCode =
+        classNameToClassCodeMapping[className as ClassName] ||
+        className.toLowerCase();
     return classCode as keyof (Spell | SpellSummary);
 }

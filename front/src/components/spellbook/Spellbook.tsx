@@ -2,7 +2,10 @@ import Message from "components/message/Message";
 import SpellTable from "components/spellTable/SpellTable";
 import styles from "components/spellbook/Spellbook.module.css";
 import type { Spell, Character } from "types";
-import { LEVEL_TITLES, classToCode } from "components/spellbook/spellDetails";
+import {
+    LEVEL_TITLES,
+    classNameToClassCode,
+} from "components/spellbook/spellDetails";
 
 type Props = {
     spells: Spell[];
@@ -23,7 +26,8 @@ function Spellbook({ spells, character }: Props) {
                     <SpellTable
                         spells={spells.filter(
                             (spell) =>
-                                spell[classToCode(character.class)] === level
+                                spell[classNameToClassCode(character.class)] ===
+                                level
                         )}
                         title={LEVEL_TITLES[level]}
                         key={level}
@@ -32,7 +36,8 @@ function Spellbook({ spells, character }: Props) {
             })}
             <SpellTable
                 spells={spells.filter(
-                    (spell) => spell[classToCode(character.class)] === null
+                    (spell) =>
+                        spell[classNameToClassCode(character.class)] === null
                 )}
                 title="Uncategorised"
                 key={UNCATEGORISED_LEVEL}

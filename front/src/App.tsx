@@ -4,21 +4,17 @@ import Header from "components/header/Header";
 import SpellbookContainer, {
     DrawerState,
 } from "components/spellbookContainer/SpellbookContainer";
+import { Character } from "types";
 
-type Character = {
-    name: string;
-    class: string;
-    spellCastingModifier: number;
-    showSpellSaveDC: boolean;
+const INITIAL_CHARACTER: Character = {
+    name: "Josh Mann",
+    class: "Sorcerer",
+    spellCastingModifier: 0,
+    showSpellSaveDC: true,
 };
 
 function App() {
-    const [character, setCharacter] = useState<Character>({
-        name: "Josh Mann",
-        class: "Sorcerer",
-        spellCastingModifier: 0,
-        showSpellSaveDC: true,
-    });
+    const [character, setCharacter] = useState<Character>(INITIAL_CHARACTER);
 
     const [drawerState, setDrawerState] = useState<DrawerState>(
         DrawerState.None
@@ -48,4 +44,3 @@ function App() {
 }
 
 export default App;
-export type { Character };

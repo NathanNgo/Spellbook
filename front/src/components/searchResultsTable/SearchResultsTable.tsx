@@ -1,5 +1,5 @@
 import styles from "components/searchResultsTable/SearchResultsTable.module.css";
-import type { SpellSummary } from "schemas";
+import type { SpellSummary } from "types";
 import SearchResult from "components/SearchResult/SearchResult";
 
 type Props = {

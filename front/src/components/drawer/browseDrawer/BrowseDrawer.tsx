@@ -6,8 +6,7 @@ import ToggleButton from "components/toggleButton/ToggleButton";
 import { useState } from "react";
 import SearchResultsTable from "components/searchResultsTable/SearchResultsTable";
 import Message from "components/message/Message";
-import { Character } from "App";
-import type { SpellSummary } from "schemas";
+import type { SpellSummary, Character } from "types";
 
 type Props = {
     isOpen: boolean;

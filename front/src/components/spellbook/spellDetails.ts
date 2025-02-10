@@ -1,4 +1,4 @@
-import type { Spell, SpellSummary } from "schemas";
+import type { Spell, SpellSummary } from "types";
 
 export const LEVEL_TITLES = [
     "Cantrip",

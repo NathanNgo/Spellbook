@@ -5,7 +5,7 @@ import z from "zod";
 import type { ZodObject } from "zod";
 import type { StringTuple } from "src/types";
 import type { Request, Response } from "express";
-import type { SpellSummary, Spell } from "src/schemas";
+import type { SpellSummary, Spell } from "src/types";
 import { SpellSummaryArraySchema, SpellArraySchema } from "src/schemas";
 import { toCamel } from "snake-camel";
 

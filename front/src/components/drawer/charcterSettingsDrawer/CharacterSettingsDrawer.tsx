@@ -3,7 +3,7 @@ import Input from "components/input/Input";
 import styles from "components/drawer/charcterSettingsDrawer/CharacterSettingsDrawer.module.css";
 import Dropdown from "components/dropdown/Dropdown";
 import Checkbox from "components/checkbox/Checkbox";
-import type { Character } from "App";
+import type { Character } from "types";
 
 const CHARACTER_OPTIONS = [
     "Wizard",

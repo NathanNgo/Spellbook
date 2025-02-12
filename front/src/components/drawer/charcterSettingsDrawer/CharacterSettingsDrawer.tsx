@@ -3,7 +3,7 @@ import Input from "components/input/Input";
 import styles from "components/drawer/charcterSettingsDrawer/CharacterSettingsDrawer.module.css";
 import Dropdown from "components/dropdown/Dropdown";
 import Checkbox from "components/checkbox/Checkbox";
-import type { Character, UpdateSetter } from "types";
+import type { Character } from "types";
 
 const CHARACTER_OPTIONS = [
     "Wizard",
@@ -18,7 +18,7 @@ type Props = {
     isOpen: boolean;
     onClose: () => void;
     character: Character;
-    onCharacterChanged: UpdateSetter<Character>;
+    onCharacterChanged: (update: Partial<Character>) => void;
 };
 
 function CharacterSettingsDrawer({
@@ -38,9 +38,7 @@ function CharacterSettingsDrawer({
                 <Input
                     placeHolder={"John Spellbook"}
                     onValueChange={(newName: string) =>
-                        onCharacterChanged((previousCharacter: Character) => {
-                            return { ...previousCharacter, name: newName };
-                        })
+                        onCharacterChanged({ name: newName })
                     }
                     value={character.name}
                 />
@@ -54,12 +52,7 @@ function CharacterSettingsDrawer({
                             dropdownOptions={CHARACTER_OPTIONS}
                             currentOption={character.class}
                             onCurrentOptionChange={(newClass) =>
-                                onCharacterChanged(
-                                    (previousCharacter: Character) => ({
-                                        ...previousCharacter,
-                                        class: newClass,
-                                    })
-                                )
+                                onCharacterChanged({ class: newClass })
                             }
                         />
                     </div>
@@ -71,13 +64,10 @@ function CharacterSettingsDrawer({
                             placeHolder={"John Spellbook"}
                             value={character.spellCastingModifier}
                             onValueChange={(newSpellCastingModifer: number) =>
-                                onCharacterChanged(
-                                    (previousCharacter: Character) => ({
-                                        ...previousCharacter,
-                                        spellCastingModifier:
-                                            newSpellCastingModifer,
-                                    })
-                                )
+                                onCharacterChanged({
+                                    spellCastingModifier:
+                                        newSpellCastingModifer,
+                                })
                             }
                             numberInput
                         />
@@ -92,13 +82,9 @@ function CharacterSettingsDrawer({
                         <Checkbox
                             isEnabled={character.showSpellSaveDC}
                             onClick={() =>
-                                onCharacterChanged(
-                                    (previousCharacter: Character) => ({
-                                        ...previousCharacter,
-                                        showSpellSaveDC:
-                                            !previousCharacter.showSpellSaveDC,
-                                    })
-                                )
+                                onCharacterChanged({
+                                    showSpellSaveDC: !character.showSpellSaveDC,
+                                })
                             }
                         />
                     </div>

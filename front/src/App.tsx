@@ -4,7 +4,7 @@ import Header from "components/header/Header";
 import SpellbookContainer, {
     DrawerState,
 } from "components/spellbookContainer/SpellbookContainer";
-import { Character, Updater } from "types";
+import { Character } from "types";
 
 const INITIAL_CHARACTER: Character = {
     name: "Josh Mann",
@@ -16,8 +16,11 @@ const INITIAL_CHARACTER: Character = {
 function App() {
     const [character, setCharacter] = useState<Character>(INITIAL_CHARACTER);
 
-    function handleUpdateCharacter(updater: Updater<Character>) {
-        setCharacter(updater);
+    function handleUpdateCharacter(updatedCharacterValues: Partial<Character>) {
+        setCharacter((previousCharacter) => ({
+            ...previousCharacter,
+            ...updatedCharacterValues,
+        }));
     }
 
     const [drawerState, setDrawerState] = useState<DrawerState>(

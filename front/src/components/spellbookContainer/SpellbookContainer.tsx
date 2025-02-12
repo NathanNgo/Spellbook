@@ -7,7 +7,7 @@ import CharacterSettingsDrawer from "components/drawer/charcterSettingsDrawer/Ch
 import BrowseDrawer from "components/drawer/browseDrawer/BrowseDrawer";
 import MenuDrawer from "components/drawer/menuDrawer/MenuDrawer";
 import { SpellSummaryArraySchema } from "schemas";
-import type { SpellSummary, Spell, Character, UpdateSetter } from "types";
+import type { SpellSummary, Spell, Character } from "types";
 import fetchSpells from "remote/fetchSpells";
 import { SPELL_SUMMARIES_ENDPOINT } from "urls";
 
@@ -22,7 +22,7 @@ type Props = {
     drawerState: DrawerState;
     onSetDrawerState: (drawerState: DrawerState) => void;
     character: Character;
-    onCharacterChanged: UpdateSetter<Character>;
+    onCharacterChanged: (update: Partial<Character>) => void;
 };
 
 function sortAlphabetically(spells: Spell[] | SpellSummary[]) {

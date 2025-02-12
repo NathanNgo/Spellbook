@@ -34,6 +34,8 @@ const TOGGLE_BUTTON_LEVEL_LABELS = [
 
 const MINIMUM_QUERY_LENGTH = 2;
 
+const INPUT_FOCUS_DEBOUNCE_TIME_MS = 100;
+
 function BrowseDrawer({
     isOpen,
     onClose,
@@ -53,10 +55,12 @@ function BrowseDrawer({
 
     useEffect(() => {
         if (isOpen) {
-            // console.log(inputRef.current);
+            // Calling `.focus()` on the input element straight away
+            // won't focus it for some reason, there's some loading time
+            // before it is focusable.
             setTimeout(() => {
                 inputRef.current?.focus();
-            }, 12);
+            }, INPUT_FOCUS_DEBOUNCE_TIME_MS);
         }
     }, [isOpen]);
 

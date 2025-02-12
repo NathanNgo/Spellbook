@@ -44,7 +44,9 @@ function CharacterSettingsDrawer({
                             dropdownOptions={Object.values(ClassName).sort()}
                             currentOption={character.class}
                             onCurrentOptionChange={(newClass) =>
-                                onCharacterChanged({ class: newClass })
+                                onCharacterChanged({
+                                    class: newClass as ClassName,
+                                })
                             }
                         />
                     </div>

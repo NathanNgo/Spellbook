@@ -5,10 +5,11 @@ import SpellbookContainer, {
     DrawerState,
 } from "components/spellbookContainer/SpellbookContainer";
 import { Character } from "types";
+import { ClassName } from "common/character";
 
 const INITIAL_CHARACTER: Character = {
     name: "Josh Mann",
-    class: "Sorcerer",
+    class: ClassName.Sorcerer,
     spellCastingModifier: 0,
     showSpellSaveDC: true,
 };

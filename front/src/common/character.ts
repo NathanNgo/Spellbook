@@ -30,8 +30,6 @@ export enum ClassName {
     Witch = "Witch",
 }
 
-console.log(Object.values(ClassName));
-
 enum ClassCode {
     Wiz = "wiz",
     Sor = "sor",

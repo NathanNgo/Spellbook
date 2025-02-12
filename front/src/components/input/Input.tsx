@@ -11,6 +11,7 @@ type Props = {
     leftIcon?: React.ReactElement;
     showClearButton?: boolean;
     numberInput?: boolean;
+    inputRef?: React.RefObject<HTMLInputElement>;
 };
 
 const MINUS_SIGN = "-";
@@ -33,8 +34,9 @@ function Input({
     value,
     placeHolder,
     leftIcon,
-    showClearButton = false,
-    numberInput = false,
+    inputRef,
+    numberInput,
+    showClearButton,
 }: Props) {
     function handleClearText() {
         if (typeof value === "number") {
@@ -79,6 +81,7 @@ function Input({
                 onChange={handleChange}
                 value={formatValue(value)}
                 onBlur={handleClickAway}
+                ref={inputRef}
             />
             {showClearButton && (
                 <div

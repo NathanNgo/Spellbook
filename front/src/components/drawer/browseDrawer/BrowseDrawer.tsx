@@ -2,7 +2,7 @@ import Drawer, { DrawerSide } from "components/drawer/Drawer";
 import styles from "components/drawer/browseDrawer/BrowserDrawer.module.css";
 import SearchBar from "components/searchBar/SearchBar";
 import ToggleButton from "components/toggleButton/ToggleButton";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import SearchResultsTable from "components/searchResultsTable/SearchResultsTable";
 import Message from "components/message/Message";
 import type { SpellSummary, Character } from "types";
@@ -48,6 +48,17 @@ function BrowseDrawer({
     const [levelSelection, setLevelSelection] = useState<boolean[]>(
         TOGGLE_BUTTON_LEVEL_LABELS.map(() => false)
     );
+
+    const inputRef = useRef<HTMLInputElement | null>(null);
+
+    useEffect(() => {
+        if (isOpen) {
+            // console.log(inputRef.current);
+            setTimeout(() => {
+                inputRef.current?.focus();
+            }, 12);
+        }
+    }, [isOpen]);
 
     function handleLevelSelect(toggleIndex: number) {
         setLevelSelection((prevLevelSelection) =>
@@ -96,6 +107,7 @@ function BrowseDrawer({
                     onQueryChange={setSearchQuery}
                     query={searchQuery}
                     placeHolder={"Search spells"}
+                    inputRef={inputRef}
                 />
             </div>
             <div className={styles.levelButtonsContainer}>

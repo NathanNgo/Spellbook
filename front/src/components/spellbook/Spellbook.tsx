@@ -1,11 +1,9 @@
+import { classNameToClassCode } from "common/character";
+import { LEVEL_TITLES } from "common/spells";
 import Message from "components/message/Message";
 import SpellTable from "components/spellTable/SpellTable";
 import styles from "components/spellbook/Spellbook.module.css";
 import type { Spell, Character } from "types";
-import {
-    LEVEL_TITLES,
-    classNameToClassCode,
-} from "components/spellbook/spellDetails";
 
 type Props = {
     spells: Spell[];

@@ -1,15 +1,13 @@
 import Drawer, { DrawerSide } from "components/drawer/Drawer";
 import styles from "components/drawer/browseDrawer/BrowserDrawer.module.css";
 import SearchBar from "components/searchBar/SearchBar";
-import {
-    LEVEL_TITLES,
-    classNameToClassCode,
-} from "components/spellbook/spellDetails";
 import ToggleButton from "components/toggleButton/ToggleButton";
 import { useState } from "react";
 import SearchResultsTable from "components/searchResultsTable/SearchResultsTable";
 import Message from "components/message/Message";
 import type { SpellSummary, Character } from "types";
+import { LEVEL_TITLES } from "common/spells";
+import { classNameToClassCode } from "common/character";
 
 type Props = {
     isOpen: boolean;

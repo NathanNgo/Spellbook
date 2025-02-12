@@ -68,6 +68,9 @@ button .spellbookIcon {
 
 button p {
     padding-bottom: 0.11rem;
+}
+
+p {
     margin: unset;
 }
 

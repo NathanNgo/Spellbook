@@ -93,7 +93,6 @@ export const SpellSchema = z.object({
     augmented: z.string(),
     hauntStatistics: z.string(),
 });
-export type Spell = z.infer<typeof SpellSchema>;
 export const SpellArraySchema = z.array(SpellSchema);
 
 export const SpellSummarySchema = z.object({
@@ -132,5 +131,5 @@ export const SpellSummarySchema = z.object({
     hunter: z.number().nullable(),
     summonerUnchained: z.number().nullable(),
 });
-export type SpellSummary = z.infer<typeof SpellSummarySchema>;
+
 export const SpellSummaryArraySchema = z.array(SpellSummarySchema);

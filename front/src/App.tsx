@@ -4,9 +4,26 @@ import Header from "components/header/Header";
 import SpellbookContainer, {
     DrawerState,
 } from "components/spellbookContainer/SpellbookContainer";
+import { Character } from "types";
+import { ClassName } from "common/character";
+
+const INITIAL_CHARACTER: Character = {
+    name: "Josh Mann",
+    class: ClassName.Sorcerer,
+    spellCastingModifier: 0,
+    showSpellSaveDC: true,
+};
 
 function App() {
-    const [characterName, setCharacterName] = useState<string>("Josh Mann");
+    const [character, setCharacter] = useState<Character>(INITIAL_CHARACTER);
+
+    function handleUpdateCharacter(updatedCharacterValues: Partial<Character>) {
+        setCharacter((previousCharacter) => ({
+            ...previousCharacter,
+            ...updatedCharacterValues,
+        }));
+    }
+
     const [drawerState, setDrawerState] = useState<DrawerState>(
         DrawerState.None
     );
@@ -20,15 +37,15 @@ function App() {
     return (
         <>
             <Header
-                characterName={characterName}
+                characterName={character.name}
                 onToggleMenu={() => toggleState(DrawerState.Menu)}
                 onToggleSettings={() => toggleState(DrawerState.Settings)}
             />
             <SpellbookContainer
                 drawerState={drawerState}
                 onSetDrawerState={setDrawerState}
-                characterName={characterName}
-                onCharacterNameChanged={setCharacterName}
+                character={character}
+                onCharacterChanged={handleUpdateCharacter}
             ></SpellbookContainer>
         </>
     );

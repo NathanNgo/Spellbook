@@ -13,6 +13,21 @@ type Props = {
     numberInput?: boolean;
 };
 
+const MINUS_SIGN = "-";
+const ZERO_TEXT = "0";
+const MINUS_ZERO = -0;
+
+function signOfNumber(value: number) {
+    return 1 / value > 0 ? 1 : -1;
+}
+
+function formatValue(value: number | string) {
+    if (value === 0 && signOfNumber(value) < 0) {
+        return MINUS_SIGN;
+    }
+    return value.toString();
+}
+
 function Input({
     onValueChange,
     value,
@@ -29,11 +44,24 @@ function Input({
         }
     }
 
+    function handleClickAway() {
+        if (numberInput && value === 0) {
+            (onValueChange as numberOnValueChange)(0);
+        }
+    }
+
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
         const newValue = event.target.value;
 
         if (numberInput) {
-            const parsedValue = newValue === "" ? 0 : Number(newValue);
+            let parsedValue = newValue === "" ? 0 : Number(newValue);
+            // Special case where just a minus sign as the text should correspond to a value of -0
+            if (
+                newValue === ZERO_TEXT + MINUS_SIGN ||
+                newValue === MINUS_SIGN
+            ) {
+                parsedValue = MINUS_ZERO;
+            }
             if (!isNaN(parsedValue)) {
                 (onValueChange as numberOnValueChange)(parsedValue);
             }
@@ -46,10 +74,11 @@ function Input({
         <div className={styles.input}>
             <div className={`symbol ${styles.leftIcon}`}>{leftIcon}</div>
             <input
-                type={numberInput ? "number" : "text"}
+                type={"text"}
                 placeholder={placeHolder}
                 onChange={handleChange}
-                value={value}
+                value={formatValue(value)}
+                onBlur={handleClickAway}
             />
             {showClearButton && (
                 <div

@@ -1,5 +1,5 @@
 import styles from "components/dropdown/Dropdown.module.css";
-import useOpenStateWithClickAway from "hooks/useClickAway";
+import useActiveStateWithClickAway from "hooks/useActiveStateWithClickAway";
 
 type Props = {
     dropdownOptions: string[];
@@ -12,8 +12,8 @@ function Dropdown({
     currentOption,
     onCurrentOptionChange,
 }: Props) {
-    const { isOpen, setIsOpen, handleToggleOpen, areaRef } =
-        useOpenStateWithClickAway();
+    const { isActive, setIsActive, handleToggleActive, areaRef } =
+        useActiveStateWithClickAway();
 
     const options = dropdownOptions.map((option) => {
         return (
@@ -31,23 +31,23 @@ function Dropdown({
 
     function handleOptionClick(event: React.MouseEvent<HTMLDivElement>) {
         onCurrentOptionChange(event.currentTarget.title);
-        setIsOpen(false);
+        setIsActive(false);
     }
 
     return (
         <div className={styles.dropdownContainer} ref={areaRef}>
             <div
                 className={`${styles.dropdownHeader} ${
-                    isOpen && styles.dropdownHeaderSelected
+                    isActive && styles.dropdownHeaderSelected
                 }`}
-                onClick={() => handleToggleOpen()}
+                onClick={() => handleToggleActive()}
             >
                 <span className={`symbol ${styles.dropdownIcon}`}>
                     keyboard_arrow_down
                 </span>
                 <p>{currentOption}</p>
             </div>
-            {isOpen && dropdownMenu}
+            {isActive && dropdownMenu}
         </div>
     );
 }

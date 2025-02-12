@@ -1,38 +1,24 @@
 import Drawer, { DrawerSide } from "components/drawer/Drawer";
 import Input from "components/input/Input";
 import styles from "components/drawer/charcterSettingsDrawer/CharacterSettingsDrawer.module.css";
-import { useState } from "react";
 import Dropdown from "components/dropdown/Dropdown";
 import Checkbox from "components/checkbox/Checkbox";
-
-const CHARACTER_OPTIONS = [
-    "Wizard",
-    "Cleric",
-    "Druid",
-    "Sorcerer",
-    "Arcanist",
-    "Summoner",
-];
+import type { Character } from "types";
+import { ClassName } from "common/character";
 
 type Props = {
     isOpen: boolean;
     onClose: () => void;
-    characterName: string;
-    onCharacterNameChanged: (characterName: string) => void;
+    character: Character;
+    onCharacterChanged: (update: Partial<Character>) => void;
 };
 
 function CharacterSettingsDrawer({
     isOpen,
     onClose,
-    characterName,
-    onCharacterNameChanged,
+    character,
+    onCharacterChanged,
 }: Props) {
-    const [spellcastingModifier, setSpellcastingModifier] = useState<number>(0);
-    const [characterClass, setCharacterClass] = useState<string>(
-        CHARACTER_OPTIONS[0]
-    );
-    const [showSpellSaveDC, setShowSpellSaveDC] = useState<boolean>(false);
-
     return (
         <Drawer
             isOpen={isOpen}
@@ -43,8 +29,10 @@ function CharacterSettingsDrawer({
             <div className={styles.nameContainer}>
                 <Input
                     placeHolder={"John Spellbook"}
-                    onValueChange={onCharacterNameChanged}
-                    value={characterName}
+                    onValueChange={(newName: string) =>
+                        onCharacterChanged({ name: newName })
+                    }
+                    value={character.name}
                 />
             </div>
             <div className={styles.characterSection}>
@@ -53,10 +41,12 @@ function CharacterSettingsDrawer({
                     <h3>Class</h3>
                     <div className={styles.classInputContainer}>
                         <Dropdown
-                            dropdownOptions={CHARACTER_OPTIONS}
-                            currentOption={characterClass}
-                            onCurrentOptionChange={(option) =>
-                                setCharacterClass(option)
+                            dropdownOptions={Object.values(ClassName).sort()}
+                            currentOption={character.class}
+                            onCurrentOptionChange={(newClass) =>
+                                onCharacterChanged({
+                                    class: newClass as ClassName,
+                                })
                             }
                         />
                     </div>
@@ -66,8 +56,13 @@ function CharacterSettingsDrawer({
                     <div className={styles.spellcastingModifierInputContainer}>
                         <Input
                             placeHolder={"John Spellbook"}
-                            onValueChange={setSpellcastingModifier}
-                            value={String(spellcastingModifier)}
+                            value={character.spellCastingModifier}
+                            onValueChange={(newSpellCastingModifer: number) =>
+                                onCharacterChanged({
+                                    spellCastingModifier:
+                                        newSpellCastingModifer,
+                                })
+                            }
                             numberInput
                         />
                     </div>
@@ -79,9 +74,11 @@ function CharacterSettingsDrawer({
                     <h3>Show Spell Save DC</h3>
                     <div className={styles.spellSaveDCInputContainer}>
                         <Checkbox
-                            isEnabled={showSpellSaveDC}
+                            isEnabled={character.showSpellSaveDC}
                             onClick={() =>
-                                setShowSpellSaveDC((prevValue) => !prevValue)
+                                onCharacterChanged({
+                                    showSpellSaveDC: !character.showSpellSaveDC,
+                                })
                             }
                         />
                     </div>

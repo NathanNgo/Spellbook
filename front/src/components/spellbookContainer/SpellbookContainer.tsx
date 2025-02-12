@@ -7,7 +7,7 @@ import CharacterSettingsDrawer from "components/drawer/charcterSettingsDrawer/Ch
 import BrowseDrawer from "components/drawer/browseDrawer/BrowseDrawer";
 import MenuDrawer from "components/drawer/menuDrawer/MenuDrawer";
 import { SpellSummaryArraySchema } from "schemas";
-import type { SpellSummary, Spell } from "schemas";
+import type { SpellSummary, Spell, Character } from "types";
 import fetchSpells from "remote/fetchSpells";
 import { SPELL_SUMMARIES_ENDPOINT } from "urls";
 
@@ -21,8 +21,8 @@ enum DrawerState {
 type Props = {
     drawerState: DrawerState;
     onSetDrawerState: (drawerState: DrawerState) => void;
-    characterName: string;
-    onCharacterNameChanged: (characterName: string) => void;
+    character: Character;
+    onCharacterChanged: (update: Partial<Character>) => void;
 };
 
 function sortAlphabetically(spells: Spell[] | SpellSummary[]) {
@@ -44,8 +44,8 @@ function combineSpells(previousSpells: Spell[], newSpells: Spell[]) {
 function SpellbookContainer({
     drawerState,
     onSetDrawerState,
-    characterName,
-    onCharacterNameChanged,
+    character,
+    onCharacterChanged,
 }: Props) {
     const [spells, setSpells] = useState<Spell[]>([]);
     const [spellSummaries, setSpellSummaries] = useState<SpellSummary[]>([]);
@@ -140,8 +140,8 @@ function SpellbookContainer({
             <CharacterSettingsDrawer
                 isOpen={drawerState === DrawerState.Settings}
                 onClose={handleCloseDrawer}
-                characterName={characterName}
-                onCharacterNameChanged={onCharacterNameChanged}
+                character={character}
+                onCharacterChanged={onCharacterChanged}
             />
             <MenuDrawer
                 isOpen={drawerState === DrawerState.Menu}
@@ -151,6 +151,7 @@ function SpellbookContainer({
                 isOpen={drawerState === DrawerState.Browse}
                 onClose={handleCloseDrawer}
                 spellSummaries={spellSummaries}
+                character={character}
                 spellbookIds={spells.map((spell) => spell.id)}
                 onAddSpell={handleAddSpell}
                 onRemoveSpell={handleRemoveSpell}
@@ -165,7 +166,7 @@ function SpellbookContainer({
             {spells.length === 0 ? (
                 noSpellsDisplayMessage
             ) : (
-                <Spellbook spells={filteredList} />
+                <Spellbook spells={filteredList} character={character} />
             )}
         </div>
     );

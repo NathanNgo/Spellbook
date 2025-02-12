@@ -1,17 +1,19 @@
 import Drawer, { DrawerSide } from "components/drawer/Drawer";
 import styles from "components/drawer/browseDrawer/BrowserDrawer.module.css";
 import SearchBar from "components/searchBar/SearchBar";
-import { LEVEL_TITLES } from "components/spellbook/spellDetails";
 import ToggleButton from "components/toggleButton/ToggleButton";
 import { useState } from "react";
 import SearchResultsTable from "components/searchResultsTable/SearchResultsTable";
 import Message from "components/message/Message";
-import type { SpellSummary } from "schemas";
+import type { SpellSummary, Character } from "types";
+import { LEVEL_TITLES } from "common/spells";
+import { classNameToClassCode } from "common/character";
 
 type Props = {
     isOpen: boolean;
     onClose: () => void;
     spellSummaries: SpellSummary[];
+    character: Character;
     spellbookIds: number[];
     onAddSpell: (spell: SpellSummary) => void;
     onRemoveSpell: (spell: SpellSummary) => void;
@@ -37,6 +39,7 @@ function BrowseDrawer({
     onClose,
     spellSummaries,
     spellbookIds,
+    character,
     onAddSpell,
     onRemoveSpell,
 }: Props) {
@@ -65,7 +68,10 @@ function BrowseDrawer({
 
     const filteredListsByLevel = LEVEL_TITLES.map((_, levelIndex) =>
         // Need to generalise to level for any class based on character info
-        filteredList.filter((spell) => spell.sor === levelIndex)
+        filteredList.filter(
+            (spell) =>
+                spell[classNameToClassCode(character.class)] === levelIndex
+        )
     );
 
     const someToggleSelected = levelSelection.some((flag) => flag);

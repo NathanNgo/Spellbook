@@ -1,6 +1,6 @@
 import SpellRow from "components/spellRow/SpellRow";
 import styles from "components/spellTable/SpellTable.module.css";
-import type { Spell } from "schemas";
+import type { Spell } from "types";
 
 type Props = {
     title: string;

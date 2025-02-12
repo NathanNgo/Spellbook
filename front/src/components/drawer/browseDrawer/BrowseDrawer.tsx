@@ -57,7 +57,8 @@ function BrowseDrawer({
         if (isOpen) {
             // Calling `.focus()` on the input element straight away
             // won't focus it for some reason, there's some loading time
-            // before it is focusable.
+            // before it is focusable, so we wait for that moment and
+            // then focus on it.
             setTimeout(() => {
                 inputRef.current?.focus();
             }, INPUT_FOCUS_DEBOUNCE_TIME_MS);

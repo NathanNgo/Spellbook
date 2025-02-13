@@ -5,9 +5,10 @@ type Props = {
     onQueryChange: (query: string) => void;
     query: string;
     placeHolder: string;
+    inputRef?: React.RefObject<HTMLInputElement>;
 };
 
-function SearchBar({ onQueryChange, query, placeHolder }: Props) {
+function SearchBar({ onQueryChange, query, placeHolder, inputRef }: Props) {
     const searchIcon = useMemo(
         () => <span className="symbol">search</span>,
         []
@@ -20,6 +21,7 @@ function SearchBar({ onQueryChange, query, placeHolder }: Props) {
             placeHolder={placeHolder}
             leftIcon={searchIcon}
             showClearButton
+            inputRef={inputRef}
         />
     );
 }

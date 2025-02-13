@@ -2,7 +2,7 @@ import Drawer, { DrawerSide } from "components/drawer/Drawer";
 import styles from "components/drawer/browseDrawer/BrowserDrawer.module.css";
 import SearchBar from "components/searchBar/SearchBar";
 import ToggleButton from "components/toggleButton/ToggleButton";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import SearchResultsTable from "components/searchResultsTable/SearchResultsTable";
 import Message from "components/message/Message";
 import type { SpellSummary, Character } from "types";
@@ -34,6 +34,8 @@ const TOGGLE_BUTTON_LEVEL_LABELS = [
 
 const MINIMUM_QUERY_LENGTH = 2;
 
+const INPUT_FOCUS_DEBOUNCE_TIME_MS = 100;
+
 function BrowseDrawer({
     isOpen,
     onClose,
@@ -48,6 +50,20 @@ function BrowseDrawer({
     const [levelSelection, setLevelSelection] = useState<boolean[]>(
         TOGGLE_BUTTON_LEVEL_LABELS.map(() => false)
     );
+
+    const inputRef = useRef<HTMLInputElement | null>(null);
+
+    useEffect(() => {
+        if (isOpen) {
+            // Calling `.focus()` on the input element straight away
+            // won't focus it for some reason, there's some loading time
+            // before it is focusable, so we wait for that moment and
+            // then focus on it.
+            setTimeout(() => {
+                inputRef.current?.focus();
+            }, INPUT_FOCUS_DEBOUNCE_TIME_MS);
+        }
+    }, [isOpen]);
 
     function handleLevelSelect(toggleIndex: number) {
         setLevelSelection((prevLevelSelection) =>
@@ -96,6 +112,7 @@ function BrowseDrawer({
                     onQueryChange={setSearchQuery}
                     query={searchQuery}
                     placeHolder={"Search spells"}
+                    inputRef={inputRef}
                 />
             </div>
             <div className={styles.levelButtonsContainer}>

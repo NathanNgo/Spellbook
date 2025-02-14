@@ -6,10 +6,33 @@ import styles from "components/spellbookContainer/SpellbookContainer.module.css"
 import CharacterSettingsDrawer from "components/drawer/charcterSettingsDrawer/CharacterSettingsDrawer";
 import BrowseDrawer from "components/drawer/browseDrawer/BrowseDrawer";
 import MenuDrawer from "components/drawer/menuDrawer/MenuDrawer";
-import { SpellSummaryArraySchema } from "schemas";
 import type { SpellSummary, Spell, Character } from "types";
 import fetchSpells from "remote/fetchSpells";
-import { SPELL_SUMMARIES_ENDPOINT } from "urls";
+import fetchSpellSummaries from "remote/fetchSpellSummaries";
+
+const INITIAL_SPELL_REQUEST_NAMES = [
+    // "Skim", // Missing from db
+    "Identify",
+    "Unseen Servant",
+    "Comprehend Languages",
+    "Heightened Awareness",
+    "Obscuring Mist",
+    "Feather Fall",
+    "Ear-Piercing Scream",
+    "Alarm",
+    "Protection From Evil",
+    "Charm Person",
+    "Silent Image",
+    "Vanish",
+    "Grease",
+    "Mage Armor",
+    "Color Spray",
+    "Enlarge Person",
+    "Wish",
+];
+const LOADING_MESSAGE = <Message>Loading...</Message>;
+
+const EMPTY_SPELLBOOK_MESSAGE = <Message>Spellbook is empty</Message>;
 
 enum DrawerState {
     Settings,
@@ -31,7 +54,7 @@ function sortAlphabetically(spells: Spell[] | SpellSummary[]) {
     );
 }
 
-function combineSpells(previousSpells: Spell[], newSpells: Spell[]) {
+function combineAndSortSpells(previousSpells: Spell[], newSpells: Spell[]) {
     const previousSpellIds = previousSpells.map((spell) => spell.id);
     const spellsToAdd = newSpells.filter(
         (newSpell) => !previousSpellIds.includes(newSpell.id)
@@ -51,6 +74,50 @@ function SpellbookContainer({
     const [spellSummaries, setSpellSummaries] = useState<SpellSummary[]>([]);
     const [searchQuery, setSearchQuery] = useState<string>("");
     const [spellsLoaded, setSpellsLoaded] = useState<boolean>(false);
+
+    useEffect(() => {
+        fetchSpells(INITIAL_SPELL_REQUEST_NAMES).then((spells) => {
+            setSpells((previousSpells) =>
+                combineAndSortSpells(previousSpells, spells)
+            );
+            setSpellsLoaded(true);
+        });
+        fetchSpellSummaries().then((spellSummaries) => {
+            sortAlphabetically(spellSummaries);
+            setSpellSummaries(spellSummaries);
+        });
+    }, []);
+
+    function handleCloseDrawer() {
+        onSetDrawerState(DrawerState.None);
+    }
+
+    function handleAddSpell(requestedSpell: SpellSummary) {
+        if (spells.some((spell) => spell.id === requestedSpell.id)) {
+            return;
+        }
+
+        fetchSpells([requestedSpell.name]).then((spells) => {
+            setSpells((previousSpells) =>
+                combineAndSortSpells(previousSpells, spells)
+            );
+            setSpellsLoaded(true);
+        });
+    }
+
+    function handleRemoveSpell(requestedSpell: SpellSummary) {
+        if (!spells.some((spell) => spell.id === requestedSpell.id)) {
+            return;
+        }
+        setSpells((previousSpells) =>
+            previousSpells.filter((spell) => spell.id !== requestedSpell.id)
+        );
+    }
+
+    const noSpellsDisplayMessage = !spellsLoaded
+        ? LOADING_MESSAGE
+        : EMPTY_SPELLBOOK_MESSAGE;
+
     function handleSearchQueryChange(query: string) {
         setSearchQuery(query);
     }
@@ -63,77 +130,6 @@ function SpellbookContainer({
             spell.name.toLowerCase().includes(query)
         );
     }
-
-    async function requestSpells(requestedSpellNames: string[]) {
-        const responseSpells = await fetchSpells(requestedSpellNames);
-        setSpells((previousSpells) =>
-            combineSpells(previousSpells, responseSpells)
-        );
-    }
-
-    useEffect(() => {
-        const requestedSpellNames = [
-            // "Skim", // Missing from db
-            "Identify",
-            "Unseen Servant",
-            "Comprehend Languages",
-            "Heightened Awareness",
-            "Obscuring Mist",
-            "Feather Fall",
-            "Ear-Piercing Scream",
-            "Alarm",
-            "Protection From Evil",
-            "Charm Person",
-            "Silent Image",
-            "Vanish",
-            "Grease",
-            "Mage Armor",
-            "Color Spray",
-            "Enlarge Person",
-            "Wish",
-        ];
-
-        requestSpells(requestedSpellNames).then(() => setSpellsLoaded(true));
-
-        fetch(SPELL_SUMMARIES_ENDPOINT)
-            .then((response) => response.json())
-            .then((unvalidatedSpellSummarys: SpellSummary[]) => {
-                const spellSummaries = SpellSummaryArraySchema.parse(
-                    unvalidatedSpellSummarys
-                );
-                sortAlphabetically(spellSummaries);
-                setSpellSummaries(spellSummaries);
-            });
-    }, []);
-
-    function handleCloseDrawer() {
-        onSetDrawerState(DrawerState.None);
-    }
-
-    function handleAddSpell(requestedSpell: SpellSummary) {
-        if (spells.some((spell) => spell.id === requestedSpell.id)) {
-            return;
-        }
-
-        requestSpells([requestedSpell.name]);
-    }
-
-    function handleRemoveSpell(requestedSpell: SpellSummary) {
-        if (!spells.some((spell) => spell.id === requestedSpell.id)) {
-            return;
-        }
-        setSpells((previousSpells) =>
-            previousSpells.filter((spell) => spell.id !== requestedSpell.id)
-        );
-    }
-
-    const loadingMessage = <Message>Loading...</Message>;
-
-    const emptySpellbookMessage = <Message>Spellbook is empty</Message>;
-
-    const noSpellsDisplayMessage = !spellsLoaded
-        ? loadingMessage
-        : emptySpellbookMessage;
 
     return (
         <div className={styles.spellbookContainer}>

@@ -1,0 +1,12 @@
+services:
+    spellbook-backend:
+        build:
+            context: .
+            target: development
+        image: spellbook-backend
+        ports:
+            - 3000:3000
+    spellbook-database:
+        image: postgres:17.3
+        environment:
+            POSTGRES_PASSWORD: password

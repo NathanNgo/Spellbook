@@ -1,4 +1,4 @@
-import { SpellSummary } from "schemas";
+import type { SpellSummary } from "types";
 import StatusButton, { Status } from "components/statusButton/StatusButton";
 import styles from "components/SearchResult/SearchResult.module.css";
 

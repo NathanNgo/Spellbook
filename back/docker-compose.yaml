@@ -13,6 +13,8 @@ services:
                 - action: sync
                   path: ./src
                   target: /app/src
+                  ignore:
+                      - node_modules
 
     spellbook-postgres-database:
         image: postgres:17.3

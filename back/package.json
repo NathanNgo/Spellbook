@@ -31,6 +31,7 @@
     "scripts": {
         "restart": "cd bin/ && ./restart.sh",
         "start": "cd bin/ && ./start.sh",
+        "build-production": "cd bin/ && ./build-production.sh",
         "manual-test": "ts-node src/testing/manual.ts",
         "lint": "eslint ."
     },

@@ -64,6 +64,19 @@ function combineAndSortSpells(previousSpells: Spell[], newSpells: Spell[]) {
     return combinedSpells;
 }
 
+const SPELLNAMES_KEY = "spell_names";
+
+function getLocallyStoredSpellNames(): string[] {
+    const locallyStoredSpellNamesJSON = localStorage.getItem(SPELLNAMES_KEY);
+    if (locallyStoredSpellNamesJSON === null) {
+        return [];
+    }
+    const locallyStoredSpellNames: string[] = JSON.parse(
+        locallyStoredSpellNamesJSON
+    );
+    return locallyStoredSpellNames;
+}
+
 function SpellbookContainer({
     drawerState,
     onSetDrawerState,
@@ -76,7 +89,8 @@ function SpellbookContainer({
     const [spellsLoaded, setSpellsLoaded] = useState<boolean>(false);
 
     useEffect(() => {
-        fetchSpells(INITIAL_SPELL_REQUEST_NAMES).then((spells) => {
+        const spellNames = getLocallyStoredSpellNames();
+        fetchSpells(spellNames).then((spells) => {
             setSpells((previousSpells) =>
                 combineAndSortSpells(previousSpells, spells)
             );
@@ -87,6 +101,11 @@ function SpellbookContainer({
             setSpellSummaries(spellSummaries);
         });
     }, []);
+
+    useEffect(() => {
+        const spellNames = spells.map((spell) => spell.name);
+        localStorage.setItem(SPELLNAMES_KEY, JSON.stringify(spellNames));
+    }, [spells]);
 
     function handleCloseDrawer() {
         onSetDrawerState(DrawerState.None);

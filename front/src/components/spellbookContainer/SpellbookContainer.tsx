@@ -10,26 +10,6 @@ import type { SpellSummary, Spell, Character } from "types";
 import fetchSpells from "remote/fetchSpells";
 import fetchSpellSummaries from "remote/fetchSpellSummaries";
 
-const INITIAL_SPELL_REQUEST_NAMES = [
-    // "Skim", // Missing from db
-    "Identify",
-    "Unseen Servant",
-    "Comprehend Languages",
-    "Heightened Awareness",
-    "Obscuring Mist",
-    "Feather Fall",
-    "Ear-Piercing Scream",
-    "Alarm",
-    "Protection From Evil",
-    "Charm Person",
-    "Silent Image",
-    "Vanish",
-    "Grease",
-    "Mage Armor",
-    "Color Spray",
-    "Enlarge Person",
-    "Wish",
-];
 const LOADING_MESSAGE = <Message>Loading...</Message>;
 
 const EMPTY_SPELLBOOK_MESSAGE = <Message>Spellbook is empty</Message>;

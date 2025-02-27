@@ -46,6 +46,7 @@ function combineAndSortSpells(previousSpells: Spell[], newSpells: Spell[]) {
 }
 
 const SPELLNAMES_KEY = "spell_names";
+const MANIFEST_KEY = "manifest";
 
 function getLocallyStoredSpellNames(): string[] {
     const locallyStoredSpellNamesJSON = localStorage.getItem(SPELLNAMES_KEY);
@@ -56,6 +57,23 @@ function getLocallyStoredSpellNames(): string[] {
         locallyStoredSpellNamesJSON
     );
     return locallyStoredSpellNames;
+}
+
+function getLocallyStoredManifestAndSetState(
+    setSpellSummaries: (spellSummaries: SpellSummary[]) => void
+) {
+    const locallyStoreSpellSummariesJSON = localStorage.getItem(MANIFEST_KEY);
+    if (locallyStoreSpellSummariesJSON === null) {
+        fetchSpellSummaries().then((spellSummaries) => {
+            sortAlphabetically(spellSummaries);
+            setSpellSummaries(spellSummaries);
+        });
+        return;
+    }
+    const locallyStoreSpellSummaries: SpellSummary[] = JSON.parse(
+        locallyStoreSpellSummariesJSON
+    );
+    setSpellSummaries(locallyStoreSpellSummaries);
 }
 
 function SpellbookContainer({
@@ -78,18 +96,15 @@ function SpellbookContainer({
             );
             setSpellsLoaded(true);
         });
-        fetchSpellSummaries().then((spellSummaries) => {
-            sortAlphabetically(spellSummaries);
-            setSpellSummaries(spellSummaries);
-        });
 
-        if (!spellSummariesLoadedFromStorage) {
-            fetchSpellSummaries().then((fetchedSpellSummaries) => {
-                sortAlphabetically(fetchedSpellSummaries);
-                setSpellSummaries(fetchedSpellSummaries);
-            });
-        }
+        getLocallyStoredManifestAndSetState(setSpellSummaries);
     }, []);
+
+    useEffect(() => {
+        if (spellSummaries.length > 0) {
+            localStorage.setItem(MANIFEST_KEY, JSON.stringify(spellSummaries));
+        }
+    }, [spellSummaries]);
 
     useEffect(() => {
         const spellNames = spells.map((spell) => spell.name);

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "App.css";
 import Header from "components/header/Header";
 import SpellbookContainer, {
@@ -18,21 +18,32 @@ const INITIAL_CHARACTER: Character = {
 
 const CHARACTERS_KEY = "characters";
 
-function App() {
-    const fallbackCharacter: Character = {
-        ...INITIAL_CHARACTER,
-        id: crypto.randomUUID(),
-    };
-
-    const [characters, setCharacters] = useStateWithLocalStorage<Character[]>(
-        CHARACTERS_KEY,
-        [fallbackCharacter]
+function getLocallyStoredCharacter(): Character {
+    const locallyStoredCharactersJSON = localStorage.getItem(CHARACTERS_KEY);
+    if (locallyStoredCharactersJSON === null) {
+        return { ...INITIAL_CHARACTER, id: crypto.randomUUID() };
+    }
+    const locallyStoredCharacters: Character[] = JSON.parse(
+        locallyStoredCharactersJSON
     );
-    const [currentCharacterID] = useState<string>(characters[0].id);
+    const firstCharacter = locallyStoredCharacters[0];
+    return {
+        name: firstCharacter.name,
+        class: firstCharacter.class,
+        spellCastingModifier: firstCharacter.spellCastingModifier,
+        showSpellSaveDC: firstCharacter.showSpellSaveDC,
+        id: firstCharacter.id,
+    };
+}
 
-    const currentCharacter: Character =
-        characters.find((character) => character.id == currentCharacterID) ||
-        fallbackCharacter;
+function App() {
+    const [character, setCharacter] = useState<Character>(
+        getLocallyStoredCharacter()
+    );
+
+    useEffect(() => {
+        localStorage.setItem(CHARACTERS_KEY, JSON.stringify([character]));
+    }, [character]);
 
     function handleUpdateCharacter(updatedCharacterValues: Partial<Character>) {
         setCharacters((previousCharacters) => {

@@ -74,15 +74,6 @@ function SpellbookContainer({
         }
     }, []);
 
-    useEffect(() => {
-        if (spellSummaries.length > 0) {
-            localStorage.setItem(
-                SPELL_SUMMARIES_KEY,
-                JSON.stringify(spellSummaries)
-            );
-        }
-    }, [spellSummaries]);
-
     function handleCloseDrawer() {
         onSetDrawerState(DrawerState.None);
     }

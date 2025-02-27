@@ -1,10 +1,9 @@
 #!/bin/sh
 
-yarn tsc
-
 cd ../src/database/
+
 echo "Creating database."
-node setup.js
+ts-node setup.ts
 echo "Populating database (this can take a while)."
-node populateDatabase.js
+ts-node populateDatabase.ts
 echo "Database setup complete!"

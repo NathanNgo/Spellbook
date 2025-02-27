@@ -106,7 +106,9 @@ function SpellbookContainer({
 
     useEffect(() => {
         const spellNames = spells.map((spell) => spell.name);
-        localStorage.setItem(SPELLNAMES_KEY, JSON.stringify(spellNames));
+        if (spellsLoaded) {
+            localStorage.setItem(SPELLNAMES_KEY, JSON.stringify(spellNames));
+        }
     }, [spells]);
 
     function handleCloseDrawer() {

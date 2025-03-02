@@ -9,7 +9,7 @@ import type { SpellSummary, Spell } from "src/types";
 import { SpellSummaryArraySchema, SpellArraySchema } from "src/schemas";
 import { toCamel } from "snake-camel";
 
-const DATABASE_FILE_PATH = "database/spellbook.db";
+const DATABASE_FILE_PATH = "./src/database/spellbook.db";
 const ERROR_STATUS_CLIENT = 400;
 const PORT = process.env.NODE_ENV === "production" ? 80 : 3000;
 const TABLE_NAME = "d20pfsrd";

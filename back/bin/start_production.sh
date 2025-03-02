@@ -1,5 +1,5 @@
 #!/bin/sh
 
-cd ../src/
+WORKDIR=$1
 
-ts-node index.ts
+ts-node "${WORKDIR}/src/index.ts"

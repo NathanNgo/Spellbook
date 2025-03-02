@@ -1,11 +1,9 @@
 #!/bin/sh
 
-cd ../src/database/
+WORKDIR=$1
 
 echo "Creating database."
-ts-node setup.ts
+ts-node "${WORKDIR}/src/database/setup.ts"
 echo "Populating database (this can take a while)."
-ts-node populateDatabase.ts
-echo "Database setup complete!"
-
-cd ../../bin/
+ts-node "${WORKDIR}/src/database/populateDatabase.ts"
+echo "Database setup complete"

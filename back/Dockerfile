@@ -27,5 +27,5 @@ COPY /src /app/src
 COPY /bin /app/bin
 # yarn restart builds a new database, even if one already exists. It then runs
 # via ts-node, without live-reload. This happens during image build, before container startup.
-RUN ["yarn", "build-production"]
+RUN ["yarn", "setup-database"]
 ENTRYPOINT ["yarn", "start-production"]

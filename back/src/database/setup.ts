@@ -1,8 +1,8 @@
 import sqlite3 from "sqlite3";
 import fs from "fs";
 
-const DATABASE_FILE_PATH = "spellbook.db"
-const DATABASE_SETUP_FILE = "./setup.sql"
+const DATABASE_FILE_PATH = "./src/database/spellbook.db"
+const DATABASE_SETUP_FILE = "./src/database/setup.sql"
 
 const database = new sqlite3.Database(DATABASE_FILE_PATH)
 

@@ -3,8 +3,8 @@ import fs from "fs";
 import csv from "csv-parser";
 import z from "zod";
 
-const DATABASE_FILE_PATH = "spellbook.db";
-const INITIAL_CSV_FILE_PATH = "./spellbook.csv";
+const DATABASE_FILE_PATH = "./src/database/spellbook.db";
+const INITIAL_CSV_FILE_PATH = "./src/database/spellbook.csv";
 const CSV_FALSE = "0";
 const CSV_TRUE = "1";
 const STRING_NULL = "NULL";

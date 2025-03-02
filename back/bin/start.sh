@@ -1,11 +1,11 @@
 #!/bin/sh
 
-DB_PATH='../src/database/spellbook.db'
+WORKDIR=$1
+
+DB_PATH="${WORKDIR}/src/database/spellbook.db"
 
 if [ ! -f "$DB_PATH" ]; then
-    ./setup_database.sh
+    bash "${WORKDIR}/bin/setup_database.sh" "${WORKDIR}"
 fi
 
-cd ../src/
-
-nodemon index.ts
+nodemon "${WORKDIR}/src/index.ts"

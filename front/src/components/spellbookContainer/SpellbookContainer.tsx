@@ -3,12 +3,13 @@ import Spellbook from "components/spellbook/Spellbook";
 import SpellbookToolbar from "components/spellbookToolbar/SpellbookToolbar";
 import { useEffect, useState } from "react";
 import styles from "components/spellbookContainer/SpellbookContainer.module.css";
-import CharacterSettingsDrawer from "components/drawer/charcterSettingsDrawer/CharacterSettingsDrawer";
+import CharacterSettingsDrawer from "components/drawer/characterSettingsDrawer/CharacterSettingsDrawer";
 import BrowseDrawer from "components/drawer/browseDrawer/BrowseDrawer";
 import MenuDrawer from "components/drawer/menuDrawer/MenuDrawer";
 import type { SpellSummary, Spell, Character } from "types";
 import fetchSpells from "remote/fetchSpells";
 import fetchSpellSummaries from "remote/fetchSpellSummaries";
+import PageDrawer from "components/drawer/pageDrawer/PageDrawer";
 
 const INITIAL_SPELL_REQUEST_NAMES = [
     // "Skim", // Missing from db
@@ -38,6 +39,7 @@ enum DrawerState {
     Settings,
     Browse,
     Menu,
+    Page,
     None,
 }
 
@@ -74,6 +76,7 @@ function SpellbookContainer({
     const [spellSummaries, setSpellSummaries] = useState<SpellSummary[]>([]);
     const [searchQuery, setSearchQuery] = useState<string>("");
     const [spellsLoaded, setSpellsLoaded] = useState<boolean>(false);
+    const [spellForPage, setSpellForPage] = useState<Spell | null>(null);
 
     useEffect(() => {
         fetchSpells(INITIAL_SPELL_REQUEST_NAMES).then((spells) => {
@@ -131,6 +134,11 @@ function SpellbookContainer({
         );
     }
 
+    function handleOpenPage(spell: Spell) {
+        onSetDrawerState(DrawerState.Page);
+        setSpellForPage(spell);
+    }
+
     return (
         <div className={styles.spellbookContainer}>
             <CharacterSettingsDrawer
@@ -152,6 +160,13 @@ function SpellbookContainer({
                 onAddSpell={handleAddSpell}
                 onRemoveSpell={handleRemoveSpell}
             />
+            <PageDrawer
+                isOpen={drawerState === DrawerState.Page}
+                onClose={handleCloseDrawer}
+                onAddSpell={handleAddSpell}
+                onRemoveSpell={handleRemoveSpell}
+                spell={spellForPage}
+            />
             <SpellbookToolbar
                 onSearchQueryChange={handleSearchQueryChange}
                 searchQuery={searchQuery}
@@ -162,7 +177,11 @@ function SpellbookContainer({
             {spells.length === 0 ? (
                 noSpellsDisplayMessage
             ) : (
-                <Spellbook spells={filteredList} character={character} />
+                <Spellbook
+                    spells={filteredList}
+                    character={character}
+                    onOpenPage={handleOpenPage}
+                />
             )}
         </div>
     );

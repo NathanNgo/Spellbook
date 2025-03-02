@@ -1,0 +1,25 @@
+.pageContainer {
+    padding-inline: 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.pageContainer h1 {
+    margin: 0%;
+    font-size: 4rem;
+}
+
+.pageContainer textarea {
+    font-family: monospace;
+    width: 23em;
+    height: 22em;
+    resize: none;
+    white-space: pre;
+    overflow-wrap: normal;
+    overflow-x: scroll;
+}
+
+.errorText {
+    background-color: var(--light-accent-colour);
+}

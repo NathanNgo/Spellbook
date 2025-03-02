@@ -4,13 +4,13 @@ import type { Spell } from "types";
 
 type Props = {
     spell: Spell;
+    onClick: () => void;
 };
 
-function SpellRow({ spell }: Props) {
+function SpellRow({ spell, onClick }: Props) {
     return (
-        <tr>
+        <tr onClick={onClick} title={spell.shortDescription}>
             <td className={styles.spellName}>{spell.name}</td>
-            {/* <td>{spell.description.trim()}</td> */}
             <td>{spell.duration.trim()}</td>
             <td>{spell.range.trim()}</td>
             <td>{spell.savingThrow.trim()}</td>

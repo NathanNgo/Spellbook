@@ -5,9 +5,10 @@ import type { Spell } from "types";
 type Props = {
     title: string;
     spells: Spell[];
+    onOpenPage: (spell: Spell) => void;
 };
 
-function SpellTable({ title, spells }: Props) {
+function SpellTable({ title, spells, onOpenPage }: Props) {
     if (spells.length == 0) {
         return;
     }
@@ -27,7 +28,11 @@ function SpellTable({ title, spells }: Props) {
                 </thead>
                 <tbody>
                     {spells.map((spell) => (
-                        <SpellRow spell={spell} key={spell.id} />
+                        <SpellRow
+                            spell={spell}
+                            key={spell.id}
+                            onClick={() => onOpenPage(spell)}
+                        />
                     ))}
                 </tbody>
             </table>

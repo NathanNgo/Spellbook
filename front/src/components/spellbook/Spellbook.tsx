@@ -8,11 +8,12 @@ import type { Spell, Character } from "types";
 type Props = {
     spells: Spell[];
     character: Character;
+    onOpenPage: (spell: Spell) => void;
 };
 
 const UNCATEGORISED_LEVEL = -1;
 
-function Spellbook({ spells, character }: Props) {
+function Spellbook({ spells, character, onOpenPage }: Props) {
     if (spells.length === 0) {
         return <Message>No spells found</Message>;
     }
@@ -29,6 +30,7 @@ function Spellbook({ spells, character }: Props) {
                         )}
                         title={LEVEL_TITLES[level]}
                         key={level}
+                        onOpenPage={onOpenPage}
                     />
                 );
             })}
@@ -39,6 +41,7 @@ function Spellbook({ spells, character }: Props) {
                 )}
                 title="Uncategorised"
                 key={UNCATEGORISED_LEVEL}
+                onOpenPage={onOpenPage}
             />
         </div>
     );

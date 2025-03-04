@@ -1,6 +1,6 @@
 import Drawer, { DrawerSide } from "components/drawer/Drawer";
 import styles from "components/drawer/menuDrawer/MenuDrawer.module.css";
-import useStateWithLocalStorageOrFetch from "hooks/useStateWithLocalStorageOrFetch";
+import useStateWithLocalStorage from "hooks/useStateWithLocalStorage";
 import { useEffect } from "react";
 
 type Props = {
@@ -16,10 +16,10 @@ enum Theme {
 const THEME_KEY = "theme";
 
 function MenuDrawer({ isOpen, onClose }: Props) {
-    const [theme, setTheme] = useStateWithLocalStorageOrFetch<Theme>({
-        key: THEME_KEY,
-        defaultValue: Theme.Light,
-    });
+    const [theme, setTheme] = useStateWithLocalStorage<Theme>(
+        THEME_KEY,
+        Theme.Light
+    );
 
     useEffect(() => {
         const rootNote = document.documentElement;

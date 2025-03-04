@@ -9,7 +9,7 @@ import MenuDrawer from "components/drawer/menuDrawer/MenuDrawer";
 import type { SpellSummary, Spell, Character } from "types";
 import fetchSpells from "remote/fetchSpells";
 import fetchSpellSummaries from "remote/fetchSpellSummaries";
-import useStateWithLocalStorageOrFetch from "hooks/useStateWithLocalStorageOrFetch";
+import useStateWithLocalStorage from "hooks/useStateWithLocalStorage";
 
 const LOADING_MESSAGE = <Message>Loading...</Message>;
 
@@ -54,27 +54,24 @@ function SpellbookContainer({
     character,
     onCharacterChanged,
 }: Props) {
-    const [spells, setSpells, spellsLoaded] = useStateWithLocalStorageOrFetch<
-        Spell[]
-    >({
-        key: SPELLS_KEY,
-        defaultValue: [],
-    });
-    const [spellSummaries] = useStateWithLocalStorageOrFetch<SpellSummary[]>({
-        key: SPELL_SUMMARIES_KEY,
-        defaultValue: [],
-        fetchMethod: () =>
-            fetchSpellSummaries().then((spellSummaries) => {
-                sortAlphabetically(spellSummaries);
-                return spellSummaries;
-            }),
-    });
+    const [spells, setSpells, _spellsLoadedFromStorage] =
+        useStateWithLocalStorage<Spell[]>(SPELLS_KEY, []);
+    const [spellSummaries, setSpellSummaries, spellSummariesLoadedFromStorage] =
+        useStateWithLocalStorage<SpellSummary[]>(SPELL_SUMMARIES_KEY, []);
+    const [spellsLoaded, _setSpellsLoaded] = useState<boolean>(true);
     const [searchQuery, setSearchQuery] = useState<string>("");
     useEffect(() => {
         setSpells((previousSpells) => {
             sortAlphabetically(previousSpells);
             return previousSpells;
         });
+
+        if (!spellSummariesLoadedFromStorage) {
+            fetchSpellSummaries().then((fetchedSpellSummaries) => {
+                sortAlphabetically(fetchedSpellSummaries);
+                setSpellSummaries(fetchedSpellSummaries);
+            });
+        }
     }, []);
 
     useEffect(() => {

@@ -7,6 +7,7 @@ export type Character = {
     class: ClassName;
     spellCastingModifier: number;
     showSpellSaveDC: boolean;
+    id: string;
 };
 
 export type SpellSummary = z.infer<typeof SpellSummarySchema>;

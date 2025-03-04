@@ -6,7 +6,7 @@ import SpellbookContainer, {
 } from "components/spellbookContainer/SpellbookContainer";
 import { Character } from "types";
 import { ClassName } from "common/character";
-import useStateWithLocalStorageOrFetch from "hooks/useStateWithLocalStorageOrFetch";
+import useStateWithLocalStorage from "hooks/useStateWithLocalStorage";
 
 const INITIAL_CHARACTER: Character = {
     name: "Josh Mann",
@@ -24,12 +24,10 @@ function App() {
         id: crypto.randomUUID(),
     };
 
-    const [characters, setCharacters] = useStateWithLocalStorageOrFetch<
-        Character[]
-    >({
-        key: CHARACTERS_KEY,
-        defaultValue: [fallbackCharacter],
-    });
+    const [characters, setCharacters] = useStateWithLocalStorage<Character[]>(
+        CHARACTERS_KEY,
+        [fallbackCharacter]
+    );
     const [currentCharacterID] = useState<string>(characters[0].id);
 
     const currentCharacter: Character =

@@ -4,10 +4,10 @@ type Props<T> = {
     key: string;
     defaultValue: T;
     fetchMethod?: () => Promise<T>;
-    isOfType?: (value: any) => value is T;
+    isOfType?: (value: unknown) => value is T;
 };
 
-function defaultIsOfType<T>(value: any): value is T {
+function defaultIsOfType<T>(value: unknown): value is T {
     return true;
 }
 

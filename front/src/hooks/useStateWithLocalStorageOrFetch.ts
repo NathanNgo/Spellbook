@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-type Props<T> = {
+type Options<T> = {
     key: string;
     defaultValue: T;
     fetchMethod?: () => Promise<T>;
@@ -16,7 +16,7 @@ function useStateWithLocalStorageOrFetch<T>({
     defaultValue,
     fetchMethod,
     isOfType = defaultIsOfType,
-}: Props<T>) {
+}: Options<T>) {
     const [loaded, setLoaded] = useState<boolean>(false);
     const [state, setState] = useState<T>(() => {
         const storedValue = localStorage.getItem(key);

@@ -24,14 +24,13 @@ function App() {
         id: crypto.randomUUID(),
     };
 
-    const [characters, setCharacters] =
-        useStateWithLocalStorageOrFetch<Character[]>({
-            key: CHARACTERS_KEY,
-            defaultValue: [fallbackCharacter],
-        });
-    const [currentCharacterID, _setCurrentCharacterID] = useState<String>(
-        characters[0].id
-    );
+    const [characters, setCharacters] = useStateWithLocalStorageOrFetch<
+        Character[]
+    >({
+        key: CHARACTERS_KEY,
+        defaultValue: [fallbackCharacter],
+    });
+    const [currentCharacterID] = useState<string>(characters[0].id);
 
     const currentCharacter: Character =
         characters.find((character) => character.id == currentCharacterID) ||

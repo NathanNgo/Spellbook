@@ -9,6 +9,7 @@ import MenuDrawer from "components/drawer/menuDrawer/MenuDrawer";
 import type { SpellSummary, Spell, Character } from "types";
 import fetchSpells from "remote/fetchSpells";
 import fetchSpellSummaries from "remote/fetchSpellSummaries";
+import useStateWithLocalStorageOrFetch from "hooks/useStateWithLocalStorageOrFetch";
 
 const LOADING_MESSAGE = <Message>Loading...</Message>;
 
@@ -44,37 +45,8 @@ function combineAndSortSpells(previousSpells: Spell[], newSpells: Spell[]) {
     return combinedSpells;
 }
 
-const SPELL_NAMES_KEY = "spellNames";
-const SPELL_MANIFEST_KEY = "manifest";
-
-function getLocallyStoredSpellNames(): string[] {
-    const locallyStoredSpellNamesJSON = localStorage.getItem(SPELL_NAMES_KEY);
-    if (locallyStoredSpellNamesJSON === null) {
-        return [];
-    }
-    const locallyStoredSpellNames: string[] = JSON.parse(
-        locallyStoredSpellNamesJSON
-    );
-    return locallyStoredSpellNames;
-}
-
-function getLocallyStoredManifestAndSetState(
-    setSpellSummaries: (spellSummaries: SpellSummary[]) => void
-) {
-    const locallyStoreSpellSummariesJSON =
-        localStorage.getItem(SPELL_MANIFEST_KEY);
-    if (locallyStoreSpellSummariesJSON === null) {
-        fetchSpellSummaries().then((spellSummaries) => {
-            sortAlphabetically(spellSummaries);
-            setSpellSummaries(spellSummaries);
-        });
-        return;
-    }
-    const locallyStoreSpellSummaries: SpellSummary[] = JSON.parse(
-        locallyStoreSpellSummariesJSON
-    );
-    setSpellSummaries(locallyStoreSpellSummaries);
-}
+const SPELLS_KEY = "spells";
+const SPELL_SUMMARIES_KEY = "spell_summaries";
 
 function SpellbookContainer({
     drawerState,
@@ -82,38 +54,37 @@ function SpellbookContainer({
     character,
     onCharacterChanged,
 }: Props) {
-    const [spells, setSpells] = useState<Spell[]>([]);
-    const [spellSummaries, setSpellSummaries] = useState<SpellSummary[]>([]);
+    const [spells, setSpells, spellsLoaded] = useStateWithLocalStorageOrFetch<
+        Spell[]
+    >({
+        key: SPELLS_KEY,
+        defaultValue: [],
+    });
+    const [spellSummaries] = useStateWithLocalStorageOrFetch<SpellSummary[]>({
+        key: SPELL_SUMMARIES_KEY,
+        defaultValue: [],
+        fetchMethod: () =>
+            fetchSpellSummaries().then((spellSummaries) => {
+                sortAlphabetically(spellSummaries);
+                return spellSummaries;
+            }),
+    });
     const [searchQuery, setSearchQuery] = useState<string>("");
-    const [spellsLoaded, setSpellsLoaded] = useState<boolean>(false);
-
     useEffect(() => {
-        const spellNames = getLocallyStoredSpellNames();
-        fetchSpells(spellNames).then((spells) => {
-            setSpells((previousSpells) =>
-                combineAndSortSpells(previousSpells, spells)
-            );
-            setSpellsLoaded(true);
+        setSpells((previousSpells) => {
+            sortAlphabetically(previousSpells);
+            return previousSpells;
         });
-
-        getLocallyStoredManifestAndSetState(setSpellSummaries);
     }, []);
 
     useEffect(() => {
         if (spellSummaries.length > 0) {
             localStorage.setItem(
-                SPELL_MANIFEST_KEY,
+                SPELL_SUMMARIES_KEY,
                 JSON.stringify(spellSummaries)
             );
         }
     }, [spellSummaries]);
-
-    useEffect(() => {
-        const spellNames = spells.map((spell) => spell.name);
-        if (spellsLoaded) {
-            localStorage.setItem(SPELL_NAMES_KEY, JSON.stringify(spellNames));
-        }
-    }, [spells, spellsLoaded]);
 
     function handleCloseDrawer() {
         onSetDrawerState(DrawerState.None);
@@ -128,7 +99,6 @@ function SpellbookContainer({
             setSpells((previousSpells) =>
                 combineAndSortSpells(previousSpells, spells)
             );
-            setSpellsLoaded(true);
         });
     }
 

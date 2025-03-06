@@ -5,8 +5,13 @@ function useStateWithLocalStorage<T>(key: string, defaultValue: T) {
     const loadedFromStorage = useRef<boolean>(initialValue !== null);
     const [state, _setState] = useState<T>(() => {
         if (initialValue !== null) {
-            loadedFromStorage.current = true;
-            return JSON.parse(initialValue) as T;
+            try {
+                loadedFromStorage.current = true;
+                return JSON.parse(initialValue) as T;
+            } catch {
+                loadedFromStorage.current = false;
+                return defaultValue;
+            }
         }
         return defaultValue;
     });

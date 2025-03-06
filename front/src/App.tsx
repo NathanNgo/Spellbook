@@ -12,6 +12,7 @@ const INITIAL_CHARACTER: Character = {
     class: ClassName.Sorcerer,
     spellCastingModifier: 0,
     showSpellSaveDC: true,
+    id: "",
 };
 
 function App() {
@@ -29,9 +30,14 @@ function App() {
     );
 
     function toggleState(targetState: DrawerState) {
-        setDrawerState(
-            drawerState === targetState ? DrawerState.None : targetState
-        );
+        const isClosingDrawer = drawerState == targetState;
+        setDrawerState(isClosingDrawer ? DrawerState.None : targetState);
+        const body = document.body;
+        if (isClosingDrawer) {
+            body.classList.remove("noscroll");
+        } else {
+            body.classList.add("noscroll");
+        }
     }
 
     return (

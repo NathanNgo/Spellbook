@@ -89,3 +89,7 @@ body > div > * {
     padding: 0rem 8rem 0rem 8rem;
     box-sizing: border-box;
 }
+
+.noscroll {
+    overflow: hidden;
+}

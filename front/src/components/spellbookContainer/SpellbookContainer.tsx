@@ -166,6 +166,7 @@ function SpellbookContainer({
                 onAddSpell={handleAddSpell}
                 onRemoveSpell={handleRemoveSpell}
                 spell={spellForPage}
+                hasSpell={spellForPage !== null && spells.findIndex(spell => spell.id === (spellForPage.id)) !== -1}
             />
             <SpellbookToolbar
                 onSearchQueryChange={handleSearchQueryChange}

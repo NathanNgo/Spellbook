@@ -141,6 +141,7 @@ function SpellbookContainer({
                 isOpen={drawerState === DrawerState.Browse}
                 onClose={handleCloseDrawer}
                 spellSummaries={spellSummaries}
+                spellSummariesLoaded={spellSummariesLoadedFromStorage}
                 character={character}
                 spellbookIds={spells.map((spell) => spell.id)}
                 onAddSpell={handleAddSpell}

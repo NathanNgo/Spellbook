@@ -13,6 +13,7 @@ type Props = {
     isOpen: boolean;
     onClose: () => void;
     spellSummaries: SpellSummary[];
+    spellSummariesLoaded: boolean;
     character: Character;
     spellbookIds: number[];
     onAddSpell: (spell: SpellSummary) => void;
@@ -40,6 +41,7 @@ function BrowseDrawer({
     isOpen,
     onClose,
     spellSummaries,
+    spellSummariesLoaded,
     spellbookIds,
     character,
     onAddSpell,
@@ -100,6 +102,14 @@ function BrowseDrawer({
                 spellList.length > 0
         );
 
+    const noResultsMessage = spellSummariesLoaded ? (
+        <Message>No Spells Found</Message>
+    ) : (
+        <Message>Loading spells...</Message>
+    );
+
+    const noResults = !resultsFound && query.length >= MINIMUM_QUERY_LENGTH;
+
     return (
         <Drawer
             isOpen={isOpen}
@@ -127,24 +137,25 @@ function BrowseDrawer({
                 ))}
             </div>
             <div className={styles.searchResults}>
-                {!resultsFound && query.length >= MINIMUM_QUERY_LENGTH ? (
-                    <Message>No spells found</Message>
-                ) : (
-                    LEVEL_TITLES.map((levelTitle, levelIndex) => {
-                        if (levelSelection[levelIndex] || !someToggleSelected) {
-                            return (
-                                <SearchResultsTable
-                                    results={filteredListsByLevel[levelIndex]}
-                                    title={levelTitle}
-                                    spellbookIds={spellbookIds}
-                                    onAddSpell={onAddSpell}
-                                    onRemoveSpell={onRemoveSpell}
-                                    key={levelIndex}
-                                />
-                            );
-                        }
-                    })
-                )}
+                {noResults
+                    ? noResultsMessage
+                    : LEVEL_TITLES.map((levelTitle, levelIndex) => {
+                          if (
+                              levelSelection[levelIndex] ||
+                              !someToggleSelected
+                          ) {
+                              return (
+                                  <SearchResultsTable
+                                      results={filteredListsByLevel[levelIndex]}
+                                      title={levelTitle}
+                                      spellbookIds={spellbookIds}
+                                      onAddSpell={onAddSpell}
+                                      onRemoveSpell={onRemoveSpell}
+                                      key={levelIndex}
+                                  />
+                              );
+                          }
+                      })}
             </div>
         </Drawer>
     );

@@ -29,30 +29,28 @@ function StatusButton({
     delayFromFirstTimeMs = 1000,
     delayFromSecondTimeMs = 1000,
 }: Props) {
-    const [transitioning, setTransitioning] = useState<boolean>(false);
-    const [displayedStatus, setDisplayedStatus] = useState<Status>(status);
+    const [transitioningStatus, setTransitioningStatus] =
+        useState<Status | null>(null);
 
-    const endStatusText =
-        displayedStatus === Status.First ? firstText : secondText;
+    const endStatusText = status === Status.First ? firstText : secondText;
     const transitionText =
-        displayedStatus === Status.First
+        transitioningStatus === Status.First
             ? transitionFromFirstText
             : transitionFromSecondText;
-    const displayText = transitioning ? transitionText : endStatusText;
+    const displayText =
+        transitioningStatus !== null ? transitionText : endStatusText;
 
     const transitionStyle =
-        displayedStatus === Status.First
+        transitioningStatus === Status.First
             ? styles.fromFirstStyle
             : styles.fromSecondStyle;
 
     const className = `${styles.statusButton} ${
-        transitioning ? transitionStyle : ""
+        transitioningStatus !== null ? transitionStyle : ""
     }`;
 
     function handleClick() {
-        setTransitioning(true);
-        const nextStatus =
-            status === Status.First ? Status.Second : Status.First;
+        setTransitioningStatus(status);
         const delayTime =
             status === Status.First
                 ? delayFromFirstTimeMs
@@ -63,8 +61,7 @@ function StatusButton({
             onChangeToFirst();
         }
         setTimeout(() => {
-            setTransitioning(false);
-            setDisplayedStatus(nextStatus);
+            setTransitioningStatus(null);
         }, delayTime);
     }
 

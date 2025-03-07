@@ -6,22 +6,47 @@ import SpellbookContainer, {
 } from "components/spellbookContainer/SpellbookContainer";
 import { Character } from "types";
 import { ClassName } from "common/character";
+import useStateWithLocalStorage from "hooks/useStateWithLocalStorage";
 
 const INITIAL_CHARACTER: Character = {
     name: "Josh Mann",
     class: ClassName.Sorcerer,
     spellCastingModifier: 0,
     showSpellSaveDC: true,
+    id: "",
 };
 
+const CHARACTERS_KEY = "characters";
+
 function App() {
-    const [character, setCharacter] = useState<Character>(INITIAL_CHARACTER);
+    const fallbackCharacter: Character = {
+        ...INITIAL_CHARACTER,
+        id: crypto.randomUUID(),
+    };
+
+    const [characters, setCharacters] = useStateWithLocalStorage<Character[]>(
+        CHARACTERS_KEY,
+        [fallbackCharacter]
+    );
+    const [currentCharacterID] = useState<string>(characters[0].id);
+
+    const currentCharacter: Character =
+        characters.find((character) => character.id == currentCharacterID) ||
+        fallbackCharacter;
 
     function handleUpdateCharacter(updatedCharacterValues: Partial<Character>) {
-        setCharacter((previousCharacter) => ({
-            ...previousCharacter,
-            ...updatedCharacterValues,
-        }));
+        setCharacters((previousCharacters) => {
+            const updatedCharacter: Character = {
+                ...currentCharacter,
+                ...updatedCharacterValues,
+            };
+            return [
+                ...previousCharacters.filter(
+                    (character) => character.id !== currentCharacterID
+                ),
+                updatedCharacter,
+            ];
+        });
     }
 
     const [drawerState, setDrawerState] = useState<DrawerState>(
@@ -37,14 +62,14 @@ function App() {
     return (
         <>
             <Header
-                characterName={character.name}
+                characterName={currentCharacter.name}
                 onToggleMenu={() => toggleState(DrawerState.Menu)}
                 onToggleSettings={() => toggleState(DrawerState.Settings)}
             />
             <SpellbookContainer
                 drawerState={drawerState}
                 onSetDrawerState={setDrawerState}
-                character={character}
+                character={currentCharacter}
                 onCharacterChanged={handleUpdateCharacter}
             ></SpellbookContainer>
         </>

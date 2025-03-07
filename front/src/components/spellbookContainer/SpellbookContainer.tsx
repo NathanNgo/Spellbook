@@ -9,27 +9,8 @@ import MenuDrawer from "components/drawer/menuDrawer/MenuDrawer";
 import type { SpellSummary, Spell, Character } from "types";
 import fetchSpells from "remote/fetchSpells";
 import fetchSpellSummaries from "remote/fetchSpellSummaries";
+import useStateWithLocalStorage from "hooks/useStateWithLocalStorage";
 
-const INITIAL_SPELL_REQUEST_NAMES = [
-    // "Skim", // Missing from db
-    "Identify",
-    "Unseen Servant",
-    "Comprehend Languages",
-    "Heightened Awareness",
-    "Obscuring Mist",
-    "Feather Fall",
-    "Ear-Piercing Scream",
-    "Alarm",
-    "Protection From Evil",
-    "Charm Person",
-    "Silent Image",
-    "Vanish",
-    "Grease",
-    "Mage Armor",
-    "Color Spray",
-    "Enlarge Person",
-    "Wish",
-];
 const LOADING_MESSAGE = <Message>Loading...</Message>;
 
 const EMPTY_SPELLBOOK_MESSAGE = <Message>Spellbook is empty</Message>;
@@ -64,29 +45,43 @@ function combineAndSortSpells(previousSpells: Spell[], newSpells: Spell[]) {
     return combinedSpells;
 }
 
+const SPELLS_KEY = "spells";
+const SPELL_SUMMARIES_KEY = "spell_summaries";
+
 function SpellbookContainer({
     drawerState,
     onSetDrawerState,
     character,
     onCharacterChanged,
 }: Props) {
-    const [spells, setSpells] = useState<Spell[]>([]);
-    const [spellSummaries, setSpellSummaries] = useState<SpellSummary[]>([]);
+    const [spells, setSpells] =
+        useStateWithLocalStorage<Spell[]>(SPELLS_KEY, []);
+    const [spellSummaries, setSpellSummaries, spellSummariesLoadedFromStorage] =
+        useStateWithLocalStorage<SpellSummary[]>(SPELL_SUMMARIES_KEY, []);
+    const [spellsLoaded] = useState<boolean>(true);
     const [searchQuery, setSearchQuery] = useState<string>("");
-    const [spellsLoaded, setSpellsLoaded] = useState<boolean>(false);
+    useEffect(() => {
+        setSpells((previousSpells) => {
+            sortAlphabetically(previousSpells);
+            return previousSpells;
+        });
+
+        if (!spellSummariesLoadedFromStorage) {
+            fetchSpellSummaries().then((fetchedSpellSummaries) => {
+                sortAlphabetically(fetchedSpellSummaries);
+                setSpellSummaries(fetchedSpellSummaries);
+            });
+        }
+    }, [setSpellSummaries, setSpells, spellSummariesLoadedFromStorage]);
 
     useEffect(() => {
-        fetchSpells(INITIAL_SPELL_REQUEST_NAMES).then((spells) => {
-            setSpells((previousSpells) =>
-                combineAndSortSpells(previousSpells, spells)
+        if (spellSummaries.length > 0) {
+            localStorage.setItem(
+                SPELL_SUMMARIES_KEY,
+                JSON.stringify(spellSummaries)
             );
-            setSpellsLoaded(true);
-        });
-        fetchSpellSummaries().then((spellSummaries) => {
-            sortAlphabetically(spellSummaries);
-            setSpellSummaries(spellSummaries);
-        });
-    }, []);
+        }
+    }, [spellSummaries]);
 
     function handleCloseDrawer() {
         onSetDrawerState(DrawerState.None);
@@ -101,7 +96,6 @@ function SpellbookContainer({
             setSpells((previousSpells) =>
                 combineAndSortSpells(previousSpells, spells)
             );
-            setSpellsLoaded(true);
         });
     }
 
@@ -114,9 +108,9 @@ function SpellbookContainer({
         );
     }
 
-    const noSpellsDisplayMessage = !spellsLoaded
-        ? LOADING_MESSAGE
-        : EMPTY_SPELLBOOK_MESSAGE;
+    const noSpellsDisplayMessage = spellsLoaded
+        ? EMPTY_SPELLBOOK_MESSAGE
+        : LOADING_MESSAGE;
 
     function handleSearchQueryChange(query: string) {
         setSearchQuery(query);
@@ -147,6 +141,7 @@ function SpellbookContainer({
                 isOpen={drawerState === DrawerState.Browse}
                 onClose={handleCloseDrawer}
                 spellSummaries={spellSummaries}
+                spellSummariesLoaded={spellSummariesLoadedFromStorage}
                 character={character}
                 spellbookIds={spells.map((spell) => spell.id)}
                 onAddSpell={handleAddSpell}

@@ -54,7 +54,7 @@ function SpellbookContainer({
     character,
     onCharacterChanged,
 }: Props) {
-    const [spells, setSpells, _spellsLoadedFromStorage] =
+    const [spells, setSpells] =
         useStateWithLocalStorage<Spell[]>(SPELLS_KEY, []);
     const [spellSummaries, setSpellSummaries, spellSummariesLoadedFromStorage] =
         useStateWithLocalStorage<SpellSummary[]>(SPELL_SUMMARIES_KEY, []);

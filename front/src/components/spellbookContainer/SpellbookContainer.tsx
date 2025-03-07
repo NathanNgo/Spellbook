@@ -72,7 +72,7 @@ function SpellbookContainer({
                 setSpellSummaries(fetchedSpellSummaries);
             });
         }
-    }, []);
+    }, [setSpellSummaries, setSpells, spellSummariesLoadedFromStorage]);
 
     useEffect(() => {
         if (spellSummaries.length > 0) {

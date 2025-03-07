@@ -58,7 +58,7 @@ function SpellbookContainer({
         useStateWithLocalStorage<Spell[]>(SPELLS_KEY, []);
     const [spellSummaries, setSpellSummaries, spellSummariesLoadedFromStorage] =
         useStateWithLocalStorage<SpellSummary[]>(SPELL_SUMMARIES_KEY, []);
-    const [spellsLoaded, _setSpellsLoaded] = useState<boolean>(true);
+    const [spellsLoaded] = useState<boolean>(true);
     const [searchQuery, setSearchQuery] = useState<string>("");
     useEffect(() => {
         setSpells((previousSpells) => {

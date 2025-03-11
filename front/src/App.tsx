@@ -17,13 +17,17 @@ const INITIAL_CHARACTER: Character = {
 };
 
 const CHARACTERS_KEY = "characters";
+const CHARACTER_ID_KEY = "character_id";
 
 function App() {
     const [characters, setCharacters] = useStateWithLocalStorage<Character[]>(
         CHARACTERS_KEY,
         [INITIAL_CHARACTER]
     );
-    const [currentCharacterID] = useState<string>(characters[0].id);
+    const [currentCharacterID] = useStateWithLocalStorage<string>(
+        CHARACTER_ID_KEY,
+        characters[0].id
+    );
 
     const currentCharacter: Character = useMemo(() => {
         return (

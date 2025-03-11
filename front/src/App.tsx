@@ -17,7 +17,7 @@ const INITIAL_CHARACTER: Character = {
 };
 
 const CHARACTERS_KEY = "characters";
-const CHARACTER_ID_KEY = "characterID";
+const CHARACTER_ID_KEY = "characterId";
 
 function App() {
     const [characters, setCharacters] = useStateWithLocalStorage<Character[]>(

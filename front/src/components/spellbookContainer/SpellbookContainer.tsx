@@ -63,11 +63,6 @@ function SpellbookContainer({
     const [spellsLoaded] = useState<boolean>(true);
     const [searchQuery, setSearchQuery] = useState<string>("");
     useEffect(() => {
-        setSpells((previousSpells) => {
-            sortAlphabetically(previousSpells);
-            return previousSpells;
-        });
-
         if (!spellSummariesLoadedFromStorage) {
             fetchSpellSummaries().then((fetchedSpellSummaries) => {
                 sortAlphabetically(fetchedSpellSummaries);

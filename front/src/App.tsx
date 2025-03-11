@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import "App.css";
 import Header from "components/header/Header";
 import SpellbookContainer, {
@@ -25,9 +25,13 @@ function App() {
     );
     const [currentCharacterID] = useState<string>(characters[0].id);
 
-    const currentCharacter: Character =
-        characters.find((character) => character.id == currentCharacterID) ||
-        INITIAL_CHARACTER;
+    const currentCharacter: Character = useMemo(() => {
+        return (
+            characters.find(
+                (character) => character.id == currentCharacterID
+            ) || INITIAL_CHARACTER
+        );
+    }, [characters, currentCharacterID]);
 
     function handleUpdateCharacter(updatedCharacterValues: Partial<Character>) {
         setCharacters((previousCharacters) => {

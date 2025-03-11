@@ -1,0 +1,43 @@
+.infoboxContainer {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    text-align: center;
+    min-width: 15rem;
+    max-width: 30rem;
+}
+
+@media (max-width: 1150px) {
+    .infoboxContainer {
+        flex-direction: row;
+        width: 100%;
+        align-items: stretch;
+        min-width: 20rem;
+        max-width: none;
+    }
+
+    .titleContainer {
+        text-align: start;
+        flex: 2;
+        font-size: 1.2rem;
+    }
+
+    .infoContainer {
+        text-align: end;
+        flex: 3;
+        font-size: 1.2rem;
+    }
+}
+
+.titleContainer {
+    border-bottom: 3px solid var(--subheading-colour);
+    padding: 0.25rem;
+    font-weight: bold;
+    background-color: var(--medium-accent-colour);
+}
+
+.infoContainer {
+    border-bottom: 1px solid var(--subheading-colour);
+    flex-wrap: wrap;
+
+}

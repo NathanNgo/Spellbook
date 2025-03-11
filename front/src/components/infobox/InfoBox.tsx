@@ -1,4 +1,4 @@
-import styles from "components/drawer/pageDrawer/InfoBox.module.css";
+import styles from "components/infobox/InfoBox.module.css";
 
 type Props = {
     title: string;

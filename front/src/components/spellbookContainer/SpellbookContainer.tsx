@@ -46,7 +46,7 @@ function combineAndSortSpells(previousSpells: Spell[], newSpells: Spell[]) {
 }
 
 const SPELLS_KEY = "spells";
-const SPELL_SUMMARIES_KEY = "spell_summaries";
+const SPELL_SUMMARIES_KEY = "spellSummaries";
 
 function SpellbookContainer({
     drawerState,

@@ -13,26 +13,21 @@ const INITIAL_CHARACTER: Character = {
     class: ClassName.Sorcerer,
     spellCastingModifier: 0,
     showSpellSaveDC: true,
-    id: "",
+    id: crypto.randomUUID(),
 };
 
 const CHARACTERS_KEY = "characters";
 
 function App() {
-    const fallbackCharacter: Character = {
-        ...INITIAL_CHARACTER,
-        id: crypto.randomUUID(),
-    };
-
     const [characters, setCharacters] = useStateWithLocalStorage<Character[]>(
         CHARACTERS_KEY,
-        [fallbackCharacter]
+        [INITIAL_CHARACTER]
     );
     const [currentCharacterID] = useState<string>(characters[0].id);
 
     const currentCharacter: Character =
         characters.find((character) => character.id == currentCharacterID) ||
-        fallbackCharacter;
+        INITIAL_CHARACTER;
 
     function handleUpdateCharacter(updatedCharacterValues: Partial<Character>) {
         setCharacters((previousCharacters) => {

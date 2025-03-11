@@ -54,8 +54,10 @@ function SpellbookContainer({
     character,
     onCharacterChanged,
 }: Props) {
-    const [spells, setSpells] =
-        useStateWithLocalStorage<Spell[]>(SPELLS_KEY, []);
+    const [spells, setSpells] = useStateWithLocalStorage<Spell[]>(
+        SPELLS_KEY,
+        []
+    );
     const [spellSummaries, setSpellSummaries, spellSummariesLoadedFromStorage] =
         useStateWithLocalStorage<SpellSummary[]>(SPELL_SUMMARIES_KEY, []);
     const [spellsLoaded] = useState<boolean>(true);
@@ -73,15 +75,6 @@ function SpellbookContainer({
             });
         }
     }, [setSpellSummaries, setSpells, spellSummariesLoadedFromStorage]);
-
-    useEffect(() => {
-        if (spellSummaries.length > 0) {
-            localStorage.setItem(
-                SPELL_SUMMARIES_KEY,
-                JSON.stringify(spellSummaries)
-            );
-        }
-    }, [spellSummaries]);
 
     function handleCloseDrawer() {
         onSetDrawerState(DrawerState.None);

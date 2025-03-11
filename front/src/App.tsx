@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "App.css";
 import Header from "components/header/Header";
 import SpellbookContainer, {
@@ -12,7 +12,6 @@ const INITIAL_CHARACTER: Character = {
     class: ClassName.Sorcerer,
     spellCastingModifier: 0,
     showSpellSaveDC: true,
-    id: "",
 };
 
 function App() {
@@ -30,15 +29,19 @@ function App() {
     );
 
     function toggleState(targetState: DrawerState) {
-        const isClosingDrawer = drawerState == targetState;
-        setDrawerState(isClosingDrawer ? DrawerState.None : targetState);
+        setDrawerState(
+            drawerState === targetState ? DrawerState.None : targetState
+        );
+    }
+
+    useEffect(() => {
         const body = document.body;
-        if (isClosingDrawer) {
+        if (drawerState === DrawerState.None) {
             body.classList.remove("noscroll");
         } else {
             body.classList.add("noscroll");
         }
-    }
+    }, [drawerState]);
 
     return (
         <>

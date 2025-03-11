@@ -1,7 +1,7 @@
 import Drawer, { DrawerSide } from "components/drawer/Drawer";
 import styles from "components/drawer/pageDrawer/PageDrawer.module.css";
 import type { SpellSummary, Spell } from "types";
-import InfoBox from "./InfoBox";
+import InfoBox from "components/infobox/InfoBox";
 import StatusButton, { Status } from "components/statusButton/StatusButton";
 
 const ASCII_WIZARD = `
@@ -40,6 +40,13 @@ function PageDrawer({
     spell,
     hasSpell,
 }: Props) {
+    function showInfoBoxIfNonEmpty(title: string, info: string): JSX.Element {
+        if (info.length == 0) {
+            return <></>;
+        }
+        return <InfoBox title={title} info={info} />;
+    }
+
     let pageContent = <></>;
     if (spell === null) {
         pageContent = (
@@ -53,8 +60,6 @@ function PageDrawer({
                     className={styles.errorText}
                     value={ASCII_WIZARD}
                 />
-                {/* {ASCII_WIZARD}
-                </textarea> */}
             </>
         );
     } else {
@@ -75,22 +80,35 @@ function PageDrawer({
                             transitionFromSecondText="Removed"
                         />
                     </div>
+                    <div className={styles.backButtonContainer}>
+                        <button>Back</button>
+                    </div>
                 </div>
                 <h2>CASTING</h2>
                 <div className={styles.infoContainer}>
-                    <InfoBox title="Casting Time" info={spell.castingTime} />
-                    <InfoBox title="Components" info={spell.components} />
+                    {/* <InfoBox title="Casting Time" info={spell.castingTime} />
+                    <InfoBox title="Components" info={spell.components} /> */}
+                    {showInfoBoxIfNonEmpty("Casting Time", spell.castingTime)}
+                    {showInfoBoxIfNonEmpty("Components", spell.components)}
                 </div>
                 <h2>EFFECT</h2>
                 <div className={styles.infoContainer}>
-                    <InfoBox title="Range" info={spell.range} />
-                    <InfoBox title="Area" info={spell.area} />
+                    {/* <InfoBox title="Range" info={spell.range} /> */}
+                    {showInfoBoxIfNonEmpty("Range", spell.range)}
+                    {showInfoBoxIfNonEmpty("Area", spell.area)}
+                    {showInfoBoxIfNonEmpty("Duration", spell.duration)}
+                    {showInfoBoxIfNonEmpty("Saving Throw", spell.savingThrow)}
+                    {showInfoBoxIfNonEmpty(
+                        "Spell Resistance",
+                        spell.spellResistance
+                    )}
+                    {/* <InfoBox title="Area" info={spell.area} />
                     <InfoBox title="Duration" info={spell.duration} />
-                    <InfoBox title="Saving Throw" info={spell.savingThrow} />
-                    <InfoBox
+                    <InfoBox title="Saving Throw" info={spell.savingThrow} /> */}
+                    {/* <InfoBox
                         title="Spell Resistance"
                         info={spell.spellResistance}
-                    />
+                    /> */}
                 </div>
                 <h2>DESCRIPTION</h2>
                 <div

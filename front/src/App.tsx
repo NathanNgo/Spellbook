@@ -33,7 +33,9 @@ function App() {
         );
     }, [characters, currentCharacterID]);
 
-    function handleUpdateCharacter(updatedCharacterValues: Partial<Character>) {
+    function handleCharacterValuesChanged(
+        updatedCharacterValues: Partial<Character>
+    ) {
         setCharacters((previousCharacters) => {
             const updatedCharacter: Character = {
                 ...currentCharacter,
@@ -69,7 +71,7 @@ function App() {
                 drawerState={drawerState}
                 onSetDrawerState={setDrawerState}
                 character={currentCharacter}
-                onCharacterChanged={handleUpdateCharacter}
+                onCharacterValuesChanged={handleCharacterValuesChanged}
             ></SpellbookContainer>
         </>
     );

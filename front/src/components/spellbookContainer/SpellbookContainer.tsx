@@ -26,7 +26,7 @@ type Props = {
     drawerState: DrawerState;
     onSetDrawerState: (drawerState: DrawerState) => void;
     character: Character;
-    onCharacterChanged: (update: Partial<Character>) => void;
+    onCharacterValuesChanged: (update: Partial<Character>) => void;
 };
 
 function sortAlphabetically(spells: Spell[] | SpellSummary[]) {
@@ -52,7 +52,7 @@ function SpellbookContainer({
     drawerState,
     onSetDrawerState,
     character,
-    onCharacterChanged,
+    onCharacterValuesChanged,
 }: Props) {
     const [spells, setSpells] = useStateWithLocalStorage<Spell[]>(
         SPELLS_KEY,
@@ -126,7 +126,7 @@ function SpellbookContainer({
                 isOpen={drawerState === DrawerState.Settings}
                 onClose={handleCloseDrawer}
                 character={character}
-                onCharacterChanged={onCharacterChanged}
+                onCharacterValuesChanged={onCharacterValuesChanged}
             />
             <MenuDrawer
                 isOpen={drawerState === DrawerState.Menu}

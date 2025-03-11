@@ -1,13 +1,16 @@
 import { useEffect, useState, useRef } from "react";
 
-function useStateWithLocalStorage<T>(key: string, defaultValue: T) {
+function useStateWithLocalStorage<StateType>(
+    key: string,
+    defaultValue: StateType
+) {
     const initialValue = localStorage.getItem(key);
     const loadedFromStorage = useRef<boolean>(initialValue !== null);
-    const [state, _setState] = useState<T>(() => {
+    const [state, setState] = useState<StateType>(() => {
         if (initialValue !== null) {
             try {
                 loadedFromStorage.current = true;
-                return JSON.parse(initialValue) as T;
+                return JSON.parse(initialValue) as StateType;
             } catch {
                 loadedFromStorage.current = false;
                 return defaultValue;
@@ -15,11 +18,6 @@ function useStateWithLocalStorage<T>(key: string, defaultValue: T) {
         }
         return defaultValue;
     });
-
-    function setState(newState: T | ((oldState: T) => T)) {
-        loadedFromStorage.current = true;
-        _setState(newState);
-    }
 
     useEffect(() => {
         localStorage.setItem(key, JSON.stringify(state));

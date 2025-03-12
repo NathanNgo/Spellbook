@@ -10,14 +10,14 @@ type Props = {
     isOpen: boolean;
     onClose: () => void;
     character: Character;
-    onCharacterChanged: (update: Partial<Character>) => void;
+    onCharacterValuesChanged: (update: Partial<Character>) => void;
 };
 
 function CharacterSettingsDrawer({
     isOpen,
     onClose,
     character,
-    onCharacterChanged,
+    onCharacterValuesChanged,
 }: Props) {
     return (
         <Drawer
@@ -30,7 +30,7 @@ function CharacterSettingsDrawer({
                 <Input
                     placeHolder={"John Spellbook"}
                     onValueChange={(newName: string) =>
-                        onCharacterChanged({ name: newName })
+                        onCharacterValuesChanged({ name: newName })
                     }
                     value={character.name}
                 />
@@ -44,7 +44,7 @@ function CharacterSettingsDrawer({
                             dropdownOptions={Object.values(ClassName).sort()}
                             currentOption={character.class}
                             onCurrentOptionChange={(newClass) =>
-                                onCharacterChanged({
+                                onCharacterValuesChanged({
                                     class: newClass as ClassName,
                                 })
                             }
@@ -58,7 +58,7 @@ function CharacterSettingsDrawer({
                             placeHolder={"John Spellbook"}
                             value={character.spellCastingModifier}
                             onValueChange={(newSpellCastingModifer: number) =>
-                                onCharacterChanged({
+                                onCharacterValuesChanged({
                                     spellCastingModifier:
                                         newSpellCastingModifer,
                                 })
@@ -76,7 +76,7 @@ function CharacterSettingsDrawer({
                         <Checkbox
                             isEnabled={character.showSpellSaveDC}
                             onClick={() =>
-                                onCharacterChanged({
+                                onCharacterValuesChanged({
                                     showSpellSaveDC: !character.showSpellSaveDC,
                                 })
                             }

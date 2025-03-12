@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useMemo, useEffect, useState } from "react";
 import "App.css";
 import Header from "components/header/Header";
 import SpellbookContainer, {
@@ -6,22 +6,52 @@ import SpellbookContainer, {
 } from "components/spellbookContainer/SpellbookContainer";
 import { Character } from "types";
 import { ClassName } from "common/character";
+import useStateWithLocalStorage from "hooks/useStateWithLocalStorage";
 
 const INITIAL_CHARACTER: Character = {
     name: "Josh Mann",
     class: ClassName.Sorcerer,
     spellCastingModifier: 0,
     showSpellSaveDC: true,
+    id: crypto.randomUUID(),
 };
 
-function App() {
-    const [character, setCharacter] = useState<Character>(INITIAL_CHARACTER);
+const CHARACTERS_KEY = "characters";
+const CHARACTER_ID_KEY = "characterId";
 
-    function handleUpdateCharacter(updatedCharacterValues: Partial<Character>) {
-        setCharacter((previousCharacter) => ({
-            ...previousCharacter,
-            ...updatedCharacterValues,
-        }));
+function App() {
+    const [characters, setCharacters] = useStateWithLocalStorage<Character[]>(
+        CHARACTERS_KEY,
+        [INITIAL_CHARACTER]
+    );
+    const [currentCharacterID] = useStateWithLocalStorage<string>(
+        CHARACTER_ID_KEY,
+        characters[0].id
+    );
+
+    const currentCharacter: Character = useMemo(() => {
+        return (
+            characters.find(
+                (character) => character.id == currentCharacterID
+            ) || INITIAL_CHARACTER
+        );
+    }, [characters, currentCharacterID]);
+
+    function handleCharacterValuesChanged(
+        updatedCharacterValues: Partial<Character>
+    ) {
+        setCharacters((previousCharacters) => {
+            const updatedCharacter: Character = {
+                ...currentCharacter,
+                ...updatedCharacterValues,
+            };
+            return [
+                ...previousCharacters.filter(
+                    (character) => character.id !== currentCharacterID
+                ),
+                updatedCharacter,
+            ];
+        });
     }
 
     const [drawerState, setDrawerState] = useState<DrawerState>(
@@ -46,15 +76,15 @@ function App() {
     return (
         <>
             <Header
-                characterName={character.name}
+                characterName={currentCharacter.name}
                 onToggleMenu={() => toggleState(DrawerState.Menu)}
                 onToggleSettings={() => toggleState(DrawerState.Settings)}
             />
             <SpellbookContainer
                 drawerState={drawerState}
                 onSetDrawerState={setDrawerState}
-                character={character}
-                onCharacterChanged={handleUpdateCharacter}
+                character={currentCharacter}
+                onCharacterValuesChanged={handleCharacterValuesChanged}
             ></SpellbookContainer>
         </>
     );

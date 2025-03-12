@@ -29,8 +29,10 @@
         "zod": "^3.24.1"
     },
     "scripts": {
-        "restart": "cd bin/ && ./restart.sh",
-        "start": "cd bin/ && ./start.sh",
+        "restart": "bash ./bin/restart.sh $(pwd)",
+        "start": "bash ./bin/start.sh $(pwd)",
+        "setup-database": "bash ./bin/setup_database.sh $(pwd)",
+        "start-production": "bash ./bin/start_production.sh $(pwd)",
         "manual-test": "ts-node src/testing/manual.ts",
         "lint": "eslint ."
     },

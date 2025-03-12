@@ -76,7 +76,7 @@ function SpellbookContainer({
                 setSpellSummariesLoaded(true);
             });
         }
-    }, [spellSummariesLoaded]);
+    }, [spellSummariesLoaded, setSpellSummaries]);
 
     function handleCloseDrawer() {
         onSetDrawerState(DrawerState.None);

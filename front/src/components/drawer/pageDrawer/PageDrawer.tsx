@@ -3,6 +3,7 @@ import styles from "components/drawer/pageDrawer/PageDrawer.module.css";
 import type { SpellSummary, Spell } from "types";
 import InfoBox from "components/infobox/InfoBox";
 import StatusButton, { Status } from "components/statusButton/StatusButton";
+import { ClassName, spellClassLevel } from "common/character";
 
 const ASCII_WIZARD = `
   _____________________           .
@@ -47,6 +48,34 @@ function PageDrawer({
         return <InfoBox title={title} info={info} />;
     }
 
+    function spellLevelDisplay(): JSX.Element {
+        if (spell === null) {
+            return <></>;
+        }
+
+        const classNames = Object.values(ClassName);
+
+        return classNames
+            .map(
+                (className: ClassName) =>
+                    [className, spellClassLevel(spell, className)] as const
+            )
+            .filter(([_, level]) => level !== null)
+            .map(([className, level]) => (
+                <span>
+                    <span className={styles.levelClassName}>{className}</span>{" "}
+                    <span className={styles.levelValue}>{level}</span>
+                </span>
+            ))
+            .reduce((previous: JSX.Element, current: JSX.Element) => (
+                <>
+                    {previous}
+                    <span>,&nbsp;</span>
+                    {current}
+                </>
+            ));
+    }
+
     let pageContent = <></>;
     if (spell === null) {
         pageContent = (
@@ -65,10 +94,16 @@ function PageDrawer({
     } else {
         pageContent = (
             <>
-                <div className={styles.pageTitleContainer}>
-                    <h1>
-                        <i>{spell.name}</i>
-                    </h1>
+                <div
+                    className={
+                        styles.pageTitleContainer +
+                        " " +
+                        (spell.name.length > 6
+                            ? styles.longTitle
+                            : styles.shortTitle)
+                    }
+                >
+                    <h1>{spell.name}</h1>
                     <div className={styles.addButtonContainer}>
                         <StatusButton
                             status={!hasSpell ? Status.First : Status.Second}
@@ -83,6 +118,19 @@ function PageDrawer({
                     <div className={styles.backButtonContainer}>
                         <button>Back</button>
                     </div>
+                </div>
+
+                <div className={styles.topInfoContainer}>
+                    <InfoBox title="Source" info={spell.source} flex="1" />
+                    <InfoBox
+                        title="Level"
+                        info={
+                            <div className={styles.spellLevelDisplay}>
+                                {spellLevelDisplay()}
+                            </div>
+                        }
+                        flex="4"
+                    />
                 </div>
                 <h2>CASTING</h2>
                 <div className={styles.infoContainer}>

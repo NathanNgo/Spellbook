@@ -47,7 +47,7 @@ function combineAndSortSpells(previousSpells: Spell[], newSpells: Spell[]) {
     return combinedSpells;
 }
 
-const SPELLS_KEY = "spells";
+const SPELLBOOK_SPELLS_KEY = "spellbookSpells";
 const SPELL_SUMMARIES_KEY = "spellSummaries";
 
 function SpellbookContainer({
@@ -57,7 +57,7 @@ function SpellbookContainer({
     onCharacterValuesChanged,
 }: Props) {
     const [spells, setSpells] = useStateWithLocalStorage<Spell[]>(
-        SPELLS_KEY,
+        SPELLBOOK_SPELLS_KEY,
         []
     );
     const [spellSummaries, setSpellSummaries] = useStateWithLocalStorage<

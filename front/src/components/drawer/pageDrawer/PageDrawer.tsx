@@ -61,16 +61,16 @@ function PageDrawer({
                     [className, spellClassLevel(spell, className)] as const
             )
             .filter(([, level]) => level !== null)
-            .map(([className, level]) => (
+            .map(([className, level], index, arr) => (
                 <span>
                     <span className={styles.levelClassName}>{className}</span>{" "}
                     <span className={styles.levelValue}>{level}</span>
+                    {index < arr.length - 1 && <span>,&nbsp;</span>}
                 </span>
             ))
             .reduce((previous: JSX.Element, current: JSX.Element) => (
                 <>
                     {previous}
-                    <span>,&nbsp;</span>
                     {current}
                 </>
             ));
@@ -134,14 +134,11 @@ function PageDrawer({
                 </div>
                 <h2>CASTING</h2>
                 <div className={styles.infoContainer}>
-                    {/* <InfoBox title="Casting Time" info={spell.castingTime} />
-                    <InfoBox title="Components" info={spell.components} /> */}
                     {showInfoBoxIfNonEmpty("Casting Time", spell.castingTime)}
                     {showInfoBoxIfNonEmpty("Components", spell.components)}
                 </div>
                 <h2>EFFECT</h2>
                 <div className={styles.infoContainer}>
-                    {/* <InfoBox title="Range" info={spell.range} /> */}
                     {showInfoBoxIfNonEmpty("Range", spell.range)}
                     {showInfoBoxIfNonEmpty("Area", spell.area)}
                     {showInfoBoxIfNonEmpty("Duration", spell.duration)}
@@ -150,13 +147,6 @@ function PageDrawer({
                         "Spell Resistance",
                         spell.spellResistance
                     )}
-                    {/* <InfoBox title="Area" info={spell.area} />
-                    <InfoBox title="Duration" info={spell.duration} />
-                    <InfoBox title="Saving Throw" info={spell.savingThrow} /> */}
-                    {/* <InfoBox
-                        title="Spell Resistance"
-                        info={spell.spellResistance}
-                    /> */}
                 </div>
                 <h2>DESCRIPTION</h2>
                 <div
@@ -173,7 +163,7 @@ function PageDrawer({
             side={DrawerSide.Right}
             isOpen={isOpen}
             onClose={onClose}
-            width="60%"
+            width="75%"
         >
             <div className={styles.pageContainer}>{pageContent}</div>
         </Drawer>

@@ -97,3 +97,10 @@ export function classNameToClassCode(
         | SpellSummary
     );
 }
+
+export function spellClassLevel(
+    spell: Spell,
+    className: string
+): number | null {
+    return spell[classNameToClassCode(className as ClassName)] as number | null;
+}

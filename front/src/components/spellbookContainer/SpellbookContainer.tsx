@@ -3,12 +3,13 @@ import Spellbook from "components/spellbook/Spellbook";
 import SpellbookToolbar from "components/spellbookToolbar/SpellbookToolbar";
 import { useEffect, useState } from "react";
 import styles from "components/spellbookContainer/SpellbookContainer.module.css";
-import CharacterSettingsDrawer from "components/drawer/charcterSettingsDrawer/CharacterSettingsDrawer";
+import CharacterSettingsDrawer from "components/drawer/characterSettingsDrawer/CharacterSettingsDrawer";
 import BrowseDrawer from "components/drawer/browseDrawer/BrowseDrawer";
 import MenuDrawer from "components/drawer/menuDrawer/MenuDrawer";
 import type { SpellSummary, Spell, Character } from "types";
 import fetchSpells from "remote/fetchSpells";
 import fetchSpellSummaries from "remote/fetchSpellSummaries";
+import PageDrawer from "components/drawer/pageDrawer/PageDrawer";
 import useStateWithLocalStorage from "hooks/useStateWithLocalStorage";
 
 const LOADING_MESSAGE = <Message>Loading...</Message>;
@@ -19,6 +20,7 @@ enum DrawerState {
     Settings,
     Browse,
     Menu,
+    Page,
     None,
 }
 
@@ -45,7 +47,7 @@ function combineAndSortSpells(previousSpells: Spell[], newSpells: Spell[]) {
     return combinedSpells;
 }
 
-const SPELLS_KEY = "spells";
+const SPELLBOOK_SPELLS_KEY = "spellbookSpells";
 const SPELL_SUMMARIES_KEY = "spellSummaries";
 
 function SpellbookContainer({
@@ -55,7 +57,7 @@ function SpellbookContainer({
     onCharacterValuesChanged,
 }: Props) {
     const [spells, setSpells] = useStateWithLocalStorage<Spell[]>(
-        SPELLS_KEY,
+        SPELLBOOK_SPELLS_KEY,
         []
     );
     const [spellSummaries, setSpellSummaries] = useStateWithLocalStorage<
@@ -68,6 +70,8 @@ function SpellbookContainer({
     const [spellSummariesLoaded, setSpellSummariesLoaded] =
         useState<boolean>(false);
     const [searchQuery, setSearchQuery] = useState<string>("");
+    const [spellForPage, setSpellForPage] = useState<Spell | null>(null);
+
     useEffect(() => {
         if (!spellSummariesLoaded) {
             fetchSpellSummaries().then((fetchedSpellSummaries) => {
@@ -120,6 +124,11 @@ function SpellbookContainer({
         );
     }
 
+    function handleOpenPage(spell: Spell) {
+        onSetDrawerState(DrawerState.Page);
+        setSpellForPage(spell);
+    }
+
     return (
         <div className={styles.spellbookContainer}>
             <CharacterSettingsDrawer
@@ -142,6 +151,19 @@ function SpellbookContainer({
                 onAddSpell={handleAddSpell}
                 onRemoveSpell={handleRemoveSpell}
             />
+            <PageDrawer
+                isOpen={drawerState === DrawerState.Page}
+                onClose={handleCloseDrawer}
+                onAddSpell={handleAddSpell}
+                onRemoveSpell={handleRemoveSpell}
+                spell={spellForPage}
+                hasSpell={
+                    spellForPage !== null &&
+                    spells.findIndex(
+                        (spell) => spell.id === spellForPage.id
+                    ) !== -1
+                }
+            />
             <SpellbookToolbar
                 onSearchQueryChange={handleSearchQueryChange}
                 searchQuery={searchQuery}
@@ -152,7 +174,11 @@ function SpellbookContainer({
             {spells.length === 0 ? (
                 noSpellsDisplayMessage
             ) : (
-                <Spellbook spells={filteredList} character={character} />
+                <Spellbook
+                    spells={filteredList}
+                    character={character}
+                    onOpenPage={handleOpenPage}
+                />
             )}
         </div>
     );

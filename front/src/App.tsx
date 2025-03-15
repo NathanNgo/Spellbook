@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useEffect, useState } from "react";
 import "App.css";
 import Header from "components/header/Header";
 import SpellbookContainer, {
@@ -63,6 +63,15 @@ function App() {
             drawerState === targetState ? DrawerState.None : targetState
         );
     }
+
+    useEffect(() => {
+        const body = document.body;
+        if (drawerState === DrawerState.None) {
+            body.classList.remove("noscroll");
+        } else {
+            body.classList.add("noscroll");
+        }
+    }, [drawerState]);
 
     return (
         <>

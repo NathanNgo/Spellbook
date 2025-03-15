@@ -8,6 +8,7 @@ type Props = {
     spellbookIds: number[];
     onAddSpell: (spell: SpellSummary) => void;
     onRemoveSpell: (spell: SpellSummary) => void;
+    onOpenPage: (spell: SpellSummary) => void;
 };
 
 function SearchResultsTable({
@@ -16,6 +17,7 @@ function SearchResultsTable({
     spellbookIds,
     onAddSpell,
     onRemoveSpell,
+    onOpenPage,
 }: Props) {
     if (results.length === 0) {
         return;
@@ -29,6 +31,7 @@ function SearchResultsTable({
                     spellbookIds={spellbookIds}
                     onAddSpell={() => onAddSpell(spell)}
                     onRemoveSpell={() => onRemoveSpell(spell)}
+                    onOpenPage={() => onOpenPage(spell)}
                     key={index}
                 />
             ))}

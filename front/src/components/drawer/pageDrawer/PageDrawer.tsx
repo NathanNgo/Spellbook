@@ -4,6 +4,8 @@ import type { SpellSummary, Spell } from "types";
 import InfoBox from "components/infobox/InfoBox";
 import StatusButton, { Status } from "components/statusButton/StatusButton";
 import { ClassName, spellClassLevel } from "common/character";
+import Message from "components/message/Message";
+import MovingEllipsis from "components/movingEllipsis/MovingEllipsis";
 
 const ASCII_WIZARD = `
   _____________________           .
@@ -31,6 +33,9 @@ type Props = {
     onRemoveSpell: (spell: SpellSummary) => void;
     spell: Spell | null;
     hasSpell: boolean;
+    showLoading: boolean;
+    isFromBrowse: boolean;
+    onOpenBrowse: () => void;
 };
 
 function PageDrawer({
@@ -40,6 +45,9 @@ function PageDrawer({
     onRemoveSpell,
     spell,
     hasSpell,
+    showLoading,
+    isFromBrowse,
+    onOpenBrowse,
 }: Props) {
     function showInfoBoxIfNonEmpty(title: string, info: string): JSX.Element {
         if (info.length == 0) {
@@ -77,7 +85,16 @@ function PageDrawer({
     }
 
     let pageContent = <></>;
-    if (spell === null) {
+
+    if (showLoading) {
+        pageContent = (
+            <div className={styles.loadingMessage}>
+                <Message>
+                    Loading Spell <MovingEllipsis />
+                </Message>
+            </div>
+        );
+    } else if (spell === null) {
         pageContent = (
             <>
                 <textarea
@@ -115,8 +132,12 @@ function PageDrawer({
                             transitionFromSecondText="Removed"
                         />
                     </div>
-                    <div className={styles.backButtonContainer}>
-                        <button>Back</button>
+                    <div
+                        className={`${styles.backButtonContainer} ${
+                            isFromBrowse ? "" : "hidden"
+                        }`}
+                    >
+                        <button onClick={onOpenBrowse}>Back</button>
                     </div>
                 </div>
 

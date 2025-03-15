@@ -103,6 +103,9 @@
     margin-top: 0.5rem;
 }
 
+.loadingMessage {
+    margin-top: 5rem;
+}
 
 .levelClassName {
     text-decoration: underline;

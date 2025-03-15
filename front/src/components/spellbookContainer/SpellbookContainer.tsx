@@ -49,6 +49,7 @@ function combineAndSortSpells(previousSpells: Spell[], newSpells: Spell[]) {
 
 const SPELLBOOK_SPELLS_KEY = "spellbookSpells";
 const SPELL_SUMMARIES_KEY = "spellSummaries";
+const SPELLS_KEY = "spells";
 
 function SpellbookContainer({
     drawerState,
@@ -63,6 +64,10 @@ function SpellbookContainer({
     const [spellSummaries, setSpellSummaries] = useStateWithLocalStorage<
         SpellSummary[]
     >(SPELL_SUMMARIES_KEY, []);
+    const [cachedSpells, setCachedSpells] = useStateWithLocalStorage<Spell[]>(
+        SPELLS_KEY,
+        []
+    );
     // When we keep track of users' spells in the backend, this will
     // be more meaningful, until then assume spells are always insta-loaded
     // since local storage is our only source of truth here
@@ -71,6 +76,10 @@ function SpellbookContainer({
         useState<boolean>(false);
     const [searchQuery, setSearchQuery] = useState<string>("");
     const [spellForPage, setSpellForPage] = useState<Spell | null>(null);
+    const [spellPageIsLoading, setSpellPageIsLoading] =
+        useState<boolean>(false);
+    const [spellPageOpenedFromBrowse, setSpellPageOpenedFromBrowse] =
+        useState<boolean>(false);
 
     useEffect(() => {
         if (!spellSummariesLoaded) {
@@ -82,23 +91,48 @@ function SpellbookContainer({
         }
     }, [spellSummariesLoaded, setSpellSummaries]);
 
+    function getCachedSpell(spellName: string): Spell | undefined {
+        return cachedSpells.find(
+            (cachedSpell) => cachedSpell.name === spellName
+        );
+    }
+
+    function addSpellToCache(spell: Spell) {
+        if (getCachedSpell(spell.name) !== undefined) {
+            return;
+        }
+        setCachedSpells((previousCachedSpells) => [
+            spell,
+            ...previousCachedSpells,
+        ]);
+    }
+
     function handleCloseDrawer() {
         onSetDrawerState(DrawerState.None);
     }
 
-    function handleAddSpell(requestedSpell: SpellSummary) {
+    function handleAddSpellToSpellbook(requestedSpell: SpellSummary) {
         if (spells.some((spell) => spell.id === requestedSpell.id)) {
             return;
         }
 
+        const cachedSpell = getCachedSpell(requestedSpell.name);
+
+        if (cachedSpell !== undefined) {
+            setSpells((previousSpells) =>
+                combineAndSortSpells(previousSpells, [cachedSpell])
+            );
+            return;
+        }
         fetchSpells([requestedSpell.name]).then((spells) => {
             setSpells((previousSpells) =>
                 combineAndSortSpells(previousSpells, spells)
             );
+            spells.forEach((spell) => addSpellToCache(spell));
         });
     }
 
-    function handleRemoveSpell(requestedSpell: SpellSummary) {
+    function handleRemoveSpellFromSpellbook(requestedSpell: SpellSummary) {
         if (!spells.some((spell) => spell.id === requestedSpell.id)) {
             return;
         }
@@ -125,8 +159,31 @@ function SpellbookContainer({
     }
 
     function handleOpenPage(spell: Spell) {
+        setSpellPageIsLoading(false);
         onSetDrawerState(DrawerState.Page);
         setSpellForPage(spell);
+    }
+
+    function handleOpenPageFromSpellbook(spell: Spell) {
+        handleOpenPage(spell);
+        setSpellPageOpenedFromBrowse(false);
+    }
+
+    function handleOpenSpellPageFromBrowse(spellSummary: SpellSummary) {
+        const cachedSpell = getCachedSpell(spellSummary.name);
+        setSpellPageOpenedFromBrowse(true);
+
+        if (cachedSpell !== undefined) {
+            handleOpenPage(cachedSpell);
+            return;
+        }
+        setSpellPageIsLoading(true);
+        fetchSpells([spellSummary.name]).then(([spell]) => {
+            addSpellToCache(spell);
+            setSpellForPage(spell);
+            setSpellPageIsLoading(false);
+        });
+        onSetDrawerState(DrawerState.Page);
     }
 
     return (
@@ -148,14 +205,15 @@ function SpellbookContainer({
                 spellSummariesLoaded={spellSummariesLoaded}
                 character={character}
                 spellbookIds={spells.map((spell) => spell.id)}
-                onAddSpell={handleAddSpell}
-                onRemoveSpell={handleRemoveSpell}
+                onAddSpell={handleAddSpellToSpellbook}
+                onRemoveSpell={handleRemoveSpellFromSpellbook}
+                onOpenPage={handleOpenSpellPageFromBrowse}
             />
             <PageDrawer
                 isOpen={drawerState === DrawerState.Page}
                 onClose={handleCloseDrawer}
-                onAddSpell={handleAddSpell}
-                onRemoveSpell={handleRemoveSpell}
+                onAddSpell={handleAddSpellToSpellbook}
+                onRemoveSpell={handleRemoveSpellFromSpellbook}
                 spell={spellForPage}
                 hasSpell={
                     spellForPage !== null &&
@@ -163,6 +221,9 @@ function SpellbookContainer({
                         (spell) => spell.id === spellForPage.id
                     ) !== -1
                 }
+                showLoading={spellPageIsLoading}
+                isFromBrowse={spellPageOpenedFromBrowse}
+                onOpenBrowse={() => onSetDrawerState(DrawerState.Browse)}
             />
             <SpellbookToolbar
                 onSearchQueryChange={handleSearchQueryChange}
@@ -177,7 +238,7 @@ function SpellbookContainer({
                 <Spellbook
                     spells={filteredList}
                     character={character}
-                    onOpenPage={handleOpenPage}
+                    onOpenPage={handleOpenPageFromSpellbook}
                 />
             )}
         </div>

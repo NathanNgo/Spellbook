@@ -7,6 +7,7 @@ type Props = {
     spellbookIds: number[];
     onAddSpell: () => void;
     onRemoveSpell: () => void;
+    onOpenPage: () => void;
 };
 
 function SearchResult({
@@ -14,10 +15,11 @@ function SearchResult({
     spellbookIds,
     onAddSpell,
     onRemoveSpell,
+    onOpenPage,
 }: Props) {
     return (
         <div className={styles.searchResult}>
-            <div className={styles.spellName}>
+            <div className={styles.spellName} onClick={onOpenPage}>
                 <span className="symbol">
                     {spellbookIds.includes(spell.id) && "book_4_spark"}
                 </span>

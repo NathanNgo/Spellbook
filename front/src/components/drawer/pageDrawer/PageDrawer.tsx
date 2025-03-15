@@ -60,7 +60,7 @@ function PageDrawer({
                 (className: ClassName) =>
                     [className, spellClassLevel(spell, className)] as const
             )
-            .filter(([_, level]) => level !== null)
+            .filter(([, level]) => level !== null)
             .map(([className, level]) => (
                 <span>
                     <span className={styles.levelClassName}>{className}</span>{" "}

@@ -1,6 +1,6 @@
 import type { SpellSummary } from "types";
 import StatusButton, { Status } from "components/statusButton/StatusButton";
-import styles from "components/SearchResult/SearchResult.module.css";
+import styles from "components/searchResult/SearchResult.module.css";
 
 type Props = {
     spell: SpellSummary;

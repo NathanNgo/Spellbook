@@ -67,16 +67,8 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    padding-bottom: 2rem;
+    padding-bottom: 5rem;
     text-align: justify;
-}
-
-.infoContainer {
-    display: flex;
-    gap: 1rem;
-    align-items: stretch;
-    flex-wrap: wrap;
-    justify-content: center;
 }
 
 .topInfoContainer {
@@ -84,12 +76,6 @@
     gap: 1rem;
     align-items: stretch;
     justify-content: center;
-}
-
-
-.infoContainer * {
-    min-width: 20rem;
-    /* max-width: 30rem; */
 }
 
 .pageContainer h2 {
@@ -109,14 +95,17 @@
     display: flex;
 }
 
-.levelClassName {
+
+/* .levelClassName {
     text-decoration: underline;
-}
+} */
 
 .spellLevelDisplay {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    gap: 0.5rem;
+    padding-block: 0.5rem;
 }
 
 @media (max-width: 1500px) {
@@ -147,15 +136,7 @@
         padding-inline: 0rem;
     }
 
-    .infoContainer {
-        gap: 0.5rem;
-    }
 
-
-    .infoContainer * {
-        min-width: 8rem;
-        max-width: none;
-    }
 
     .topInfoContainer {
         flex-direction: column;

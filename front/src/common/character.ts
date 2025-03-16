@@ -30,6 +30,30 @@ export enum ClassName {
     Witch = "Witch",
 }
 
+export enum ClassLevelName {
+    Adept = "Adept",
+    Alchemist = "Alchemist",
+    Antipaladin = "Antipaladin",
+    Bard = "Bard",
+    Bloodrager = "Bloodrager",
+    ClericOracle = "Cleric/Oracle",
+    Druid = "Druid",
+    Inquisitor = "Inquisitor",
+    Investigator = "Investigator",
+    Magus = "Magus",
+    Medium = "Medium",
+    Mesmerist = "Mesmerist",
+    Occultist = "Occultist",
+    Paladin = "Paladin",
+    Psychic = "Psychic",
+    Ranger = "Ranger",
+    Shaman = "Shaman",
+    SorcererWizard = "Sorcerer/Wizard",
+    Spiritualist = "Spiritualist",
+    SummonerSummonerUnchained = "Summoner/Summoner Unchained",
+    Witch = "Witch",
+}
+
 enum ClassCode {
     Wiz = "wiz",
     Sor = "sor",
@@ -89,6 +113,33 @@ const classNameToClassCodeMapping: Record<ClassName, ClassCode> = {
     [ClassName.Adept]: ClassCode.Adept,
 };
 
+export const classLevelNameToClassCodeMapping: Record<
+    ClassLevelName,
+    ClassCode
+> = {
+    [ClassLevelName.Adept]: ClassCode.Adept,
+    [ClassLevelName.Alchemist]: ClassCode.Alchemist,
+    [ClassLevelName.Antipaladin]: ClassCode.Antipaladin,
+    [ClassLevelName.Bard]: ClassCode.Bard,
+    [ClassLevelName.Bloodrager]: ClassCode.Bloodrager,
+    [ClassLevelName.ClericOracle]: ClassCode.Cleric, // Oracle and Cleric share levels
+    [ClassLevelName.Druid]: ClassCode.Druid,
+    [ClassLevelName.Inquisitor]: ClassCode.Inquisitor,
+    [ClassLevelName.Investigator]: ClassCode.Investigator,
+    [ClassLevelName.Magus]: ClassCode.Magus,
+    [ClassLevelName.Medium]: ClassCode.Medium,
+    [ClassLevelName.Mesmerist]: ClassCode.Mesmerist,
+    [ClassLevelName.Occultist]: ClassCode.Occultist,
+    [ClassLevelName.Paladin]: ClassCode.Paladin,
+    [ClassLevelName.Psychic]: ClassCode.Psychic,
+    [ClassLevelName.Ranger]: ClassCode.Ranger,
+    [ClassLevelName.Shaman]: ClassCode.Shaman,
+    [ClassLevelName.SorcererWizard]: ClassCode.Wiz, // Sorcerer and Wizard share levels
+    [ClassLevelName.Spiritualist]: ClassCode.Spiritualist,
+    [ClassLevelName.SummonerSummonerUnchained]: ClassCode.Summoner, // Both share same levels
+    [ClassLevelName.Witch]: ClassCode.Witch,
+};
+
 export function classNameToClassCode(
     className: string
 ): keyof (Spell | SpellSummary) {
@@ -98,9 +149,20 @@ export function classNameToClassCode(
     );
 }
 
-export function spellClassLevel(
+// export function spellClassLevel(
+//     spell: Spell,
+//     className: string
+// ): number | null {
+//     return spell[classNameToClassCode(className as ClassName)] as number | null;
+// }
+
+export function spellClassLevelNameToLevel(
     spell: Spell,
-    className: string
+    classLevelName: string
 ): number | null {
-    return spell[classNameToClassCode(className as ClassName)] as number | null;
+    const classCode = classLevelNameToClassCodeMapping[
+        classLevelName as ClassLevelName
+    ] as keyof (Spell | SpellSummary);
+
+    return spell[classCode] as number | null;
 }

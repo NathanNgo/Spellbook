@@ -3,9 +3,14 @@ import styles from "components/drawer/pageDrawer/PageDrawer.module.css";
 import type { SpellSummary, Spell } from "types";
 import InfoBox from "components/infobox/InfoBox";
 import StatusButton, { Status } from "components/statusButton/StatusButton";
-import { ClassName, spellClassLevel } from "common/character";
+import {
+    ClassLevelName,
+    ClassName,
+    spellClassLevelNameToLevel,
+} from "common/character";
 import Message from "components/message/Message";
 import MovingEllipsis from "components/movingEllipsis/MovingEllipsis";
+import InfoBoxContainer from "components/infoboxContainer/InfoBoxContainer";
 
 const ASCII_WIZARD = `
   _____________________           .
@@ -49,31 +54,27 @@ function PageDrawer({
     isFromBrowse,
     onOpenBrowse,
 }: Props) {
-    function showInfoBoxIfNonEmpty(title: string, info: string): JSX.Element {
-        if (info.length == 0) {
-            return <></>;
-        }
-        return <InfoBox title={title} info={info} />;
-    }
-
     function spellLevelDisplay(): JSX.Element {
         if (spell === null) {
             return <></>;
         }
 
-        const classNames = Object.values(ClassName);
+        const classNames = Object.values(ClassLevelName);
 
         return classNames
             .map(
-                (className: ClassName) =>
-                    [className, spellClassLevel(spell, className)] as const
+                (classLevelName: ClassLevelName) =>
+                    [
+                        classLevelName,
+                        spellClassLevelNameToLevel(spell, classLevelName),
+                    ] as const
             )
             .filter(([, level]) => level !== null)
             .map(([className, level], index, arr) => (
-                <span>
+                <span className={styles.levelClassItems}>
                     <span className={styles.levelClassName}>{className}</span>{" "}
                     <span className={styles.levelValue}>{level}</span>
-                    {index < arr.length - 1 && <span>,&nbsp;</span>}
+                    {index < arr.length - 1 && <span>,</span>}
                 </span>
             ))
             .reduce((previous: JSX.Element, current: JSX.Element) => (
@@ -82,6 +83,58 @@ function PageDrawer({
                     {current}
                 </>
             ));
+    }
+
+    function infoBox(infoTitle: string): JSX.Element | null {
+        const info = spellInfo(infoTitle);
+        if (info === "") {
+            return null;
+        }
+        return <InfoBox title={infoTitle} info={spellInfo(infoTitle)} />;
+    }
+
+    function infoBoxes(infoTitles: string[]): JSX.Element[] {
+        return infoTitles
+            .map((infoTitle) => infoBox(infoTitle))
+            .filter((element) => element !== null);
+    }
+
+    function spellInfo(infoTitle: string): JSX.Element | string {
+        if (spell === null) {
+            return "";
+        }
+        if (infoTitle === "Source") {
+            return spell.source;
+        }
+        if (infoTitle === "Level") {
+            return (
+                <div className={styles.spellLevelDisplay}>
+                    {spellLevelDisplay()}
+                </div>
+            );
+        }
+        if (infoTitle === "Casting Time") {
+            return spell.castingTime;
+        }
+        if (infoTitle === "Components") {
+            return spell.components;
+        }
+        if (infoTitle === "Range") {
+            return spell.range;
+        }
+        if (infoTitle === "Area") {
+            return spell.area;
+        }
+        if (infoTitle === "Duration") {
+            return spell.duration;
+        }
+        if (infoTitle === "Saving Throw") {
+            return spell.savingThrow;
+        }
+        if (infoTitle === "Spell Resistance") {
+            return spell.spellResistance;
+        }
+        return "";
     }
 
     let pageContent = <></>;
@@ -143,32 +196,26 @@ function PageDrawer({
 
                 <div className={styles.topInfoContainer}>
                     <InfoBox title="Source" info={spell.source} flex="1" />
-                    <InfoBox
-                        title="Level"
-                        info={
-                            <div className={styles.spellLevelDisplay}>
-                                {spellLevelDisplay()}
-                            </div>
-                        }
-                        flex="4"
-                    />
+                    <InfoBox title="Level" info={spellInfo("Level")} flex="4" />
                 </div>
                 <h2>CASTING</h2>
-                <div className={styles.infoContainer}>
+                {/* <div className={styles.infoContainer}>
                     {showInfoBoxIfNonEmpty("Casting Time", spell.castingTime)}
                     {showInfoBoxIfNonEmpty("Components", spell.components)}
-                </div>
+                </div> */}
+                <InfoBoxContainer
+                    infoBoxes={infoBoxes(["Casting Time", "Components"])}
+                />
                 <h2>EFFECT</h2>
-                <div className={styles.infoContainer}>
-                    {showInfoBoxIfNonEmpty("Range", spell.range)}
-                    {showInfoBoxIfNonEmpty("Area", spell.area)}
-                    {showInfoBoxIfNonEmpty("Duration", spell.duration)}
-                    {showInfoBoxIfNonEmpty("Saving Throw", spell.savingThrow)}
-                    {showInfoBoxIfNonEmpty(
+                <InfoBoxContainer
+                    infoBoxes={infoBoxes([
+                        "Range",
+                        "Area",
+                        "Duration",
+                        "Saving Throw",
                         "Spell Resistance",
-                        spell.spellResistance
-                    )}
-                </div>
+                    ])}
+                />
                 <h2>DESCRIPTION</h2>
                 <div
                     className={styles.descriptionContainer}

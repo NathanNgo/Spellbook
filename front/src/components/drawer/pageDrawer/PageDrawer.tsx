@@ -3,11 +3,7 @@ import styles from "components/drawer/pageDrawer/PageDrawer.module.css";
 import type { SpellSummary, Spell } from "types";
 import InfoBox from "components/infobox/InfoBox";
 import StatusButton, { Status } from "components/statusButton/StatusButton";
-import {
-    ClassLevelName,
-    ClassName,
-    spellClassLevelNameToLevel,
-} from "common/character";
+import { ClassLevelName, spellClassLevelNameToLevel } from "common/character";
 import Message from "components/message/Message";
 import MovingEllipsis from "components/movingEllipsis/MovingEllipsis";
 import InfoBoxContainer from "components/infoboxContainer/InfoBoxContainer";

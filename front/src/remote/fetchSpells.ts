@@ -31,10 +31,11 @@ function addSpellsToCache(spells: Spell[]) {
 
     const uncachedSpells = spells.filter(
         (spell) =>
-            cachedSpellsOrNone.find((cachedSpellOrNone) => {
-                cachedSpellOrNone !== undefined &&
-                    spell.name === cachedSpellOrNone.name;
-            }) === undefined
+            cachedSpellsOrNone.find(
+                (cachedSpellOrNone) =>
+                    cachedSpellOrNone !== undefined &&
+                    spell.name === cachedSpellOrNone.name
+            ) === undefined
     );
 
     const newSpellCache = [...spellCache(), ...uncachedSpells];

@@ -105,6 +105,8 @@
 
 .loadingMessage {
     margin-top: 5rem;
+    width: 20rem;
+    display: flex;
 }
 
 .levelClassName {
@@ -162,5 +164,9 @@
     .descriptionContainer {
         padding-inline: 1rem;
         font-size: 1.3rem;
+    }
+
+    .spellLevelDisplay {
+        justify-content: end;
     }
 }

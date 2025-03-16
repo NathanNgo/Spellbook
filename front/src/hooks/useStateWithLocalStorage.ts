@@ -14,7 +14,6 @@ function useStateWithLocalStorage<StateType>(
             } catch {
                 // Can't parse local storage value as json, invalid storage
                 // Should just give back defaultValue
-                localStorage.removeItem(key);
             }
         }
         loadedFromStorage.current = false;

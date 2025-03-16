@@ -15,7 +15,7 @@
 .infoContainer {
     border-bottom: 1px solid var(--subheading-colour);
     flex-grow: 1;
-
+    align-content: center;
 }
 
 @media (max-width: 1250px) {
@@ -40,6 +40,5 @@
         flex: 3;
         font-size: 1.2rem;
         padding-right: 1rem;
-        align-content: center;
     }
 }

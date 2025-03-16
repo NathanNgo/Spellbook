@@ -49,7 +49,6 @@ function combineAndSortSpells(previousSpells: Spell[], newSpells: Spell[]) {
 
 const SPELLBOOK_SPELLS_KEY = "spellbookSpells";
 const SPELL_SUMMARIES_KEY = "spellSummaries";
-const SPELLS_KEY = "spells";
 
 function SpellbookContainer({
     drawerState,
@@ -64,10 +63,6 @@ function SpellbookContainer({
     const [spellSummaries, setSpellSummaries] = useStateWithLocalStorage<
         SpellSummary[]
     >(SPELL_SUMMARIES_KEY, []);
-    const [cachedSpells, setCachedSpells] = useStateWithLocalStorage<Spell[]>(
-        SPELLS_KEY,
-        []
-    );
     // When we keep track of users' spells in the backend, this will
     // be more meaningful, until then assume spells are always insta-loaded
     // since local storage is our only source of truth here
@@ -91,22 +86,6 @@ function SpellbookContainer({
         }
     }, [spellSummariesLoaded, setSpellSummaries]);
 
-    function getCachedSpell(spellName: string): Spell | undefined {
-        return cachedSpells.find(
-            (cachedSpell) => cachedSpell.name === spellName
-        );
-    }
-
-    function addSpellToCache(spell: Spell) {
-        if (getCachedSpell(spell.name) !== undefined) {
-            return;
-        }
-        setCachedSpells((previousCachedSpells) => [
-            spell,
-            ...previousCachedSpells,
-        ]);
-    }
-
     function handleCloseDrawer() {
         onSetDrawerState(DrawerState.None);
     }
@@ -116,19 +95,10 @@ function SpellbookContainer({
             return;
         }
 
-        const cachedSpell = getCachedSpell(requestedSpell.name);
-
-        if (cachedSpell !== undefined) {
-            setSpells((previousSpells) =>
-                combineAndSortSpells(previousSpells, [cachedSpell])
-            );
-            return;
-        }
         fetchSpells([requestedSpell.name]).then((spells) => {
             setSpells((previousSpells) =>
                 combineAndSortSpells(previousSpells, spells)
             );
-            spells.forEach((spell) => addSpellToCache(spell));
         });
     }
 
@@ -170,16 +140,9 @@ function SpellbookContainer({
     }
 
     function handleOpenSpellPageFromBrowse(spellSummary: SpellSummary) {
-        const cachedSpell = getCachedSpell(spellSummary.name);
         setSpellPageOpenedFromBrowse(true);
-
-        if (cachedSpell !== undefined) {
-            handleOpenPage(cachedSpell);
-            return;
-        }
         setSpellPageIsLoading(true);
         fetchSpells([spellSummary.name]).then(([spell]) => {
-            addSpellToCache(spell);
             setSpellForPage(spell);
             setSpellPageIsLoading(false);
         });

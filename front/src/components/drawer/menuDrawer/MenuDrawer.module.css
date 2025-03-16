@@ -1,9 +1,0 @@
-.themeContainer {
-    display: flex;
-    gap: 1rem;
-    width: 100%;
-}
-
-.themeContainer button {
-    flex-grow: 1;
-}

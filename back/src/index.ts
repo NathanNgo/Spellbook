@@ -87,6 +87,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.get("/healthCheck", async (_: Request, response: Response) => {
+    response.sendStatus(200);
+});
+
 app.get("/spellSummaries", async (_: Request, response: Response) => {
     const spellSummaries: SpellSummary[] =
         SpellSummaryArraySchema.parse(manifestDetails);

@@ -140,21 +140,16 @@ export const classLevelNameToClassCodeMapping: Record<
     [ClassLevelName.Witch]: ClassCode.Witch,
 };
 
-export function classNameToClassCode(
+export function spellClassLevel(
+    spell: Spell | SpellSummary,
     className: string
-): keyof (Spell | SpellSummary) {
-    return classNameToClassCodeMapping[className as ClassName] as keyof (
-        | Spell
-        | SpellSummary
-    );
-}
+): number | null {
+    const classCode = classNameToClassCodeMapping[
+        className as ClassName
+    ] as keyof (Spell | SpellSummary);
 
-// export function spellClassLevel(
-//     spell: Spell,
-//     className: string
-// ): number | null {
-//     return spell[classNameToClassCode(className as ClassName)] as number | null;
-// }
+    return spell[classCode] as number | null;
+}
 
 export function spellClassLevelNameToLevel(
     spell: Spell,

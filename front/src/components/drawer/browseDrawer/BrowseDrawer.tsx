@@ -7,7 +7,7 @@ import SearchResultsTable from "components/searchResultsTable/SearchResultsTable
 import Message from "components/message/Message";
 import type { SpellSummary, Character } from "types";
 import { LEVEL_TITLES } from "common/spells";
-import { classNameToClassCode } from "common/character";
+import { spellClassLevel } from "common/character";
 
 type Props = {
     isOpen: boolean;
@@ -90,7 +90,7 @@ function BrowseDrawer({
         // Need to generalise to level for any class based on character info
         filteredList.filter(
             (spell) =>
-                spell[classNameToClassCode(character.class)] === levelIndex
+                spellClassLevel(spell, character.class) === levelIndex
         )
     );
 

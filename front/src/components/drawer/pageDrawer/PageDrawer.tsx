@@ -1,9 +1,14 @@
 import Drawer, { DrawerSide } from "components/drawer/Drawer";
 import styles from "components/drawer/pageDrawer/PageDrawer.module.css";
-import type { SpellSummary, Spell } from "types";
+import descriptionStyles from "components/drawer/pageDrawer/PageDrawerDescription.module.css";
+import type { SpellSummary, Spell, Character } from "types";
 import InfoBox from "components/infobox/InfoBox";
 import StatusButton, { Status } from "components/statusButton/StatusButton";
-import { ClassLevelName, spellClassLevelNameToLevel } from "common/character";
+import {
+    ClassLevelName,
+    spellClassLevel,
+    spellClassLevelNameToLevel,
+} from "common/character";
 import Message from "components/message/Message";
 import MovingEllipsis from "components/movingEllipsis/MovingEllipsis";
 import InfoBoxContainer from "components/infoboxContainer/InfoBoxContainer";
@@ -37,6 +42,7 @@ type Props = {
     showLoading: boolean;
     isFromBrowse: boolean;
     onOpenBrowse: () => void;
+    character: Character;
 };
 
 function PageDrawer({
@@ -49,6 +55,7 @@ function PageDrawer({
     showLoading,
     isFromBrowse,
     onOpenBrowse,
+    character,
 }: Props) {
     function spellLevelDisplay(): JSX.Element {
         if (spell === null) {
@@ -133,6 +140,17 @@ function PageDrawer({
         return "";
     }
 
+    function characterLevelText() {
+        if (spell === null) {
+            return "";
+        }
+        const level = spellClassLevel(spell, character.class);
+        if (level === null || level === 0) {
+            return "";
+        }
+        return `Lvl. ${level}`;
+    }
+
     let pageContent = <></>;
 
     if (showLoading) {
@@ -164,12 +182,17 @@ function PageDrawer({
                     className={
                         styles.pageTitleContainer +
                         " " +
-                        (spell.name.length > 6
+                        (spell.name.length > 12
                             ? styles.longTitle
                             : styles.shortTitle)
                     }
                 >
-                    <h1>{spell.name}</h1>
+                    <h1>
+                        <p>{spell.name}</p>
+                        <p className={styles.pageTitleLevel}>
+                            {characterLevelText()}
+                        </p>
+                    </h1>
                     <div className={styles.addButtonContainer}>
                         <StatusButton
                             status={!hasSpell ? Status.First : Status.Second}
@@ -181,24 +204,23 @@ function PageDrawer({
                             transitionFromSecondText="Removed"
                         />
                     </div>
-                    <div
-                        className={`${styles.backButtonContainer} ${
-                            isFromBrowse ? "" : "hidden"
-                        }`}
-                    >
-                        <button onClick={onOpenBrowse}>Back</button>
+                    <p className={styles.pageTitleLevel}>
+                        {characterLevelText()}
+                    </p>
+                    <div className={`${styles.backButtonContainer}`}>
+                        {isFromBrowse && (
+                            <button onClick={onOpenBrowse}>Back</button>
+                        )}
+                        {!isFromBrowse && (
+                            <button onClick={onClose}>Close</button>
+                        )}
                     </div>
                 </div>
-
-                <div className={styles.topInfoContainer}>
-                    <InfoBox title="Source" info={spell.source} flex="1" />
-                    <InfoBox title="Level" info={spellInfo("Level")} flex="4" />
-                </div>
+                <InfoBoxContainer
+                    infoBoxes={infoBoxes(["Level", "Source"])}
+                    spans={[5, 1]}
+                />
                 <h2>CASTING</h2>
-                {/* <div className={styles.infoContainer}>
-                    {showInfoBoxIfNonEmpty("Casting Time", spell.castingTime)}
-                    {showInfoBoxIfNonEmpty("Components", spell.components)}
-                </div> */}
                 <InfoBoxContainer
                     infoBoxes={infoBoxes(["Casting Time", "Components"])}
                 />
@@ -214,7 +236,7 @@ function PageDrawer({
                 />
                 <h2>DESCRIPTION</h2>
                 <div
-                    className={styles.descriptionContainer}
+                    className={descriptionStyles.descriptionContainer}
                     dangerouslySetInnerHTML={{
                         __html: spell.descriptionFormatted,
                     }}

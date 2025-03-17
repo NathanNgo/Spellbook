@@ -5,23 +5,34 @@
     width: 100%;
 }
 
-.threeSpan {
+.span6 {
+    grid-column: span 6;
+}
+
+.span5 {
+    grid-column: span 5;
+}
+
+.span4 {
+    grid-column: span 4;
+}
+
+.span3 {
     grid-column: span 3;
 }
 
-.twoSpan {
+.span2 {
     grid-column: span 2;
+}
+
+.span1 {
+    grid-column: span 1;
 }
 
 @media (max-width : 1250px) {
     .infoContainer {
         display: flex;
         flex-direction: column;
-        gap: 0.5rem;
-    }
-
-    .infoContainer * {
-        min-width: 8rem;
-        max-width: none;
+        gap: 0.25rem;
     }
 }

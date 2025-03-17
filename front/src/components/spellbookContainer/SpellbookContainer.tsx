@@ -187,6 +187,7 @@ function SpellbookContainer({
                 showLoading={spellPageIsLoading}
                 isFromBrowse={spellPageOpenedFromBrowse}
                 onOpenBrowse={() => onSetDrawerState(DrawerState.Browse)}
+                character={character}
             />
             <SpellbookToolbar
                 onSearchQueryChange={handleSearchQueryChange}

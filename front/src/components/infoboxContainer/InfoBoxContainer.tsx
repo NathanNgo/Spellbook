@@ -1,5 +1,16 @@
 import styles from "components/infoboxContainer/InfoBoxContainer.module.css";
 
+const FULL_SPAN = 6;
+const HALF_SPAN = 3;
+const THIRD_SPAN = 2;
+
+// Eg. 10 boxes total ->  2 rows of 3 boxes each, then 2 rows of 2 boxes each
+const TOTAL_HALF_WIDTHS_WHEN_ONE_OVER_THREE = 4;
+
+// Eg. 11 boxes total -> 3 rows of 3 boxes each, then 1 row of 2 boxes each
+const TOTAL_HALF_WIDTHS_WHEN_TWO_OVER_THREE = 2;
+const TOTAL_HALF_WIDTHS_WHEN_ON_THREE = 3;
+
 type Props = {
     infoBoxes: JSX.Element[];
     spans?: number[];
@@ -21,27 +32,27 @@ function InfoBoxContainer({ infoBoxes, spans = [] }: Props) {
 
     let layout: number[] = [];
 
-    const FULL_SPAN = 6;
-    const HALF_SPAN = 3;
-    const THIRD_SPAN = 2;
+    let totalHalfWidthInfoBoxes = 0;
 
     if (spans.length === infoBoxes.length) {
         layout = spans;
     } else {
         if (infoBoxes.length === 1) {
             layout.push(FULL_SPAN);
-        } else if (infoBoxes.length % 3 === 1) {
-            layout.push(
-                ...Array(infoBoxes.length - 4).fill(THIRD_SPAN),
-                ...Array(4).fill(HALF_SPAN)
-            );
-        } else if (infoBoxes.length % 3 === 2) {
-            layout.push(
-                ...Array(infoBoxes.length - 2).fill(THIRD_SPAN),
-                ...Array(2).fill(HALF_SPAN)
-            );
         } else {
-            layout.push(...Array(infoBoxes.length).fill(THIRD_SPAN));
+            if (infoBoxes.length % 3 === 1) {
+                totalHalfWidthInfoBoxes = TOTAL_HALF_WIDTHS_WHEN_ONE_OVER_THREE;
+            } else if (infoBoxes.length % 3 === 2) {
+                totalHalfWidthInfoBoxes = TOTAL_HALF_WIDTHS_WHEN_TWO_OVER_THREE;
+            } else {
+                totalHalfWidthInfoBoxes = TOTAL_HALF_WIDTHS_WHEN_ON_THREE;
+            }
+            layout.push(
+                ...Array(infoBoxes.length - totalHalfWidthInfoBoxes).fill(
+                    THIRD_SPAN
+                ),
+                ...Array(totalHalfWidthInfoBoxes).fill(HALF_SPAN)
+            );
         }
     }
 

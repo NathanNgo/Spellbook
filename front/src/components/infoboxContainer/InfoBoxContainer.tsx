@@ -9,7 +9,7 @@ const TOTAL_HALF_WIDTHS_WHEN_ONE_OVER_THREE = 4;
 
 // Eg. 11 boxes total -> 3 rows of 3 boxes each, then 1 row of 2 boxes each
 const TOTAL_HALF_WIDTHS_WHEN_TWO_OVER_THREE = 2;
-const TOTAL_HALF_WIDTHS_WHEN_ON_THREE = 3;
+const TOTAL_HALF_WIDTHS_WHEN_ON_THREE = 0;
 
 type Props = {
     infoBoxes: JSX.Element[];

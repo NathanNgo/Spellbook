@@ -180,9 +180,7 @@ function SpellbookContainer({
                 spell={spellForPage}
                 hasSpell={
                     spellForPage !== null &&
-                    spells.findIndex(
-                        (spell) => spell.id === spellForPage.id
-                    ) !== -1
+                    spells.map(spell => spell.id).includes(spellForPage.id)
                 }
                 showLoading={spellPageIsLoading}
                 isFromBrowse={spellPageOpenedFromBrowse}

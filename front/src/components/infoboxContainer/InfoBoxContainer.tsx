@@ -20,22 +20,29 @@ function InfoBoxContainer({ infoBoxes, spans = [] }: Props) {
     }
 
     let layout: number[] = [];
-    const length = infoBoxes.length;
 
-    if (length === 1) {
-        layout.push(6);
-    } else if (length % 3 === 1) {
-        for (let i = 0; i < length - 4; i += 3) layout.push(2, 2, 2);
-        layout.push(3, 3, 3, 3);
-    } else if (length % 3 === 2) {
-        for (let i = 0; i < length - 2; i += 3) layout.push(2, 2, 2);
-        layout.push(3, 3);
-    } else {
-        for (let i = 0; i < length; i += 3) layout.push(2, 2, 2);
-    }
+    const FULL_SPAN = 6;
+    const HALF_SPAN = 3;
+    const THIRD_SPAN = 2;
 
     if (spans.length === infoBoxes.length) {
         layout = spans;
+    } else {
+        if (infoBoxes.length === 1) {
+            layout.push(FULL_SPAN);
+        } else if (infoBoxes.length % 3 === 1) {
+            layout.push(
+                ...Array(infoBoxes.length - 4).fill(THIRD_SPAN),
+                ...Array(4).fill(HALF_SPAN)
+            );
+        } else if (infoBoxes.length % 3 === 2) {
+            layout.push(
+                ...Array(infoBoxes.length - 2).fill(THIRD_SPAN),
+                ...Array(2).fill(HALF_SPAN)
+            );
+        } else {
+            layout.push(...Array(infoBoxes.length).fill(THIRD_SPAN));
+        }
     }
 
     return (

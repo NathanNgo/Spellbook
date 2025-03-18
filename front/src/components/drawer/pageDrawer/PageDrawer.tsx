@@ -12,6 +12,7 @@ import {
 import Message from "components/message/Message";
 import MovingEllipsis from "components/movingEllipsis/MovingEllipsis";
 import InfoBoxContainer from "components/infoboxContainer/InfoBoxContainer";
+import { useMemo } from "react";
 
 const ASCII_WIZARD = `
   _____________________           .
@@ -57,6 +58,19 @@ function PageDrawer({
     onOpenBrowse,
     character,
 }: Props) {
+    const infoMapping = useMemo(() => {
+        return {
+            Source: spell?.source,
+            "Casting Time": spell?.castingTime,
+            Components: spell?.components,
+            Range: spell?.range,
+            Area: spell?.area,
+            Duration: spell?.duration,
+            "Saving Throw": spell?.savingThrow,
+            "Spell Resistance": spell?.spellResistance,
+        };
+    }, [spell]);
+
     function spellLevelDisplay(): JSX.Element {
         if (spell === null) {
             return <></>;
@@ -106,9 +120,7 @@ function PageDrawer({
         if (spell === null) {
             return "";
         }
-        if (infoTitle === "Source") {
-            return spell.source;
-        }
+
         if (infoTitle === "Level") {
             return (
                 <div className={styles.spellLevelDisplay}>
@@ -116,26 +128,12 @@ function PageDrawer({
                 </div>
             );
         }
-        if (infoTitle === "Casting Time") {
-            return spell.castingTime;
-        }
-        if (infoTitle === "Components") {
-            return spell.components;
-        }
-        if (infoTitle === "Range") {
-            return spell.range;
-        }
-        if (infoTitle === "Area") {
-            return spell.area;
-        }
-        if (infoTitle === "Duration") {
-            return spell.duration;
-        }
-        if (infoTitle === "Saving Throw") {
-            return spell.savingThrow;
-        }
-        if (infoTitle === "Spell Resistance") {
-            return spell.spellResistance;
+        if (infoTitle in infoMapping) {
+            const mappedInfo =
+                infoMapping[infoTitle as keyof typeof infoMapping];
+            if (mappedInfo !== undefined) {
+                return mappedInfo;
+            }
         }
         return "";
     }

@@ -25,7 +25,7 @@ export enum CharacterClassName {
     Sorcerer = "Sorcerer",
     Spiritualist = "Spiritualist",
     Summoner = "Summoner",
-    SummonerUnchained = "Summoner Unchained",
+    UnchainedSummoner = "Unchained Summoner",
     Wizard = "Wizard",
     Witch = "Witch",
 }
@@ -50,7 +50,7 @@ export enum SpellListName {
     Shaman = "Shaman",
     SorcererWizard = "Sorcerer/Wizard",
     Spiritualist = "Spiritualist",
-    SummonerSummonerUnchained = "Summoner/Summoner Unchained",
+    SummonerUnchainedSummoner = "Summoner/Unchained Summoner",
     Witch = "Witch",
 }
 
@@ -80,7 +80,7 @@ enum CharacterClassCode {
     Skald = "skald",
     Investigator = "investigator",
     Hunter = "hunter",
-    SummonerUnchained = "summonerUnchained",
+    UnchainedSummoner = "summonerUnchained",
 }
 
 const characterClassNameToClassCodeMapping: Record<
@@ -90,8 +90,8 @@ const characterClassNameToClassCodeMapping: Record<
     [CharacterClassName.Wizard]: CharacterClassCode.Wiz,
     [CharacterClassName.Arcanist]: CharacterClassCode.Wiz, // Arcanist has same levels as Wizard class
     [CharacterClassName.Sorcerer]: CharacterClassCode.Sor,
-    [CharacterClassName.SummonerUnchained]:
-        CharacterClassCode.SummonerUnchained,
+    [CharacterClassName.UnchainedSummoner]:
+        CharacterClassCode.UnchainedSummoner,
     [CharacterClassName.Cleric]: CharacterClassCode.Cleric,
     [CharacterClassName.Druid]: CharacterClassCode.Druid,
     [CharacterClassName.Ranger]: CharacterClassCode.Ranger,
@@ -140,7 +140,7 @@ export const spellListNameToClassCodeMapping: Record<
     [SpellListName.Shaman]: CharacterClassCode.Shaman,
     [SpellListName.SorcererWizard]: CharacterClassCode.Wiz, // Sorcerer and Wizard share levels
     [SpellListName.Spiritualist]: CharacterClassCode.Spiritualist,
-    [SpellListName.SummonerSummonerUnchained]: CharacterClassCode.Summoner, // Both share same levels
+    [SpellListName.SummonerUnchainedSummoner]: CharacterClassCode.Summoner, // Both share same levels
     [SpellListName.Witch]: CharacterClassCode.Witch,
 };
 
@@ -171,9 +171,9 @@ export const characterClassNameToSpellListNameMapping: Record<
     [CharacterClassName.Skald]: SpellListName.Bard, // Uses Bard spell list
     [CharacterClassName.Sorcerer]: SpellListName.SorcererWizard, // Shares with Wizard
     [CharacterClassName.Spiritualist]: SpellListName.Spiritualist,
-    [CharacterClassName.Summoner]: SpellListName.SummonerSummonerUnchained, // Shares with Unchained Summoner
-    [CharacterClassName.SummonerUnchained]:
-        SpellListName.SummonerSummonerUnchained, // Shares with Summoner
+    [CharacterClassName.Summoner]: SpellListName.SummonerUnchainedSummoner, // Shares with Unchained Summoner
+    [CharacterClassName.UnchainedSummoner]:
+        SpellListName.SummonerUnchainedSummoner, // Shares with Summoner
     [CharacterClassName.Wizard]: SpellListName.SorcererWizard, // Shares with Sorcerer
     [CharacterClassName.Witch]: SpellListName.Witch,
 };

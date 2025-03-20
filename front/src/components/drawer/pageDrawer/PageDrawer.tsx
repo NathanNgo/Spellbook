@@ -5,9 +5,10 @@ import type { SpellSummary, Spell, Character } from "types";
 import InfoBox from "components/infobox/InfoBox";
 import StatusButton, { Status } from "components/statusButton/StatusButton";
 import {
-    ClassLevelName,
+    SpellListName,
     spellClassLevel,
-    spellClassLevelNameToLevel,
+    spellAndSpellListNameToLevel,
+    characterClassNameToSpellListNameMapping,
 } from "common/character";
 import Message from "components/message/Message";
 import MovingEllipsis from "components/movingEllipsis/MovingEllipsis";
@@ -76,30 +77,42 @@ function PageDrawer({
             return <></>;
         }
 
-        const classNames = Object.values(ClassLevelName);
+        const characterSpellListName =
+            characterClassNameToSpellListNameMapping[character.class];
 
-        return classNames
+        const spellListNames = Object.values(SpellListName);
+
+        const spellListsAndLevels = spellListNames
             .map(
-                (classLevelName: ClassLevelName) =>
+                (spellListName: SpellListName) =>
                     [
-                        classLevelName,
-                        spellClassLevelNameToLevel(spell, classLevelName),
+                        spellListName,
+                        spellAndSpellListNameToLevel(spell, spellListName),
                     ] as const
             )
-            .filter(([, level]) => level !== null)
-            .map(([className, level], index, arr) => (
-                <span className={styles.levelClassItems}>
-                    <span className={styles.levelClassName}>{className}</span>{" "}
-                    <span className={styles.levelValue}>{level}</span>
-                    {index < arr.length - 1 && <span>,</span>}
-                </span>
-            ))
-            .reduce((previous: JSX.Element, current: JSX.Element) => (
-                <>
-                    {previous}
-                    {current}
-                </>
-            ));
+            .filter(([, level]) => level !== null);
+
+        return (
+            <>
+                {spellListsAndLevels.map(
+                    ([spellListName, level], index, arr) => (
+                        <span
+                            className={`${styles.levelClassItems} ${
+                                characterSpellListName === spellListName
+                                    ? styles.characterClassLevelDisplay
+                                    : ""
+                            }`}
+                        >
+                            <span className={styles.levelClassName}>
+                                {spellListName}
+                            </span>{" "}
+                            <span className={styles.levelValue}>{level}</span>
+                            {index < arr.length - 1 && <span>,</span>}
+                        </span>
+                    )
+                )}
+            </>
+        );
     }
 
     function infoBox(infoTitle: string): JSX.Element | null {
@@ -221,7 +234,7 @@ function PageDrawer({
                 </div>
                 <InfoBoxContainer
                     infoBoxes={infoBoxes(["Level", "Source"])}
-                    spans={[5, 1]}
+                    spans={[4, 2]}
                 />
                 <h2>CASTING</h2>
                 <InfoBoxContainer

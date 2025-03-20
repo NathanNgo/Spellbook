@@ -131,7 +131,11 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 0.5rem;
+    column-gap: 0.5rem;
+}
+
+.characterClassLevelDisplay {
+    font-weight: bold;
 }
 
 @media (max-width: 1500px) {

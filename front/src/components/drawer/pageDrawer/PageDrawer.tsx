@@ -151,17 +151,6 @@ function PageDrawer({
         return "";
     }
 
-    function characterLevelText() {
-        if (spell === null) {
-            return "";
-        }
-        const level = spellClassLevel(spell, character.class);
-        if (level === null || level === 0) {
-            return "";
-        }
-        return `Lvl. ${level}`;
-    }
-
     let pageContent = <></>;
 
     if (showLoading) {
@@ -203,12 +192,7 @@ function PageDrawer({
                             : styles.shortTitle)
                     }
                 >
-                    <h1>
-                        <p>{spell.name}</p>
-                        <p className={styles.pageTitleLevel}>
-                            {characterLevelText()}
-                        </p>
-                    </h1>
+                    <h1>{spell.name}</h1>
                     <div className={styles.addButtonContainer}>
                         <StatusButton
                             status={!hasSpell ? Status.First : Status.Second}
@@ -220,9 +204,6 @@ function PageDrawer({
                             transitionFromSecondText="Removed"
                         />
                     </div>
-                    <p className={styles.pageTitleLevel}>
-                        {characterLevelText()}
-                    </p>
                     <div className={`${styles.backButtonContainer}`}>
                         {isFromBrowse && (
                             <button onClick={onOpenBrowse}>Back</button>

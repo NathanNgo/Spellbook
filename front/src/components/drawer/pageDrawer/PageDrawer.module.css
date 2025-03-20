@@ -30,20 +30,6 @@
     justify-content: center;
 }
 
-.pageTitleLevel {
-    font-size: 1.5rem;
-    text-wrap: nowrap;
-    padding-inline: 1rem;
-    align-self: center;
-    font-weight: bold;
-    font-style: italic;
-    text-align: center;
-}
-
-.pageTitleContainer > .pageTitleLevel {
-    visibility: hidden;
-}
-
 .addButtonContainer {
     grid-column: 3;
     grid-row: 1;

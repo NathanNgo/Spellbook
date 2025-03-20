@@ -32,6 +32,7 @@ const TOGGLE_BUTTON_LEVEL_LABELS = [
     "8TH",
     "9TH",
 ];
+const UNCATEGORISED_LEVEL = -1;
 
 const MINIMUM_QUERY_LENGTH = 2;
 
@@ -92,15 +93,24 @@ function BrowseDrawer({
         )
     );
 
+    const uncategorisedList = filteredList.filter(
+        (spell) => spell[classNameToClassCode(character.class)] === null
+    );
+
     const someToggleSelected = levelSelection.some((flag) => flag);
 
-    const resultsFound =
+    const filteredListHasResults =
         filteredList.length !== 0 &&
         filteredListsByLevel.some(
             (spellList, index) =>
                 (levelSelection[index] || !someToggleSelected) &&
                 spellList.length > 0
         );
+
+    const uncategorisedListHasResults =
+        uncategorisedList.length !== 0 && !someToggleSelected;
+
+    const resultsFound = uncategorisedListHasResults || filteredListHasResults;
 
     const noResultsMessage = spellSummariesLoaded ? (
         <Message>No Spells Found</Message>
@@ -130,6 +140,19 @@ function BrowseDrawer({
                 );
             }
         );
+
+        if (uncategorisedListHasResults) {
+            searchResultTables.push(
+                <SearchResultsTable
+                    results={uncategorisedList}
+                    title={"Uncategorised"}
+                    spellbookIds={spellbookIds}
+                    onAddSpell={onAddSpell}
+                    onRemoveSpell={onRemoveSpell}
+                    key={UNCATEGORISED_LEVEL}
+                />
+            );
+        }
 
         searchResultOutcome = <>{searchResultTables}</>;
     }

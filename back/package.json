@@ -33,6 +33,7 @@
         "start": "bash ./bin/start.sh $(pwd)",
         "setup-database": "bash ./bin/setup_database.sh $(pwd)",
         "start-production": "bash ./bin/start_production.sh $(pwd)",
+        "docker-push": "bash ./bin/build_and_push_docker_image.sh",
         "manual-test": "ts-node src/testing/manual.ts",
         "lint": "eslint ."
     },

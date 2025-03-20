@@ -154,9 +154,14 @@ function PageDrawer({
     if (showLoading) {
         pageContent = (
             <div className={styles.loadingMessage}>
-                <Message>
-                    Loading Spell <MovingEllipsis />
-                </Message>
+                <div className={styles.loadingText}>
+                    <Message>Loading Spell&nbsp;</Message>
+                </div>
+                <div className={styles.loadingEllipsis}>
+                    <Message>
+                        <MovingEllipsis />
+                    </Message>
+                </div>
             </div>
         );
     } else if (spell === null) {

@@ -105,8 +105,22 @@
 
 .loadingMessage {
     margin-top: 5rem;
-    width: 20rem;
+    width: 100%;
     display: flex;
+    position: relative;
+}
+
+.loadingText {
+    left: 50%;
+    transform: translateX(-50%);
+    text-wrap: nowrap;
+    position: absolute;
+}
+
+.loadingEllipsis {
+    position: absolute;
+    left: 50%;
+    transform: translateX(8rem);
 }
 
 .characterLevelText {

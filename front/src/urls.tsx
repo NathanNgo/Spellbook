@@ -1,7 +1,7 @@
 export const BACKEND_PORT = "3000";
 export const DEVELOPMENT_BACKEND_BASE_URL = `http://localhost:${BACKEND_PORT}`;
 export const PRODUCTION_BACKEND_BASE_URL =
-    "https://q3tip87tp2.ap-southeast-2.awsapprunner.com/";
+    "https://wgkci5dpsz.ap-southeast-2.awsapprunner.com";
 
 export const BACKEND_BASE_URL = import.meta.env.DEV
     ? DEVELOPMENT_BACKEND_BASE_URL

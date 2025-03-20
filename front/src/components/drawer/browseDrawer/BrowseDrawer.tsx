@@ -110,6 +110,30 @@ function BrowseDrawer({
 
     const noResults = !resultsFound && query.length >= MINIMUM_QUERY_LENGTH;
 
+    let searchResultOutcome = noResultsMessage;
+
+    if (!noResults) {
+        const searchResultTables = LEVEL_TITLES.map(
+            (levelTitle, levelIndex) => {
+                if (!levelSelection[levelIndex] && someToggleSelected) {
+                    return;
+                }
+                return (
+                    <SearchResultsTable
+                        results={filteredListsByLevel[levelIndex]}
+                        title={levelTitle}
+                        spellbookIds={spellbookIds}
+                        onAddSpell={onAddSpell}
+                        onRemoveSpell={onRemoveSpell}
+                        key={levelIndex}
+                    />
+                );
+            }
+        );
+
+        searchResultOutcome = <>{searchResultTables}</>;
+    }
+
     return (
         <Drawer
             isOpen={isOpen}
@@ -136,27 +160,7 @@ function BrowseDrawer({
                     </ToggleButton>
                 ))}
             </div>
-            <div className={styles.searchResults}>
-                {noResults
-                    ? noResultsMessage
-                    : LEVEL_TITLES.map((levelTitle, levelIndex) => {
-                          if (
-                              levelSelection[levelIndex] ||
-                              !someToggleSelected
-                          ) {
-                              return (
-                                  <SearchResultsTable
-                                      results={filteredListsByLevel[levelIndex]}
-                                      title={levelTitle}
-                                      spellbookIds={spellbookIds}
-                                      onAddSpell={onAddSpell}
-                                      onRemoveSpell={onRemoveSpell}
-                                      key={levelIndex}
-                                  />
-                              );
-                          }
-                      })}
-            </div>
+            <div className={styles.searchResults}>{searchResultOutcome}</div>
         </Drawer>
     );
 }

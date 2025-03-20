@@ -5,12 +5,12 @@ import SpellbookContainer, {
     DrawerState,
 } from "components/spellbookContainer/SpellbookContainer";
 import { Character } from "types";
-import { ClassName } from "common/character";
+import { CharacterClassName } from "common/character";
 import useStateWithLocalStorage from "hooks/useStateWithLocalStorage";
 
 const INITIAL_CHARACTER: Character = {
     name: "Josh Mann",
-    class: ClassName.Sorcerer,
+    class: CharacterClassName.Sorcerer,
     spellCastingModifier: 0,
     showSpellSaveDC: true,
     id: crypto.randomUUID(),

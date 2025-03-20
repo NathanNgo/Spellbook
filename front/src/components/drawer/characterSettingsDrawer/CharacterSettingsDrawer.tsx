@@ -4,7 +4,7 @@ import styles from "components/drawer/characterSettingsDrawer/CharacterSettingsD
 import Dropdown from "components/dropdown/Dropdown";
 import Checkbox from "components/checkbox/Checkbox";
 import type { Character } from "types";
-import { ClassName } from "common/character";
+import { CharacterClassName } from "common/character";
 
 type Props = {
     isOpen: boolean;
@@ -41,11 +41,13 @@ function CharacterSettingsDrawer({
                     <h3>Class</h3>
                     <div className={styles.classInputContainer}>
                         <Dropdown
-                            dropdownOptions={Object.values(ClassName).sort()}
+                            dropdownOptions={Object.values(
+                                CharacterClassName
+                            ).sort()}
                             currentOption={character.class}
                             onCurrentOptionChange={(newClass) =>
                                 onCharacterValuesChanged({
-                                    class: newClass as ClassName,
+                                    class: newClass as CharacterClassName,
                                 })
                             }
                         />

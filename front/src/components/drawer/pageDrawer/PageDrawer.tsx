@@ -15,6 +15,8 @@ import MovingEllipsis from "components/movingEllipsis/MovingEllipsis";
 import InfoBoxContainer from "components/infoboxContainer/InfoBoxContainer";
 import { useMemo } from "react";
 
+const MAX_SHORT_TITLE_LENGTH = 12;
+
 const ASCII_WIZARD = `
   _____________________           .
 /    THIS SPELL DOES    \\         
@@ -187,7 +189,7 @@ function PageDrawer({
                     className={
                         styles.pageTitleContainer +
                         " " +
-                        (spell.name.length > 12
+                        (spell.name.length > MAX_SHORT_TITLE_LENGTH
                             ? styles.longTitle
                             : styles.shortTitle)
                     }

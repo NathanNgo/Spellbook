@@ -15,7 +15,7 @@ type Props = {
     spellSummaries: SpellSummary[];
     spellSummariesLoaded: boolean;
     character: Character;
-    spellbookIds: number[];
+    spellIds: number[];
     onAddSpell: (spell: SpellSummary) => void;
     onRemoveSpell: (spell: SpellSummary) => void;
 };
@@ -43,7 +43,7 @@ function BrowseDrawer({
     onClose,
     spellSummaries,
     spellSummariesLoaded,
-    spellbookIds,
+    spellIds,
     character,
     onAddSpell,
     onRemoveSpell,
@@ -132,7 +132,7 @@ function BrowseDrawer({
                     <SearchResultsTable
                         results={filteredListsByLevel[levelIndex]}
                         title={levelTitle}
-                        spellbookIds={spellbookIds}
+                        spellIds={spellIds}
                         onAddSpell={onAddSpell}
                         onRemoveSpell={onRemoveSpell}
                         key={levelIndex}
@@ -146,7 +146,7 @@ function BrowseDrawer({
                 <SearchResultsTable
                     results={uncategorisedList}
                     title={"Uncategorised"}
-                    spellbookIds={spellbookIds}
+                    spellIds={spellIds}
                     onAddSpell={onAddSpell}
                     onRemoveSpell={onRemoveSpell}
                     key={UNCATEGORISED_LEVEL}

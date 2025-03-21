@@ -138,7 +138,7 @@ function SpellbookContainer({
                 spellSummaries={spellSummaries}
                 spellSummariesLoaded={spellSummariesLoaded}
                 character={character}
-                spellbookIds={spells.map((spell) => spell.id)}
+                spellIds={spells.map((spell) => spell.id)}
                 onAddSpell={handleAddSpell}
                 onRemoveSpell={handleRemoveSpell}
             />

@@ -58,25 +58,41 @@ function SpellbookContainer({
         SPELLS_KEY,
         []
     );
-    const [spellSummaries, setSpellSummaries] = useStateWithLocalStorage<
-        SpellSummary[]
-    >(SPELL_SUMMARIES_KEY, []);
+    const [
+        spellSummaries,
+        setSpellSummaries,
+        spellSummariesLoadedFromLocalStorage,
+    ] = useStateWithLocalStorage<SpellSummary[]>(SPELL_SUMMARIES_KEY, []);
+
     // When we keep track of users' spells in the backend, this will
     // be more meaningful, until then assume spells are always insta-loaded
     // since local storage is our only source of truth here
     const [spellsLoaded] = useState<boolean>(true);
-    const [spellSummariesLoaded, setSpellSummariesLoaded] =
-        useState<boolean>(false);
+    const [
+        spellSummariesLoadedFromNetwork,
+        setSpellSummariesLoadedFromNetwork,
+    ] = useState<boolean>(false);
     const [searchQuery, setSearchQuery] = useState<string>("");
+
     useEffect(() => {
-        if (!spellSummariesLoaded) {
+        if (
+            !spellSummariesLoadedFromNetwork &&
+            !spellSummariesLoadedFromLocalStorage
+        ) {
             fetchSpellSummaries().then((fetchedSpellSummaries) => {
                 sortAlphabetically(fetchedSpellSummaries);
                 setSpellSummaries(fetchedSpellSummaries);
-                setSpellSummariesLoaded(true);
+                setSpellSummariesLoadedFromNetwork(true);
             });
         }
-    }, [spellSummariesLoaded, setSpellSummaries]);
+    }, [
+        spellSummariesLoadedFromNetwork,
+        setSpellSummaries,
+        spellSummariesLoadedFromLocalStorage,
+    ]);
+
+    const spellSummariesLoaded =
+        spellSummariesLoadedFromNetwork || spellSummariesLoadedFromLocalStorage;
 
     function handleCloseDrawer() {
         onSetDrawerState(DrawerState.None);

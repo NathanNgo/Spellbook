@@ -4,29 +4,24 @@ import styles from "components/searchResult/SearchResult.module.css";
 
 type Props = {
     spell: SpellSummary;
-    spellbookIds: number[];
+    spellIds: number[];
     onAddSpell: () => void;
     onRemoveSpell: () => void;
 };
 
-function SearchResult({
-    spell,
-    spellbookIds,
-    onAddSpell,
-    onRemoveSpell,
-}: Props) {
+function SearchResult({ spell, spellIds, onAddSpell, onRemoveSpell }: Props) {
     return (
         <div className={styles.searchResult}>
             <div className={styles.spellName}>
                 <span className="symbol">
-                    {spellbookIds.includes(spell.id) && "book_4_spark"}
+                    {spellIds.includes(spell.id) && "book_4_spark"}
                 </span>
                 <p>{spell.name}</p>
             </div>
             <div className={styles.addButtonContainer}>
                 <StatusButton
                     status={
-                        !spellbookIds.includes(spell.id)
+                        !spellIds.includes(spell.id)
                             ? Status.First
                             : Status.Second
                     }

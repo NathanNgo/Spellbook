@@ -58,9 +58,12 @@ function SpellbookContainer({
         SPELLS_KEY,
         []
     );
-    const [spellSummaries, setSpellSummaries] = useStateWithLocalStorage<
-        SpellSummary[]
-    >(SPELL_SUMMARIES_KEY, []);
+    const [
+        spellSummaries,
+        setSpellSummaries,
+        spellSummariesLoadedFromLocalStorage,
+    ] = useStateWithLocalStorage<SpellSummary[]>(SPELL_SUMMARIES_KEY, []);
+
     // When we keep track of users' spells in the backend, this will
     // be more meaningful, until then assume spells are always insta-loaded
     // since local storage is our only source of truth here
@@ -68,15 +71,20 @@ function SpellbookContainer({
     const [spellSummariesLoaded, setSpellSummariesLoaded] =
         useState<boolean>(false);
     const [searchQuery, setSearchQuery] = useState<string>("");
+
     useEffect(() => {
-        if (!spellSummariesLoaded) {
+        if (!spellSummariesLoaded && !spellSummariesLoadedFromLocalStorage) {
             fetchSpellSummaries().then((fetchedSpellSummaries) => {
                 sortAlphabetically(fetchedSpellSummaries);
                 setSpellSummaries(fetchedSpellSummaries);
                 setSpellSummariesLoaded(true);
             });
         }
-    }, [spellSummariesLoaded, setSpellSummaries]);
+    }, [
+        spellSummariesLoaded,
+        setSpellSummaries,
+        spellSummariesLoadedFromLocalStorage,
+    ]);
 
     function handleCloseDrawer() {
         onSetDrawerState(DrawerState.None);

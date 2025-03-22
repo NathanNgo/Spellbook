@@ -5,14 +5,14 @@ import { loadFromLocalStorage } from "./caching";
 
 const SPELLS_KEY = "spells";
 
-function allStoredSpells(): Spell[] {
+function getAllStoredSpells(): Spell[] {
     const loadResult = loadFromLocalStorage<Spell[]>(SPELLS_KEY, []);
 
     return loadResult.value;
 }
 
 function getSpellsFromStorageByName(spellNames: string[]): Spell[] {
-    return allStoredSpells().filter(
+    return getAllStoredSpells().filter(
         (storedSpell) =>
             spellNames.find((spellName) => storedSpell.name == spellName) !==
             undefined
@@ -34,7 +34,7 @@ function addSpellsToStorage(spells: Spell[]) {
         )
     );
 
-    const newSpellCache = [...allStoredSpells(), ...uncachedSpells];
+    const newSpellCache = [...getAllStoredSpells(), ...uncachedSpells];
     localStorage.setItem(SPELLS_KEY, JSON.stringify(newSpellCache));
 }
 

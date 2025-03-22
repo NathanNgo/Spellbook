@@ -6,9 +6,8 @@ import InfoBox from "components/infobox/InfoBox";
 import StatusButton, { Status } from "components/statusButton/StatusButton";
 import {
     SpellListName,
-    spellClassLevel,
-    spellAndSpellListNameToLevel,
-    characterClassNameToSpellListNameMapping,
+    convertSpellAndSpellListNameToLevel,
+    getSpellListOfCharacterClass,
 } from "common/character";
 import Message from "components/message/Message";
 import MovingEllipsis from "components/movingEllipsis/MovingEllipsis";
@@ -79,8 +78,9 @@ function PageDrawer({
             return <></>;
         }
 
-        const characterSpellListName =
-            characterClassNameToSpellListNameMapping[character.class];
+        const characterSpellListName = getSpellListOfCharacterClass(
+            character.class
+        );
 
         const spellListNames = Object.values(SpellListName);
 
@@ -89,7 +89,10 @@ function PageDrawer({
                 (spellListName: SpellListName) =>
                     [
                         spellListName,
-                        spellAndSpellListNameToLevel(spell, spellListName),
+                        convertSpellAndSpellListNameToLevel(
+                            spell,
+                            spellListName
+                        ),
                     ] as const
             )
             .filter(([, level]) => level !== null);
@@ -197,7 +200,11 @@ function PageDrawer({
                     <h1>{spell.name}</h1>
                     <div className={styles.addButtonContainer}>
                         <StatusButton
-                            status={!characterHasSpellInSpellbook ? Status.First : Status.Second}
+                            status={
+                                !characterHasSpellInSpellbook
+                                    ? Status.First
+                                    : Status.Second
+                            }
                             onChangeToSecond={() => onAddSpell(spell)}
                             onChangeToFirst={() => onRemoveSpell(spell)}
                             firstText="+ Add"

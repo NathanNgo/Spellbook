@@ -1,4 +1,4 @@
-import { spellClassLevel } from "common/character";
+import { getLevelOfSpellByClass } from "common/character";
 import { LEVEL_TITLES } from "common/spells";
 import Message from "components/message/Message";
 import SpellTable from "components/spellTable/SpellTable";
@@ -25,8 +25,10 @@ function Spellbook({ spells, character, onOpenPage }: Props) {
                     <SpellTable
                         spells={spells.filter(
                             (spell) =>
-                                spellClassLevel(spell, character.class) ===
-                                level
+                                getLevelOfSpellByClass(
+                                    spell,
+                                    character.class
+                                ) === level
                         )}
                         title={LEVEL_TITLES[level]}
                         key={level}
@@ -36,7 +38,8 @@ function Spellbook({ spells, character, onOpenPage }: Props) {
             })}
             <SpellTable
                 spells={spells.filter(
-                    (spell) => spellClassLevel(spell, character.class) === null
+                    (spell) =>
+                        getLevelOfSpellByClass(spell, character.class) === null
                 )}
                 title="Uncategorised"
                 key={UNCATEGORISED_LEVEL}

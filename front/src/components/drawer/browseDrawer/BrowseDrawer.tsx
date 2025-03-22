@@ -95,7 +95,7 @@ function BrowseDrawer({
     );
 
     const uncategorisedList = filteredList.filter(
-        (spell) => spell[classNameToClassCode(character.class)] === null
+        (spell) => spellClassLevel(spell, character.class) === null
     );
 
     const someToggleSelected = levelSelection.some((flag) => flag);
@@ -137,6 +137,7 @@ function BrowseDrawer({
                         onAddSpell={onAddSpell}
                         onRemoveSpell={onRemoveSpell}
                         key={levelIndex}
+                        onOpenPage={onOpenPage}
                     />
                 );
             }
@@ -151,6 +152,7 @@ function BrowseDrawer({
                     onAddSpell={onAddSpell}
                     onRemoveSpell={onRemoveSpell}
                     key={UNCATEGORISED_LEVEL}
+                    onOpenPage={onOpenPage}
                 />
             );
         }

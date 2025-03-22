@@ -109,10 +109,6 @@
     transform: translateX(8rem);
 }
 
-.characterLevelText {
-    font-size: 1.5rem;
-}
-
 .spellLevelDisplay {
     display: flex;
     flex-wrap: wrap;

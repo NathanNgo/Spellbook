@@ -5,7 +5,7 @@ import SearchResult from "components/searchResult/SearchResult";
 type Props = {
     results: SpellSummary[];
     title: string;
-    spellbookIds: number[];
+    spellIds: number[];
     onAddSpell: (spell: SpellSummary) => void;
     onRemoveSpell: (spell: SpellSummary) => void;
     onOpenPage: (spell: SpellSummary) => void;
@@ -14,7 +14,7 @@ type Props = {
 function SearchResultsTable({
     results,
     title,
-    spellbookIds,
+    spellIds,
     onAddSpell,
     onRemoveSpell,
     onOpenPage,
@@ -28,7 +28,7 @@ function SearchResultsTable({
             {results.map((spell, index) => (
                 <SearchResult
                     spell={spell}
-                    spellbookIds={spellbookIds}
+                    spellIds={spellIds}
                     onAddSpell={() => onAddSpell(spell)}
                     onRemoveSpell={() => onRemoveSpell(spell)}
                     onOpenPage={() => onOpenPage(spell)}

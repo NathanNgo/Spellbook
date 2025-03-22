@@ -15,7 +15,7 @@ type Props = {
     spellSummaries: SpellSummary[];
     spellSummariesLoaded: boolean;
     character: Character;
-    spellbookIds: number[];
+    spellIds: number[];
     onAddSpell: (spell: SpellSummary) => void;
     onRemoveSpell: (spell: SpellSummary) => void;
     onOpenPage: (spell: SpellSummary) => void;
@@ -33,6 +33,7 @@ const TOGGLE_BUTTON_LEVEL_LABELS = [
     "8TH",
     "9TH",
 ];
+const UNCATEGORISED_LEVEL = -1;
 
 const MINIMUM_QUERY_LENGTH = 2;
 
@@ -43,7 +44,7 @@ function BrowseDrawer({
     onClose,
     spellSummaries,
     spellSummariesLoaded,
-    spellbookIds,
+    spellIds,
     character,
     onAddSpell,
     onRemoveSpell,
@@ -89,20 +90,28 @@ function BrowseDrawer({
     const filteredListsByLevel = LEVEL_TITLES.map((_, levelIndex) =>
         // Need to generalise to level for any class based on character info
         filteredList.filter(
-            (spell) =>
-                spellClassLevel(spell, character.class) === levelIndex
+            (spell) => spellClassLevel(spell, character.class) === levelIndex
         )
+    );
+
+    const uncategorisedList = filteredList.filter(
+        (spell) => spell[classNameToClassCode(character.class)] === null
     );
 
     const someToggleSelected = levelSelection.some((flag) => flag);
 
-    const resultsFound =
+    const filteredListHasResults =
         filteredList.length !== 0 &&
         filteredListsByLevel.some(
             (spellList, index) =>
                 (levelSelection[index] || !someToggleSelected) &&
                 spellList.length > 0
         );
+
+    const uncategorisedListHasResults =
+        uncategorisedList.length !== 0 && !someToggleSelected;
+
+    const resultsFound = uncategorisedListHasResults || filteredListHasResults;
 
     const noResultsMessage = spellSummariesLoaded ? (
         <Message>No Spells Found</Message>
@@ -111,6 +120,43 @@ function BrowseDrawer({
     );
 
     const noResults = !resultsFound && query.length >= MINIMUM_QUERY_LENGTH;
+
+    let searchResultOutcome = noResultsMessage;
+
+    if (!noResults) {
+        const searchResultTables = LEVEL_TITLES.map(
+            (levelTitle, levelIndex) => {
+                if (!levelSelection[levelIndex] && someToggleSelected) {
+                    return;
+                }
+                return (
+                    <SearchResultsTable
+                        results={filteredListsByLevel[levelIndex]}
+                        title={levelTitle}
+                        spellIds={spellIds}
+                        onAddSpell={onAddSpell}
+                        onRemoveSpell={onRemoveSpell}
+                        key={levelIndex}
+                    />
+                );
+            }
+        );
+
+        if (uncategorisedListHasResults) {
+            searchResultTables.push(
+                <SearchResultsTable
+                    results={uncategorisedList}
+                    title={"Uncategorised"}
+                    spellIds={spellIds}
+                    onAddSpell={onAddSpell}
+                    onRemoveSpell={onRemoveSpell}
+                    key={UNCATEGORISED_LEVEL}
+                />
+            );
+        }
+
+        searchResultOutcome = <>{searchResultTables}</>;
+    }
 
     return (
         <Drawer
@@ -138,28 +184,7 @@ function BrowseDrawer({
                     </ToggleButton>
                 ))}
             </div>
-            <div className={styles.searchResults}>
-                {noResults
-                    ? noResultsMessage
-                    : LEVEL_TITLES.map((levelTitle, levelIndex) => {
-                          if (
-                              levelSelection[levelIndex] ||
-                              !someToggleSelected
-                          ) {
-                              return (
-                                  <SearchResultsTable
-                                      results={filteredListsByLevel[levelIndex]}
-                                      title={levelTitle}
-                                      spellbookIds={spellbookIds}
-                                      onAddSpell={onAddSpell}
-                                      onRemoveSpell={onRemoveSpell}
-                                      onOpenPage={onOpenPage}
-                                      key={levelIndex}
-                                  />
-                              );
-                          }
-                      })}
-            </div>
+            <div className={styles.searchResults}>{searchResultOutcome}</div>
         </Drawer>
     );
 }

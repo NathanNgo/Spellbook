@@ -11,7 +11,7 @@ import { toCamel } from "snake-camel";
 
 const DATABASE_FILE_PATH = "./src/database/spellbook.db";
 const ERROR_STATUS_CLIENT = 400;
-const PORT = process.env.NODE_ENV === "production" ? 80 : 3000;
+const PORT = process.env.NODE_ENV === "production" ? 443 : 3000;
 const TABLE_NAME = "d20pfsrd";
 const NAME_COLUMN = "name";
 const DATABASE_PLACEHOLDER_CHARACTER = "?";
@@ -86,6 +86,10 @@ database.all(
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+app.get("/healthCheck", async (_: Request, response: Response) => {
+    response.sendStatus(200);
+});
 
 app.get("/spellSummaries", async (_: Request, response: Response) => {
     const spellSummaries: SpellSummary[] =

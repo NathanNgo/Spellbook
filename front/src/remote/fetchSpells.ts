@@ -1,20 +1,14 @@
 import { SpellArraySchema } from "schemas";
 import { Spell } from "types";
 import { SPELLS_ENDPOINT } from "urls";
+import { loadFromLocalStorage } from "./caching";
 
 const SPELLS_KEY = "spells";
 
 function spellCache(): Spell[] {
-    const initialValue = localStorage.getItem(SPELLS_KEY);
-    if (initialValue === null) {
-        return [];
-    }
-    try {
-        return JSON.parse(initialValue) as Spell[];
-    } catch {
-        localStorage.removeItem(SPELLS_KEY);
-        return [];
-    }
+    const loadResult = loadFromLocalStorage<Spell[]>(SPELLS_KEY, []);
+
+    return loadResult.value;
 }
 
 function getCachedSpellsOrNone(spellNames: string[]): (Spell | undefined)[] {

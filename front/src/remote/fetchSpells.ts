@@ -5,63 +5,71 @@ import { loadFromLocalStorage } from "./caching";
 
 const SPELLS_KEY = "spells";
 
-function spellCache(): Spell[] {
+function allStoredSpells(): Spell[] {
     const loadResult = loadFromLocalStorage<Spell[]>(SPELLS_KEY, []);
 
     return loadResult.value;
 }
 
-function getCachedSpellsOrNone(spellNames: string[]): (Spell | undefined)[] {
-    const cachedSpells = spellCache();
-    return spellNames.map((spellName) =>
-        cachedSpells.find((cachedSpell) => cachedSpell.name === spellName)
+function getSpellsFromStorageByName(spellNames: string[]): Spell[] {
+    return allStoredSpells().filter(
+        (storedSpell) =>
+            spellNames.find((spellName) => storedSpell.name == spellName) !==
+            undefined
     );
 }
 
-function addSpellsToCache(spells: Spell[]) {
+function addSpellsToStorage(spells: Spell[]) {
     const spellNames = spells.map((spell) => spell.name);
 
-    const cachedSpellsOrNone = getCachedSpellsOrNone(spellNames);
+    const spellsFromStorage = getSpellsFromStorageByName(spellNames);
 
-    const uncachedSpells = spells.filter(
-        (spell) =>
-            cachedSpellsOrNone.find(
-                (cachedSpellOrNone) =>
-                    cachedSpellOrNone !== undefined &&
-                    spell.name === cachedSpellOrNone.name
-            ) === undefined
+    if (spells.length === spellsFromStorage.length) {
+        return;
+    }
+
+    const uncachedSpells = spells.filter((spell) =>
+        spellsFromStorage.every(
+            (storedSpell) => storedSpell.name !== spell.name
+        )
     );
 
-    const newSpellCache = [...spellCache(), ...uncachedSpells];
+    const newSpellCache = [...allStoredSpells(), ...uncachedSpells];
     localStorage.setItem(SPELLS_KEY, JSON.stringify(newSpellCache));
 }
 
-async function fetchSpells(spellNames: string[]): Promise<Spell[]> {
-    const cachedSpells = getCachedSpellsOrNone(spellNames).filter(
-        (cachedSpellOrNone) => cachedSpellOrNone !== undefined
-    );
-
-    const uncachedSpellNames = spellNames.filter(
-        (spellName) =>
-            cachedSpells.find(
-                (cachedSpell) => spellName === cachedSpell.name
-            ) === undefined
-    );
-
-    if (uncachedSpellNames.length === 0) {
-        return cachedSpells;
-    }
-
+async function getSpellsFromNetworkByName(
+    spellNames: string[]
+): Promise<Spell[]> {
     const response = await fetch(SPELLS_ENDPOINT, {
         headers: { "Content-Type": "application/json" },
         method: "POST",
-        body: JSON.stringify({ spellNames: uncachedSpellNames }),
+        body: JSON.stringify({ spellNames: spellNames }),
     });
-    const uncachedSpells = SpellArraySchema.parse(await response.json());
+    return SpellArraySchema.parse(await response.json());
+}
 
-    addSpellsToCache(uncachedSpells);
+async function fetchSpells(spellNames: string[]): Promise<Spell[]> {
+    const spellsFromStorage = getSpellsFromStorageByName(spellNames);
 
-    return [...cachedSpells, ...uncachedSpells];
+    if (spellsFromStorage.length === spellNames.length) {
+        return spellsFromStorage;
+    }
+
+    const remainingSpellNames = spellNames.filter(
+        (spellName) =>
+            spellsFromStorage.find(
+                (storedSpell) => spellName === storedSpell.name
+            ) === undefined
+    );
+
+    const spellsFromNetwork = await getSpellsFromNetworkByName(
+        remainingSpellNames
+    );
+
+    addSpellsToStorage(spellsFromNetwork);
+
+    return [...spellsFromStorage, ...spellsFromNetwork];
 }
 
 export default fetchSpells;

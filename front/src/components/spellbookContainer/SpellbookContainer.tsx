@@ -11,6 +11,7 @@ import fetchSpells from "remote/fetchSpells";
 import fetchSpellSummaries from "remote/fetchSpellSummaries";
 import PageDrawer from "components/drawer/pageDrawer/PageDrawer";
 import useStateWithLocalStorage from "hooks/useStateWithLocalStorage";
+import { CharacterSpells } from "common/character";
 
 const LOADING_MESSAGE = <Message>Loading...</Message>;
 
@@ -47,8 +48,10 @@ function combineAndSortSpells(previousSpells: Spell[], newSpells: Spell[]) {
     return combinedSpells;
 }
 
-const SPELLS_KEY = "spellbookSpells";
+const ALL_CHARACTER_SPELLS_KEY = "characterSpells";
 const SPELL_SUMMARIES_KEY = "spellSummaries";
+
+const DEFAULT_SPELLS: Spell[] = [];
 
 function SpellbookContainer({
     drawerState,
@@ -56,10 +59,59 @@ function SpellbookContainer({
     character,
     onCharacterValuesChanged,
 }: Props) {
-    const [spells, setSpells] = useStateWithLocalStorage<Spell[]>(
-        SPELLS_KEY,
-        []
-    );
+    const [allCharacterSpells, setAllCharacterSpells] =
+        useStateWithLocalStorage<CharacterSpells[]>(
+            ALL_CHARACTER_SPELLS_KEY,
+            []
+        );
+
+    function getSpellsForCharacter(character: Character): Spell[] | undefined {
+        return allCharacterSpells.find(
+            (characterSpells) =>
+                characterSpells.characterName === character.name
+        )?.spells;
+    }
+
+    function setCharacterSpells(character: Character, spellList: Spell[]) {
+        const characterSpellIndex = allCharacterSpells.findIndex(
+            (characterSpells) =>
+                characterSpells.characterName === character.name
+        );
+
+        const newCharacterSpells: CharacterSpells = {
+            characterName: character.name,
+            spells: spellList,
+        };
+
+        if (characterSpellIndex !== -1) {
+            setAllCharacterSpells((prevAllCharacterSpells) =>
+                prevAllCharacterSpells.map((characterSpells, index) =>
+                    index === characterSpellIndex
+                        ? newCharacterSpells
+                        : characterSpells
+                )
+            );
+            return;
+        }
+        setAllCharacterSpells((prevAllCharacterSpells) => [
+            ...prevAllCharacterSpells,
+            newCharacterSpells,
+        ]);
+    }
+
+    const currentCharacterSpells = getSpellsForCharacter(character);
+    const spells =
+        currentCharacterSpells === undefined
+            ? DEFAULT_SPELLS
+            : currentCharacterSpells;
+    if (currentCharacterSpells === undefined) {
+        setCharacterSpells(character, DEFAULT_SPELLS);
+    }
+
+    function setSpells(newSpells: Spell[]) {
+        setCharacterSpells(character, newSpells);
+    }
+
     const [
         spellSummaries,
         setSpellSummaries,
@@ -110,10 +162,8 @@ function SpellbookContainer({
             return;
         }
 
-        fetchSpells([requestedSpell.name]).then((spells) => {
-            setSpells((previousSpells) =>
-                combineAndSortSpells(previousSpells, spells)
-            );
+        fetchSpells([requestedSpell.name]).then((fetchedSpells) => {
+            setSpells(combineAndSortSpells(spells, fetchedSpells));
         });
     }
 
@@ -121,9 +171,7 @@ function SpellbookContainer({
         if (!spells.some((spell) => spell.id === requestedSpell.id)) {
             return;
         }
-        setSpells((previousSpells) =>
-            previousSpells.filter((spell) => spell.id !== requestedSpell.id)
-        );
+        setSpells(spells.filter((spell) => spell.id !== requestedSpell.id));
     }
 
     const noSpellsDisplayMessage = spellsLoaded

@@ -199,3 +199,8 @@ export function spellAndSpellListNameToLevel(
 
     return spell[characterClassCode] as number | null;
 }
+
+export type CharacterSpells = {
+    characterName: string;
+    spells: Spell[];
+};

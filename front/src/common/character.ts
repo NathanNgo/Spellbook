@@ -1,4 +1,4 @@
-import type { Character, Spell, SpellSummary } from "types";
+import type { Spell, SpellSummary } from "types";
 
 export enum CharacterClassName {
     Adept = "Adept",

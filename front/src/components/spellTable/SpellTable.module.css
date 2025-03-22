@@ -18,7 +18,7 @@
 
 .spellTable tbody tr:hover {
     cursor: pointer;
-    /* background-color: var(--medium-accent-colour); */
+    background-color: var(--dark-accent-colour);
 }
 
 .spellTable td {
@@ -31,10 +31,6 @@
 
 .spellTable tr:nth-child(even) {
     background-color: var(--medium-accent-colour);
-}
-
-.spellTable tr:hover {
-    background-color: var(--dark-accent-colour);
 }
 
 .spellTable th {

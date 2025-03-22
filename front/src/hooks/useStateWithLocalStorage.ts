@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import { loadFromLocalStorage } from "remote/caching";
 
 function useStateWithLocalStorage<StateType>(
     key: string,
@@ -6,18 +7,9 @@ function useStateWithLocalStorage<StateType>(
 ) {
     const loadedFromStorage = useRef<boolean>(false);
     const [state, setState] = useState<StateType>(() => {
-        const initialValue = localStorage.getItem(key);
-        if (initialValue !== null) {
-            try {
-                loadedFromStorage.current = true;
-                return JSON.parse(initialValue) as StateType;
-            } catch {
-                // Can't parse local storage value as json, invalid storage
-                // Should just give back defaultValue
-            }
-        }
-        loadedFromStorage.current = false;
-        return defaultValue;
+        const loadedResult = loadFromLocalStorage<StateType>(key, defaultValue);
+        loadedFromStorage.current = loadedResult.loaded;
+        return loadedResult.value;
     });
 
     useEffect(() => {

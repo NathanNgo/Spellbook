@@ -1,0 +1,176 @@
+.pageContainer {
+    padding-inline: 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+    margin-top: -2rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.pageTitleContainer {
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: auto auto auto;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+
+.pageTitleContainer h1 {
+    margin: 0%;
+    font-size: 2.75rem;
+    text-align: center;
+    grid-column: 2;
+    grid-row: 1;
+    font-style: italic;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.addButtonContainer {
+    grid-column: 3;
+    grid-row: 1;
+    margin-top: 0.5rem;
+    height: 3rem;
+    width: 10rem;
+    right: 0;
+    justify-self: right;
+    align-self: center;
+}
+
+.backButtonContainer {
+    grid-column: 1;
+    grid-row: 1;
+    margin-top: 0.5rem;
+    height: 3rem;
+    width: 10rem;
+    right: 0;
+    justify-content: left;
+    align-self: center;
+}
+
+.backButtonContainer button {
+    width: 100%;
+    height: 100%;
+}
+
+.pageContainer textarea {
+    font-family: monospace;
+    width: 23em;
+    height: 22em;
+    resize: none;
+    white-space: pre;
+    overflow-wrap: normal;
+    overflow-x: scroll;
+}
+
+.errorText {
+    background-color: var(--light-accent-colour);
+}
+
+.topInfoContainer {
+    display: flex;
+    gap: 1rem;
+    align-items: stretch;
+    justify-content: center;
+}
+
+.pageContainer h2 {
+    font-size: 1.75rem;
+}
+
+.titleButtonsContainer {
+    height: 3rem;
+    width: 6rem;
+    min-width: 10rem;
+    margin-top: 0.5rem;
+}
+
+.loadingMessage {
+    margin-top: 5rem;
+    width: 100%;
+    display: flex;
+    position: relative;
+}
+
+.loadingText {
+    left: 50%;
+    transform: translateX(-50%);
+    text-wrap: nowrap;
+    position: absolute;
+}
+
+.loadingEllipsis {
+    position: absolute;
+    left: 50%;
+    transform: translateX(8rem);
+}
+
+.spellLevelDisplay {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    column-gap: 0.5rem;
+}
+
+.characterClassLevelDisplay {
+    font-weight: bold;
+}
+
+@media (max-width: 1500px) {
+    .pageTitleContainer.longTitle {
+        grid-template-rows: fit-content(100%) fit-content(100%);
+        grid-template-columns: repeat(3, fit-content(100%));
+    }
+
+    .longTitle .addButtonContainer {
+        grid-column: 3;
+        grid-row: 2;
+    }
+
+    .longTitle .backButtonContainer {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    .longTitle h1 {
+        max-width: 100%;
+        grid-column: 1 / span 3;
+        grid-row: 1;
+    }
+
+    .longTitle > .pageTitleLevel {
+        visibility: visible;
+        grid-column: 2;
+        grid-row: 2;
+
+    }
+
+    .longTitle h1 .pageTitleLevel {
+        display: none;
+    }
+}
+
+@media (max-width : 1250px) {
+    .pageContainer {
+        padding-inline: 0rem;
+    }
+
+
+    .pageContainer h2 {
+        font-size: 1.5rem;
+    }
+
+    .topInfoContainer {
+        flex-direction: column;
+    }
+
+    .spellLevelDisplay {
+        justify-content: end;
+    }
+
+
+}

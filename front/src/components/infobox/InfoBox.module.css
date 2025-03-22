@@ -1,0 +1,50 @@
+.infoboxContainer {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    text-align: center;
+    height: 100%;
+}
+
+.titleContainer {
+    border-bottom: 3px solid var(--subheading-colour);
+    padding-bottom: 0.1rem;
+    font-weight: bold;
+    background-color: var(--medium-accent-colour);
+    font-size: 1.2rem;
+}
+
+.infoContainer {
+    border-bottom: 1px solid var(--subheading-colour);
+    flex-grow: 1;
+    align-content: center;
+    font-size: 1.2rem;
+    padding: 0.1rem;
+}
+
+@media (max-width: 1250px) {
+    .infoboxContainer {
+        flex-direction: row;
+        width: 100%;
+        align-items: stretch;
+        max-width: none;
+        flex: none;
+        height: unset;
+    }
+
+    .titleContainer {
+        text-align: start;
+        flex: 1;
+        font-size: 1.2rem;
+        padding-left: 1rem;
+        padding-bottom: unset;
+        align-content: center;
+    }
+
+    .infoContainer {
+        text-align: end;
+        flex: 3;
+        font-size: 1.2rem;
+        padding-right: 1rem;
+    }
+}

@@ -117,7 +117,7 @@ function PageDrawer({
         );
     }
 
-    function infoBox(infoTitle: string): JSX.Element | null {
+    function createSpellInfoBox(infoTitle: string): JSX.Element | null {
         const info = spellInfo(infoTitle);
         if (info === "") {
             return null;
@@ -125,9 +125,9 @@ function PageDrawer({
         return <InfoBox title={infoTitle} info={spellInfo(infoTitle)} />;
     }
 
-    function infoBoxes(infoTitles: string[]): JSX.Element[] {
+    function createSpellInfoBoxes(infoTitles: string[]): JSX.Element[] {
         return infoTitles
-            .map((infoTitle) => infoBox(infoTitle))
+            .map((infoTitle) => createSpellInfoBox(infoTitle))
             .filter((element) => element !== null);
     }
 
@@ -216,16 +216,19 @@ function PageDrawer({
                     </div>
                 </div>
                 <InfoBoxContainer
-                    infoBoxes={infoBoxes(["Level", "Source"])}
+                    infoBoxes={createSpellInfoBoxes(["Level", "Source"])}
                     spans={[4, 2]}
                 />
                 <h2>CASTING</h2>
                 <InfoBoxContainer
-                    infoBoxes={infoBoxes(["Casting Time", "Components"])}
+                    infoBoxes={createSpellInfoBoxes([
+                        "Casting Time",
+                        "Components",
+                    ])}
                 />
                 <h2>EFFECT</h2>
                 <InfoBoxContainer
-                    infoBoxes={infoBoxes([
+                    infoBoxes={createSpellInfoBoxes([
                         "Range",
                         "Area",
                         "Duration",

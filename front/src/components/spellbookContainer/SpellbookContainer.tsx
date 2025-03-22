@@ -193,7 +193,7 @@ function SpellbookContainer({
                 onAddSpell={handleAddSpellToSpellbook}
                 onRemoveSpell={handleRemoveSpellFromSpellbook}
                 spell={spellForPage}
-                hasSpell={
+                characterHasSpellInSpellbook={
                     spellForPage !== null &&
                     spells.map((spell) => spell.id).includes(spellForPage.id)
                 }

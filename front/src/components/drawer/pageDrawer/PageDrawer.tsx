@@ -42,7 +42,7 @@ type Props = {
     onAddSpell: (spell: SpellSummary) => void;
     onRemoveSpell: (spell: SpellSummary) => void;
     spell: Spell | null;
-    hasSpell: boolean;
+    characterHasSpellInSpellbook: boolean;
     showLoading: boolean;
     isFromBrowse: boolean;
     onOpenBrowse: () => void;
@@ -55,7 +55,7 @@ function PageDrawer({
     onAddSpell,
     onRemoveSpell,
     spell,
-    hasSpell,
+    characterHasSpellInSpellbook,
     showLoading,
     isFromBrowse,
     onOpenBrowse,
@@ -197,7 +197,7 @@ function PageDrawer({
                     <h1>{spell.name}</h1>
                     <div className={styles.addButtonContainer}>
                         <StatusButton
-                            status={!hasSpell ? Status.First : Status.Second}
+                            status={!characterHasSpellInSpellbook ? Status.First : Status.Second}
                             onChangeToSecond={() => onAddSpell(spell)}
                             onChangeToFirst={() => onRemoveSpell(spell)}
                             firstText="+ Add"

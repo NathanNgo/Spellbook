@@ -12,7 +12,7 @@ import {
 import Message from "components/message/Message";
 import MovingEllipsis from "components/movingEllipsis/MovingEllipsis";
 import InfoBoxContainer from "components/infoboxContainer/InfoBoxContainer";
-import { useMemo } from "react";
+import React, { useMemo } from "react";
 
 const MAX_SHORT_TITLE_LENGTH = 12;
 
@@ -46,6 +46,7 @@ type Props = {
     isFromBrowse: boolean;
     onOpenBrowse: () => void;
     character: Character;
+    drawerRef: React.Ref<HTMLDivElement>;
 };
 
 function PageDrawer({
@@ -59,6 +60,7 @@ function PageDrawer({
     isFromBrowse,
     onOpenBrowse,
     character,
+    drawerRef,
 }: Props) {
     const infoMapping = useMemo(() => {
         return {
@@ -259,6 +261,7 @@ function PageDrawer({
             isOpen={isOpen}
             onClose={onClose}
             width="75%"
+            ref={drawerRef}
         >
             <div className={styles.pageContainer}>{pageContent}</div>
         </Drawer>

@@ -1,7 +1,7 @@
 import Message from "components/message/Message";
 import Spellbook from "components/spellbook/Spellbook";
 import SpellbookToolbar from "components/spellbookToolbar/SpellbookToolbar";
-import { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "components/spellbookContainer/SpellbookContainer.module.css";
 import CharacterSettingsDrawer from "components/drawer/characterSettingsDrawer/CharacterSettingsDrawer";
 import BrowseDrawer from "components/drawer/browseDrawer/BrowseDrawer";
@@ -66,6 +66,8 @@ function SpellbookContainer({
         spellSummariesLoadedFromLocalStorage,
     ] = useStateWithLocalStorage<SpellSummary[]>(SPELL_SUMMARIES_KEY, []);
 
+    const pageDrawerRef = useRef<HTMLDivElement>(null);
+
     // When we keep track of users' spells in the backend, this will
     // be more meaningful, until then assume spells are always insta-loaded
     // since local storage is our only source of truth here
@@ -100,6 +102,19 @@ function SpellbookContainer({
 
     const spellSummariesLoaded =
         spellSummariesLoadedFromNetwork || spellSummariesLoadedFromLocalStorage;
+
+    function readyDrawerRef(drawerRef: React.RefObject<HTMLDivElement>) {
+        if (drawerRef.current) {
+            drawerRef.current.scrollTop = 0;
+        }
+    }
+
+    function handleOpenDrawer(newDrawerState: DrawerState) {
+        if (newDrawerState === DrawerState.Page) {
+            readyDrawerRef(pageDrawerRef);
+        }
+        onSetDrawerState(newDrawerState);
+    }
 
     function handleCloseDrawer() {
         onSetDrawerState(DrawerState.None);
@@ -145,7 +160,7 @@ function SpellbookContainer({
 
     function handleOpenPage(spell: Spell) {
         setSpellPageIsLoading(false);
-        onSetDrawerState(DrawerState.Page);
+        handleOpenDrawer(DrawerState.Page);
         setSpellForPage(spell);
     }
 
@@ -161,7 +176,7 @@ function SpellbookContainer({
             setSpellForPage(spell);
             setSpellPageIsLoading(false);
         });
-        onSetDrawerState(DrawerState.Page);
+        handleOpenDrawer(DrawerState.Page);
     }
 
     return (
@@ -199,14 +214,15 @@ function SpellbookContainer({
                 }
                 showLoading={spellPageIsLoading}
                 isFromBrowse={spellPageOpenedFromBrowse}
-                onOpenBrowse={() => onSetDrawerState(DrawerState.Browse)}
+                onOpenBrowse={() => handleOpenDrawer(DrawerState.Browse)}
                 character={character}
+                drawerRef={pageDrawerRef}
             />
             <SpellbookToolbar
                 onSearchQueryChange={handleSearchQueryChange}
                 searchQuery={searchQuery}
-                onOpenSettings={() => onSetDrawerState(DrawerState.Settings)}
-                onOpenBrowse={() => onSetDrawerState(DrawerState.Browse)}
+                onOpenSettings={() => handleOpenDrawer(DrawerState.Settings)}
+                onOpenBrowse={() => handleOpenDrawer(DrawerState.Browse)}
             />
 
             {spells.length === 0 ? (

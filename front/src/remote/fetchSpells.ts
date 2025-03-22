@@ -3,10 +3,10 @@ import { Spell } from "types";
 import { SPELLS_ENDPOINT } from "urls";
 import { loadFromLocalStorage } from "./caching";
 
-const SPELLS_KEY = "spells";
+const SPELL_STORAGE_KEY = "spells";
 
 function getAllStoredSpells(): Spell[] {
-    const loadResult = loadFromLocalStorage<Spell[]>(SPELLS_KEY, []);
+    const loadResult = loadFromLocalStorage<Spell[]>(SPELL_STORAGE_KEY, []);
 
     return loadResult.value;
 }
@@ -35,7 +35,7 @@ function addSpellsToStorage(spells: Spell[]) {
     );
 
     const newSpellCache = [...getAllStoredSpells(), ...uncachedSpells];
-    localStorage.setItem(SPELLS_KEY, JSON.stringify(newSpellCache));
+    localStorage.setItem(SPELL_STORAGE_KEY, JSON.stringify(newSpellCache));
 }
 
 async function getSpellsFromNetworkByName(

@@ -214,7 +214,7 @@ function SpellbookContainer({
                 }
                 showLoading={spellPageIsLoading}
                 isFromBrowse={spellPageOpenedFromBrowse}
-                onOpenBrowse={() => handleOpenDrawer(DrawerState.Browse)}
+                onBackButtonClicked={() => handleOpenDrawer(DrawerState.Browse)}
                 character={character}
                 drawerRef={pageDrawerRef}
             />

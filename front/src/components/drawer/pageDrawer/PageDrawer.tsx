@@ -44,7 +44,7 @@ type Props = {
     characterHasSpellInSpellbook: boolean;
     showLoading: boolean;
     isFromBrowse: boolean;
-    onOpenBrowse: () => void;
+    onBackButtonClicked: () => void;
     character: Character;
     drawerRef: React.Ref<HTMLDivElement>;
 };
@@ -58,7 +58,7 @@ function PageDrawer({
     characterHasSpellInSpellbook,
     showLoading,
     isFromBrowse,
-    onOpenBrowse,
+    onBackButtonClicked,
     character,
     drawerRef,
 }: Props) {
@@ -217,7 +217,7 @@ function PageDrawer({
                     </div>
                     <div className={`${styles.backButtonContainer}`}>
                         {isFromBrowse && (
-                            <button onClick={onOpenBrowse}>Back</button>
+                            <button onClick={onBackButtonClicked}>Back</button>
                         )}
                         {!isFromBrowse && (
                             <button onClick={onClose}>Close</button>

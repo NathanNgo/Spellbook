@@ -20,22 +20,22 @@ function getSpellsFromStorageByName(spellNames: string[]): Spell[] {
 }
 
 function addSpellsToStorage(spells: Spell[]) {
-    const spellNames = spells.map((spell) => spell.name);
+    const allSpellsFromStorage = getAllStoredSpells();
 
-    const spellsFromStorage = getSpellsFromStorageByName(spellNames);
-
-    if (spells.length === spellsFromStorage.length) {
-        return;
-    }
-
-    const uncachedSpells = spells.filter((spell) =>
-        spellsFromStorage.every(
+    const spellsNotInStorage = spells.filter((spell) =>
+        allSpellsFromStorage.every(
             (storedSpell) => storedSpell.name !== spell.name
         )
     );
 
-    const newSpellCache = [...getAllStoredSpells(), ...uncachedSpells];
-    localStorage.setItem(SPELL_STORAGE_KEY, JSON.stringify(newSpellCache));
+    if (spellsNotInStorage.length === 0) {
+        return;
+    }
+
+    localStorage.setItem(
+        SPELL_STORAGE_KEY,
+        JSON.stringify([...allSpellsFromStorage, ...spellsNotInStorage])
+    );
 }
 
 async function getSpellsFromNetworkByName(

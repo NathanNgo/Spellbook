@@ -63,16 +63,16 @@ function PageDrawer({
     drawerRef,
 }: Props) {
     const infoMapping = useMemo(() => {
-        return {
-            Source: spell?.source,
-            "Casting Time": spell?.castingTime,
-            Components: spell?.components,
-            Range: spell?.range,
-            Area: spell?.area,
-            Duration: spell?.duration,
-            "Saving Throw": spell?.savingThrow,
-            "Spell Resistance": spell?.spellResistance,
-        };
+        return new Map([
+            ["Source", spell?.source],
+            ["Casting Time", spell?.castingTime],
+            ["Components", spell?.components],
+            ["Range", spell?.range],
+            ["Area", spell?.area],
+            ["Duration", spell?.duration],
+            ["Saving Throw", spell?.savingThrow],
+            ["Spell Resistance", spell?.spellResistance],
+        ]);
     }, [spell]);
 
     function spellLevelDisplay(): JSX.Element {
@@ -149,8 +149,7 @@ function PageDrawer({
             );
         }
         if (infoTitle in infoMapping) {
-            const mappedInfo =
-                infoMapping[infoTitle as keyof typeof infoMapping];
+            const mappedInfo = infoMapping.get(infoTitle);
             if (mappedInfo !== undefined) {
                 return mappedInfo;
             }

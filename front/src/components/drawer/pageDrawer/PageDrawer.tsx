@@ -75,7 +75,7 @@ function PageDrawer({
         ]);
     }, [spell]);
 
-    function spellLevelDisplay(): JSX.Element {
+    function getSpellListsAndLevelDisplay(): JSX.Element {
         if (spell === null) {
             return <></>;
         }
@@ -144,7 +144,7 @@ function PageDrawer({
         if (infoTitle === "Level") {
             return (
                 <div className={styles.spellLevelDisplay}>
-                    {spellLevelDisplay()}
+                    {getSpellListsAndLevelDisplay()}
                 </div>
             );
         }

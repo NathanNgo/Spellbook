@@ -27,7 +27,9 @@ function InfoBoxContainer({ infoBoxes, spans = [] }: Props) {
     ];
 
     function itemStyle(span: number) {
-        return span >= 1 && span <= 6 ? spanClasses[span - 1] : styles.span1;
+        return span > 0 && span <= spanClasses.length
+            ? spanClasses[span - 1]
+            : styles.span1;
     }
 
     let layout: number[] = [];

@@ -12,10 +12,8 @@ function getAllStoredSpells(): Spell[] {
 }
 
 function getSpellsFromStorageByName(spellNames: string[]): Spell[] {
-    return getAllStoredSpells().filter(
-        (storedSpell) =>
-            spellNames.find((spellName) => storedSpell.name == spellName) !==
-            undefined
+    return getAllStoredSpells().filter((storedSpell) =>
+        spellNames.includes(storedSpell.name)
     );
 }
 
@@ -51,16 +49,14 @@ async function getSpellsFromNetworkByName(
 
 async function fetchSpells(spellNames: string[]): Promise<Spell[]> {
     const spellsFromStorage = getSpellsFromStorageByName(spellNames);
+    const spellsFromStorageNames = spellsFromStorage.map((spell) => spell.name);
 
     if (spellsFromStorage.length === spellNames.length) {
         return spellsFromStorage;
     }
 
     const remainingSpellNames = spellNames.filter(
-        (spellName) =>
-            spellsFromStorage.find(
-                (storedSpell) => spellName === storedSpell.name
-            ) === undefined
+        (spellName) => !spellsFromStorageNames.includes(spellName)
     );
 
     const spellsFromNetwork = await getSpellsFromNetworkByName(

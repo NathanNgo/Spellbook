@@ -184,16 +184,15 @@ function PageDrawer({
             </>
         );
     } else {
+        const titleLengthClass =
+            spell.name.length > MAX_SHORT_TITLE_LENGTH
+                ? styles.longTitle
+                : styles.shortTitle;
+
         pageContent = (
             <>
                 <div
-                    className={
-                        styles.pageTitleContainer +
-                        " " +
-                        (spell.name.length > MAX_SHORT_TITLE_LENGTH
-                            ? styles.longTitle
-                            : styles.shortTitle)
-                    }
+                    className={`${styles.pageTitleContainer} ${titleLengthClass}`}
                 >
                     <h1>{spell.name}</h1>
                     <div className={styles.addButtonContainer}>

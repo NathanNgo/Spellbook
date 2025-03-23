@@ -123,11 +123,11 @@ function PageDrawer({
     }
 
     function createSpellInfoBox(infoTitle: string): JSX.Element | null {
-        const info = spellInfo(infoTitle);
+        const info = getSpellInfoFromTitle(infoTitle);
         if (info === "") {
             return null;
         }
-        return <InfoBox title={infoTitle} info={spellInfo(infoTitle)} />;
+        return <InfoBox title={infoTitle} info={info} />;
     }
 
     function createSpellInfoBoxes(infoTitles: string[]): JSX.Element[] {
@@ -136,11 +136,7 @@ function PageDrawer({
             .filter((element) => element !== null);
     }
 
-    function spellInfo(infoTitle: string): JSX.Element | string {
-        if (spell === null) {
-            return "";
-        }
-
+    function getSpellInfoFromTitle(infoTitle: string): JSX.Element | string {
         if (infoTitle === "Level") {
             return (
                 <div className={styles.spellLevelDisplay}>

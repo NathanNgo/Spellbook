@@ -1,9 +1,5 @@
 import styles from "components/drawer/Drawer.module.css";
-import React, { forwardRef } from "react";
-
-export type DrawerRef = {
-    scrollToTop: () => void;
-};
+import React from "react";
 
 type Props = {
     isOpen: boolean;
@@ -11,6 +7,7 @@ type Props = {
     children: React.ReactNode;
     side?: DrawerSide;
     width?: string;
+    ref?: React.Ref<HTMLDivElement>;
 };
 
 enum DrawerSide {
@@ -23,16 +20,14 @@ const sideStyle = {
     [DrawerSide.Right]: styles.right,
 };
 
-function Drawer(
-    {
-        isOpen,
-        onClose,
-        children,
-        side = DrawerSide.Right,
-        width = "50%",
-    }: Props,
-    drawerRef: React.Ref<HTMLDivElement>
-) {
+function Drawer({
+    isOpen,
+    onClose,
+    children,
+    side = DrawerSide.Right,
+    width = "50%",
+    ref = null,
+}: Props) {
     return (
         <div
             className={`${styles.drawerOverlay} ${isOpen ? styles.show : ""}`}
@@ -44,7 +39,7 @@ function Drawer(
                 } ${sideStyle[side]}`}
                 style={{ width }}
                 onClick={(e) => e.stopPropagation()}
-                ref={drawerRef}
+                ref={ref}
             >
                 <div className={styles.drawerContentContainer}>{children}</div>
             </div>
@@ -52,5 +47,5 @@ function Drawer(
     );
 }
 
-export default forwardRef(Drawer);
+export default Drawer;
 export { DrawerSide };

@@ -103,15 +103,9 @@ function SpellbookContainer({
     const spellSummariesLoaded =
         spellSummariesLoadedFromNetwork || spellSummariesLoadedFromLocalStorage;
 
-    function readyDrawerRef(drawerRef: React.RefObject<HTMLDivElement>) {
-        if (drawerRef.current) {
-            drawerRef.current.scrollTop = 0;
-        }
-    }
-
     function handleOpenDrawer(newDrawerState: DrawerState) {
-        if (newDrawerState === DrawerState.Page) {
-            readyDrawerRef(pageDrawerRef);
+        if (newDrawerState === DrawerState.Page && pageDrawerRef.current) {
+            pageDrawerRef.current.scrollTop = 0
         }
         onSetDrawerState(newDrawerState);
     }

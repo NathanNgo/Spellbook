@@ -145,11 +145,9 @@ function PageDrawer({
             );
         }
 
-        if (infoTitle in infoMapping) {
-            const mappedInfo = infoMapping.get(infoTitle);
-            if (mappedInfo !== undefined) {
-                return mappedInfo;
-            }
+        const mappedInfo = infoMapping.get(infoTitle);
+        if (mappedInfo !== undefined) {
+            return mappedInfo;
         }
         return "";
     }

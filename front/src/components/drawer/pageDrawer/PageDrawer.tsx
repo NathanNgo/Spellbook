@@ -144,6 +144,7 @@ function PageDrawer({
                 </div>
             );
         }
+
         if (infoTitle in infoMapping) {
             const mappedInfo = infoMapping.get(infoTitle);
             if (mappedInfo !== undefined) {

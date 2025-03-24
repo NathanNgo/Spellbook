@@ -1,10 +1,10 @@
-import { ClassName } from "common/character";
+import { CharacterClassName } from "common/character";
 import { SpellSchema, SpellSummarySchema } from "schemas";
 import { z } from "zod";
 
 export type Character = {
     name: string;
-    class: ClassName;
+    class: CharacterClassName;
     spellCastingModifier: number;
     showSpellSaveDC: boolean;
     id: string;

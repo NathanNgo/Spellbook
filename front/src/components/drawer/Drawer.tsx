@@ -1,4 +1,5 @@
 import styles from "components/drawer/Drawer.module.css";
+import React from "react";
 
 type Props = {
     isOpen: boolean;
@@ -6,6 +7,7 @@ type Props = {
     children: React.ReactNode;
     side?: DrawerSide;
     width?: string;
+    ref?: React.Ref<HTMLDivElement>;
 };
 
 enum DrawerSide {
@@ -24,6 +26,7 @@ function Drawer({
     children,
     side = DrawerSide.Right,
     width = "50%",
+    ref = null,
 }: Props) {
     return (
         <div
@@ -36,6 +39,7 @@ function Drawer({
                 } ${sideStyle[side]}`}
                 style={{ width }}
                 onClick={(e) => e.stopPropagation()}
+                ref={ref}
             >
                 <div className={styles.drawerContentContainer}>{children}</div>
             </div>

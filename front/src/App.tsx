@@ -1,16 +1,16 @@
-import { useMemo, useState } from "react";
+import { useMemo, useEffect, useState } from "react";
 import "App.css";
 import Header from "components/header/Header";
 import SpellbookContainer, {
     DrawerState,
 } from "components/spellbookContainer/SpellbookContainer";
 import { Character } from "types";
-import { ClassName } from "common/character";
+import { CharacterClassName } from "common/character";
 import useStateWithLocalStorage from "hooks/useStateWithLocalStorage";
 
 const INITIAL_CHARACTER: Character = {
     name: "Josh Mann",
-    class: ClassName.Sorcerer,
+    class: CharacterClassName.Sorcerer,
     spellCastingModifier: 0,
     showSpellSaveDC: true,
     id: crypto.randomUUID(),
@@ -63,6 +63,15 @@ function App() {
             drawerState === targetState ? DrawerState.None : targetState
         );
     }
+
+    useEffect(() => {
+        const body = document.body;
+        if (drawerState === DrawerState.None) {
+            body.classList.remove("noscroll");
+        } else {
+            body.classList.add("noscroll");
+        }
+    }, [drawerState]);
 
     return (
         <>

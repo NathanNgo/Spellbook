@@ -7,7 +7,7 @@ import SearchResultsTable from "components/searchResultsTable/SearchResultsTable
 import Message from "components/message/Message";
 import type { SpellSummary, Character } from "types";
 import { LEVEL_TITLES } from "common/spells";
-import { classNameToClassCode } from "common/character";
+import { getLevelOfSpellByClass } from "common/character";
 
 type Props = {
     isOpen: boolean;
@@ -18,6 +18,7 @@ type Props = {
     spellIds: number[];
     onAddSpell: (spell: SpellSummary) => void;
     onRemoveSpell: (spell: SpellSummary) => void;
+    onOpenPage: (spell: SpellSummary) => void;
 };
 
 const TOGGLE_BUTTON_LEVEL_LABELS = [
@@ -47,6 +48,7 @@ function BrowseDrawer({
     character,
     onAddSpell,
     onRemoveSpell,
+    onOpenPage,
 }: Props) {
     const [searchQuery, setSearchQuery] = useState<string>("");
 
@@ -89,12 +91,12 @@ function BrowseDrawer({
         // Need to generalise to level for any class based on character info
         filteredList.filter(
             (spell) =>
-                spell[classNameToClassCode(character.class)] === levelIndex
+                getLevelOfSpellByClass(spell, character.class) === levelIndex
         )
     );
 
     const uncategorisedList = filteredList.filter(
-        (spell) => spell[classNameToClassCode(character.class)] === null
+        (spell) => getLevelOfSpellByClass(spell, character.class) === null
     );
 
     const someToggleSelected = levelSelection.some((flag) => flag);
@@ -136,6 +138,7 @@ function BrowseDrawer({
                         onAddSpell={onAddSpell}
                         onRemoveSpell={onRemoveSpell}
                         key={levelIndex}
+                        onOpenPage={onOpenPage}
                     />
                 );
             }
@@ -150,6 +153,7 @@ function BrowseDrawer({
                     onAddSpell={onAddSpell}
                     onRemoveSpell={onRemoveSpell}
                     key={UNCATEGORISED_LEVEL}
+                    onOpenPage={onOpenPage}
                 />
             );
         }

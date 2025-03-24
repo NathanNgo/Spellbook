@@ -153,3 +153,7 @@
     background-position: 75rem;
   }
 }
+
+.hidden {
+  visibility: hidden;
+}

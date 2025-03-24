@@ -1,0 +1,39 @@
+.infoContainer {
+    display: grid;
+    column-gap: 1rem;
+    row-gap: 0.5rem;
+    grid-template-columns: repeat(6, 1fr);
+    width: 100%;
+}
+
+.span6 {
+    grid-column: span 6;
+}
+
+.span5 {
+    grid-column: span 5;
+}
+
+.span4 {
+    grid-column: span 4;
+}
+
+.span3 {
+    grid-column: span 3;
+}
+
+.span2 {
+    grid-column: span 2;
+}
+
+.span1 {
+    grid-column: span 1;
+}
+
+@media (max-width : 1250px) {
+    .infoContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+}

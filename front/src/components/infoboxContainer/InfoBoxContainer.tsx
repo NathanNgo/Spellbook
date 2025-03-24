@@ -11,12 +11,23 @@ const TOTAL_HALF_WIDTHS_WHEN_ONE_OVER_THREE = 4;
 const TOTAL_HALF_WIDTHS_WHEN_TWO_OVER_THREE = 2;
 const TOTAL_HALF_WIDTHS_WHEN_ON_THREE = 0;
 
+const TOTAL_HALF_WIDTHS_LOOKUP = [
+        TOTAL_HALF_WIDTHS_WHEN_ON_THREE,
+        TOTAL_HALF_WIDTHS_WHEN_ONE_OVER_THREE,
+        TOTAL_HALF_WIDTHS_WHEN_TWO_OVER_THREE
+    ];
+
+const THREE = 3; // Fuck you this stays its funny
+
 type Props = {
     infoBoxes: JSX.Element[];
     spans?: number[];
 };
 
 function InfoBoxContainer({ infoBoxes, spans = [] }: Props) {
+    
+    const infoBoxesCountOverThree = infoBoxes.length % THREE;
+
     const spanClasses = [
         styles.span1,
         styles.span2,
@@ -34,21 +45,13 @@ function InfoBoxContainer({ infoBoxes, spans = [] }: Props) {
 
     let layout: number[] = [];
 
-    let totalHalfWidthInfoBoxes = 0;
-
     if (spans.length === infoBoxes.length) {
         layout = spans;
     } else {
         if (infoBoxes.length === 1) {
             layout.push(FULL_SPAN);
         } else {
-            if (infoBoxes.length % 3 === 1) {
-                totalHalfWidthInfoBoxes = TOTAL_HALF_WIDTHS_WHEN_ONE_OVER_THREE;
-            } else if (infoBoxes.length % 3 === 2) {
-                totalHalfWidthInfoBoxes = TOTAL_HALF_WIDTHS_WHEN_TWO_OVER_THREE;
-            } else {
-                totalHalfWidthInfoBoxes = TOTAL_HALF_WIDTHS_WHEN_ON_THREE;
-            }
+            const totalHalfWidthInfoBoxes = TOTAL_HALF_WIDTHS_LOOKUP[infoBoxesCountOverThree]
             layout.push(
                 ...Array(infoBoxes.length - totalHalfWidthInfoBoxes).fill(
                     THIRD_SPAN

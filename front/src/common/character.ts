@@ -117,7 +117,7 @@ const characterClassNameToClassCodeMapping: Record<
     [CharacterClassName.Adept]: CharacterClassCode.Adept,
 };
 
-export const spellListNameToClassCodeMapping: Record<
+const spellListNameToClassCodeMapping: Record<
     SpellListName,
     CharacterClassCode
 > = {
@@ -178,7 +178,7 @@ export const characterClassNameToSpellListNameMapping: Record<
     [CharacterClassName.Witch]: SpellListName.Witch,
 };
 
-export function spellClassLevel(
+export function getLevelOfSpellByClass(
     spell: Spell | SpellSummary,
     characterClassName: string
 ): number | null {
@@ -189,7 +189,7 @@ export function spellClassLevel(
     return spell[characterClassCode] as number | null;
 }
 
-export function spellAndSpellListNameToLevel(
+export function convertSpellAndSpellListNameToLevel(
     spell: Spell,
     spellListName: string
 ): number | null {
@@ -204,3 +204,9 @@ export type CharacterSpells = {
     characterName: string;
     spells: Spell[];
 };
+
+export function getSpellListOfCharacterClass(
+    characterClassName: CharacterClassName
+) {
+    return characterClassNameToSpellListNameMapping[characterClassName];
+}

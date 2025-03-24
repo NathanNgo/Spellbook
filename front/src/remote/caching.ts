@@ -10,6 +10,7 @@ export function loadFromLocalStorage<StoredType>(
     let loaded = false;
     let loadValue = defaultValue;
     const initialValue = localStorage.getItem(key);
+
     if (initialValue !== null) {
         try {
             loaded = true;

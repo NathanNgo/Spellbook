@@ -2,29 +2,34 @@ import { useEffect, useState } from "react";
 
 type Props = {
     delayTimeMs?: number;
-    length?: number;
-    includeZero?: boolean;
+    minEllipsisCount?: number;
+    maxEllipsisCount?: number;
+    ellipsisChar?: string;
 };
 
+const DEFAULT_MAX_ELLIPSIS_COUNT = 3;
+const DEFAULT_MIN_ELLIPSIS_COUNT = 0;
+const DEFAULT_ELLIPSIS_DELAY_MS = 300;
+const DEFAULT_ELLIPSIS_CHARACTER = ".";
+
 function MovingEllipsis({
-    delayTimeMs = 300,
-    length = 3,
-    includeZero = true,
+    delayTimeMs = DEFAULT_ELLIPSIS_DELAY_MS,
+    minEllipsisCount = DEFAULT_MIN_ELLIPSIS_COUNT,
+    maxEllipsisCount = DEFAULT_MAX_ELLIPSIS_COUNT,
+    ellipsisChar = DEFAULT_ELLIPSIS_CHARACTER,
 }: Props) {
-    const [ellipisCount, setEllipsisCount] = useState<number>(
-        includeZero ? 0 : 1
-    );
+    const [ellipisCount, setEllipsisCount] = useState<number>(minEllipsisCount);
     useEffect(() => {
         const timerId = setInterval(() => {
-            if (ellipisCount >= length) {
-                setEllipsisCount(includeZero ? 0 : 1);
+            if (ellipisCount >= maxEllipsisCount) {
+                setEllipsisCount(minEllipsisCount);
             } else {
                 setEllipsisCount((prevCount) => prevCount + 1);
             }
         }, delayTimeMs);
         return () => clearInterval(timerId);
     });
-    const ellipsis = ".".repeat(ellipisCount);
+    const ellipsis = ellipsisChar.repeat(ellipisCount);
     return <>{ellipsis}</>;
 }
 

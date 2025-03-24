@@ -3,14 +3,13 @@
     border-collapse: collapse;
     font-size: 1.2rem;
     width: 100%;
-    margin-bottom: 50px;
     table-layout: fixed;
     border-color: var(--border-colour);
 }
 
 .spellTable tbody tr {
     border-bottom: 1px solid var(--border-colour);
-    height: 4rem;
+    height: 3rem;
 }
 
 .spellTable thead tr {
@@ -19,7 +18,7 @@
 
 .spellTable tbody tr:hover {
     cursor: pointer;
-    /* background-color: var(--medium-accent-colour); */
+    background-color: var(--dark-accent-colour);
 }
 
 .spellTable td {
@@ -32,10 +31,6 @@
 
 .spellTable tr:nth-child(even) {
     background-color: var(--medium-accent-colour);
-}
-
-.spellTable tr:hover {
-    background-color: var(--dark-accent-colour);
 }
 
 .spellTable th {
@@ -52,6 +47,5 @@
 .spellTableTitle {
     display: inline-block;
     margin: 0;
-    margin-bottom: 1rem;
     font-size: 1.75rem;
 }

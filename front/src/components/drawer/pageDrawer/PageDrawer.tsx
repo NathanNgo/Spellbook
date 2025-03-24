@@ -6,14 +6,13 @@ import InfoBox from "components/infobox/InfoBox";
 import StatusButton, { Status } from "components/statusButton/StatusButton";
 import {
     SpellListName,
-    spellClassLevel,
-    spellAndSpellListNameToLevel,
-    characterClassNameToSpellListNameMapping,
+    convertSpellAndSpellListNameToLevel,
+    getSpellListOfCharacterClass,
 } from "common/character";
 import Message from "components/message/Message";
 import MovingEllipsis from "components/movingEllipsis/MovingEllipsis";
 import InfoBoxContainer from "components/infoboxContainer/InfoBoxContainer";
-import { useMemo } from "react";
+import React, { useMemo } from "react";
 
 const MAX_SHORT_TITLE_LENGTH = 12;
 
@@ -42,11 +41,12 @@ type Props = {
     onAddSpell: (spell: SpellSummary) => void;
     onRemoveSpell: (spell: SpellSummary) => void;
     spell: Spell | null;
-    hasSpell: boolean;
+    characterHasSpellInSpellbook: boolean;
     showLoading: boolean;
     isFromBrowse: boolean;
-    onOpenBrowse: () => void;
+    onBackButtonClicked: () => void;
     character: Character;
+    drawerRef: React.Ref<HTMLDivElement>;
 };
 
 function PageDrawer({
@@ -55,32 +55,34 @@ function PageDrawer({
     onAddSpell,
     onRemoveSpell,
     spell,
-    hasSpell,
+    characterHasSpellInSpellbook,
     showLoading,
     isFromBrowse,
-    onOpenBrowse,
+    onBackButtonClicked,
     character,
+    drawerRef,
 }: Props) {
     const infoMapping = useMemo(() => {
-        return {
-            Source: spell?.source,
-            "Casting Time": spell?.castingTime,
-            Components: spell?.components,
-            Range: spell?.range,
-            Area: spell?.area,
-            Duration: spell?.duration,
-            "Saving Throw": spell?.savingThrow,
-            "Spell Resistance": spell?.spellResistance,
-        };
+        return new Map([
+            ["Source", spell?.source],
+            ["Casting Time", spell?.castingTime],
+            ["Components", spell?.components],
+            ["Range", spell?.range],
+            ["Area", spell?.area],
+            ["Duration", spell?.duration],
+            ["Saving Throw", spell?.savingThrow],
+            ["Spell Resistance", spell?.spellResistance],
+        ]);
     }, [spell]);
 
-    function spellLevelDisplay(): JSX.Element {
+    function getSpellListsAndLevelDisplay(): JSX.Element {
         if (spell === null) {
             return <></>;
         }
 
-        const characterSpellListName =
-            characterClassNameToSpellListNameMapping[character.class];
+        const characterSpellListName = getSpellListOfCharacterClass(
+            character.class
+        );
 
         const spellListNames = Object.values(SpellListName);
 
@@ -89,7 +91,10 @@ function PageDrawer({
                 (spellListName: SpellListName) =>
                     [
                         spellListName,
-                        spellAndSpellListNameToLevel(spell, spellListName),
+                        convertSpellAndSpellListNameToLevel(
+                            spell,
+                            spellListName
+                        ),
                     ] as const
             )
             .filter(([, level]) => level !== null);
@@ -118,11 +123,11 @@ function PageDrawer({
     }
 
     function createSpellInfoBox(infoTitle: string): JSX.Element | null {
-        const info = spellInfo(infoTitle);
+        const info = getSpellInfoFromTitle(infoTitle);
         if (info === "") {
             return null;
         }
-        return <InfoBox title={infoTitle} info={spellInfo(infoTitle)} />;
+        return <InfoBox title={infoTitle} info={info} />;
     }
 
     function createSpellInfoBoxes(infoTitles: string[]): JSX.Element[] {
@@ -131,24 +136,18 @@ function PageDrawer({
             .filter((element) => element !== null);
     }
 
-    function spellInfo(infoTitle: string): JSX.Element | string {
-        if (spell === null) {
-            return "";
-        }
-
+    function getSpellInfoFromTitle(infoTitle: string): JSX.Element | string {
         if (infoTitle === "Level") {
             return (
                 <div className={styles.spellLevelDisplay}>
-                    {spellLevelDisplay()}
+                    {getSpellListsAndLevelDisplay()}
                 </div>
             );
         }
-        if (infoTitle in infoMapping) {
-            const mappedInfo =
-                infoMapping[infoTitle as keyof typeof infoMapping];
-            if (mappedInfo !== undefined) {
-                return mappedInfo;
-            }
+
+        const mappedInfo = infoMapping.get(infoTitle);
+        if (mappedInfo !== undefined) {
+            return mappedInfo;
         }
         return "";
     }
@@ -183,21 +182,24 @@ function PageDrawer({
             </>
         );
     } else {
+        const titleLengthClass =
+            spell.name.length > MAX_SHORT_TITLE_LENGTH
+                ? styles.longTitle
+                : styles.shortTitle;
+
         pageContent = (
             <>
                 <div
-                    className={
-                        styles.pageTitleContainer +
-                        " " +
-                        (spell.name.length > MAX_SHORT_TITLE_LENGTH
-                            ? styles.longTitle
-                            : styles.shortTitle)
-                    }
+                    className={`${styles.pageTitleContainer} ${titleLengthClass}`}
                 >
                     <h1>{spell.name}</h1>
                     <div className={styles.addButtonContainer}>
                         <StatusButton
-                            status={!hasSpell ? Status.First : Status.Second}
+                            status={
+                                !characterHasSpellInSpellbook
+                                    ? Status.First
+                                    : Status.Second
+                            }
                             onChangeToSecond={() => onAddSpell(spell)}
                             onChangeToFirst={() => onRemoveSpell(spell)}
                             firstText="+ Add"
@@ -208,7 +210,7 @@ function PageDrawer({
                     </div>
                     <div className={`${styles.backButtonContainer}`}>
                         {isFromBrowse && (
-                            <button onClick={onOpenBrowse}>Back</button>
+                            <button onClick={onBackButtonClicked}>Back</button>
                         )}
                         {!isFromBrowse && (
                             <button onClick={onClose}>Close</button>
@@ -246,12 +248,14 @@ function PageDrawer({
             </>
         );
     }
+
     return (
         <Drawer
             side={DrawerSide.Right}
             isOpen={isOpen}
             onClose={onClose}
             width="75%"
+            ref={drawerRef}
         >
             <div className={styles.pageContainer}>{pageContent}</div>
         </Drawer>

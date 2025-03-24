@@ -1,7 +1,7 @@
 import Message from "components/message/Message";
 import Spellbook from "components/spellbook/Spellbook";
 import SpellbookToolbar from "components/spellbookToolbar/SpellbookToolbar";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "components/spellbookContainer/SpellbookContainer.module.css";
 import CharacterSettingsDrawer from "components/drawer/characterSettingsDrawer/CharacterSettingsDrawer";
 import BrowseDrawer from "components/drawer/browseDrawer/BrowseDrawer";

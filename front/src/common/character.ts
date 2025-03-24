@@ -200,6 +200,11 @@ export function convertSpellAndSpellListNameToLevel(
     return spell[characterClassCode] as number | null;
 }
 
+export type CharacterSpells = {
+    characterName: string;
+    spells: Spell[];
+};
+
 export function getSpellListOfCharacterClass(
     characterClassName: CharacterClassName
 ) {

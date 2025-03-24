@@ -9,7 +9,7 @@ import { CharacterClassName } from "common/character";
 import useStateWithLocalStorage from "hooks/useStateWithLocalStorage";
 
 const INITIAL_CHARACTER: Character = {
-    name: "Josh Mann",
+    name: "Aryeh Zinn",
     class: CharacterClassName.Sorcerer,
     spellCastingModifier: 0,
     showSpellSaveDC: true,

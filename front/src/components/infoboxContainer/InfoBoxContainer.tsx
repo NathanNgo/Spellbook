@@ -12,10 +12,10 @@ const TOTAL_HALF_WIDTHS_WHEN_TWO_OVER_THREE = 2;
 const TOTAL_HALF_WIDTHS_WHEN_ON_THREE = 0;
 
 const TOTAL_HALF_WIDTHS_LOOKUP = [
-        TOTAL_HALF_WIDTHS_WHEN_ON_THREE,
-        TOTAL_HALF_WIDTHS_WHEN_ONE_OVER_THREE,
-        TOTAL_HALF_WIDTHS_WHEN_TWO_OVER_THREE
-    ];
+    TOTAL_HALF_WIDTHS_WHEN_ON_THREE,
+    TOTAL_HALF_WIDTHS_WHEN_ONE_OVER_THREE,
+    TOTAL_HALF_WIDTHS_WHEN_TWO_OVER_THREE
+];
 
 const THREE = 3; // Fuck you this stays its funny
 
@@ -25,7 +25,6 @@ type Props = {
 };
 
 function InfoBoxContainer({ infoBoxes, spans = [] }: Props) {
-    
     const infoBoxesCountOverThree = infoBoxes.length % THREE;
 
     const spanClasses = [

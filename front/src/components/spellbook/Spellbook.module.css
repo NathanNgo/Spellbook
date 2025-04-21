@@ -1,7 +1,5 @@
-.spellBook {
-    margin-bottom: 4rem;
+.spellbookContainer {
     display: flex;
     flex-direction: column;
-    align-items: start;
-    gap: 1rem;
+    gap: 2rem;
 }

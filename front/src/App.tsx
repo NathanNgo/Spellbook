@@ -1,9 +1,7 @@
 import { useMemo, useEffect, useState } from "react";
 import "App.css";
 import Header from "components/header/Header";
-import SpellbookContainer, {
-    DrawerState,
-} from "components/spellbookContainer/SpellbookContainer";
+import Spellbook, { DrawerState } from "components/spellbook/Spellbook";
 import { Character } from "types";
 import { CharacterClassName } from "common/character";
 import useStateWithLocalStorage from "hooks/useStateWithLocalStorage";
@@ -80,12 +78,12 @@ function App() {
                 onToggleMenu={() => toggleState(DrawerState.Menu)}
                 onToggleSettings={() => toggleState(DrawerState.Settings)}
             />
-            <SpellbookContainer
+            <Spellbook
                 drawerState={drawerState}
                 onSetDrawerState={setDrawerState}
                 character={currentCharacter}
                 onCharacterValuesChanged={handleCharacterValuesChanged}
-            ></SpellbookContainer>
+            />
         </>
     );
 }

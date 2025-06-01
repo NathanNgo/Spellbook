@@ -3,12 +3,10 @@ name: Lint
 on:
   # Trigger the workflow on push or pull request,
   # but only for the main branch
-  push:
+  [push, pull_request]:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
+    paths: "/front/**"
 
 jobs:
   run-linter-frontend:
@@ -17,7 +15,7 @@ jobs:
     defaults:
       run:
         working-directory: ./front
-        
+
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v4
@@ -29,33 +27,7 @@ jobs:
 
       - name: Install yarn
         run: npm install yarn
-      
-      # ESLint and Prettier must be in `package.json`
-      - name: Install Node.js dependencies
-        run: yarn
 
-      - name: Run linters
-        run: yarn lint
-          
-  run-linter-backend:
-    name: Run linter on the backend
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./back
-    
-    steps:
-      - name: Check out Git repository
-        uses: actions/checkout@v4
-  
-      - name: Set up Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: 23
-
-      - name: Install yarn
-        run: npm install yarn
-      
       # ESLint and Prettier must be in `package.json`
       - name: Install Node.js dependencies
         run: yarn

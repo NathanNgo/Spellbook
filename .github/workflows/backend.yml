@@ -1,12 +1,14 @@
-name: Lint
+name: Backend
 
 on:
-  # Trigger the workflow on push or pull request,
-  # but only for the main branch
-  [push, pull_request]:
+  push:
     branches:
       - main
-    paths: "/front/**"
+    paths: "/back/**"
+  pull_request:
+    branches:
+      - main
+    paths: "/back/**"
 
 jobs:
   run-linter-frontend:

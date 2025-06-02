@@ -4,11 +4,11 @@ on:
   push:
     branches:
       - main
-    paths: "/back/**"
+    paths: "back/**"
   pull_request:
     branches:
       - main
-    paths: "/back/**"
+    paths: "back/**"
 
 jobs:
   run-linter-frontend:

@@ -1,8 +1,8 @@
 -- Setup the database structure and tables
 
 
--- Create table for the d20pfsrd data.
-CREATE TABLE IF NOT EXISTS d20pfsrd (
+-- Create table for the d20pfsrf spell data.
+CREATE TABLE IF NOT EXISTS spells_d20pfsrd (
     id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
     school TEXT NOT NULL,

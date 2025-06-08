@@ -12,7 +12,7 @@ import { toCamel } from "snake-camel";
 const DATABASE_FILE_PATH = "./src/database/spellbook.db";
 const ERROR_STATUS_CLIENT = 400;
 const PORT = process.env.NODE_ENV === "production" ? 443 : 3000;
-const TABLE_NAME = "d20pfsrd";
+const SPELLS_TABLE_NAME = "spells_d20pfsrd";
 const NAME_COLUMN = "name";
 const DATABASE_PLACEHOLDER_CHARACTER = "?";
 
@@ -28,7 +28,7 @@ let validSpellNames: string[] = [];
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let SpellRequestSchema: ZodObject<any>;
 database.all(
-    `SELECT ${NAME_COLUMN} FROM ${TABLE_NAME};`,
+    `SELECT ${NAME_COLUMN} FROM ${SPELLS_TABLE_NAME};`,
     (_, rows: { [key: string]: string }[]) => {
         validSpellNames = rows.map((spell) => spell.name);
         SpellRequestSchema = z.object({
@@ -76,7 +76,7 @@ database.all(
             hunter,
             summoner_unchained
         FROM
-            ${TABLE_NAME};
+            ${SPELLS_TABLE_NAME};
     `,
     (_, rows: { [key: string]: string | number | null }[]) => {
         manifestDetails = rows;
@@ -92,8 +92,7 @@ app.get("/healthCheck", async (_: Request, response: Response) => {
 });
 
 app.get("/spellSummaries", async (_: Request, response: Response) => {
-    const spellSummaries: SpellSummary[] =
-        SpellSummaryArraySchema.parse(manifestDetails);
+    const spellSummaries: SpellSummary[] = SpellSummaryArraySchema.parse(manifestDetails);
     console.log(arrayToSnakeCase(spellSummaries));
     response.send(arrayToSnakeCase(spellSummaries));
 });
@@ -133,13 +132,11 @@ app.listen(PORT, () => {
 async function queryDatabaseForSpells(
     spellNames: string[]
 ): Promise<{ [key: string]: string | number | null }[]> {
-    const placeholder_values = spellNames.map(
-        () => DATABASE_PLACEHOLDER_CHARACTER
-    );
+    const placeholder_values = spellNames.map(() => DATABASE_PLACEHOLDER_CHARACTER);
 
     return new Promise((resolve, reject) => {
         database.all(
-            `SELECT * FROM ${TABLE_NAME} WHERE name IN (${placeholder_values.join(
+            `SELECT * FROM ${SPELLS_TABLE_NAME} WHERE name IN (${placeholder_values.join(
                 ", "
             )})`,
             spellNames,

@@ -8,7 +8,7 @@ const INITIAL_CSV_FILE_PATH = "./src/database/spellbook.csv";
 const CSV_FALSE = "0";
 const CSV_TRUE = "1";
 const STRING_NULL = "NULL";
-const TABLE_NAME = "d20pfsrd";
+const SPELLS_TABLE_NAME = "spells_d20pfsrd";
 
 const database = new sqlite3.Database(DATABASE_FILE_PATH);
 
@@ -33,7 +33,7 @@ const stringFromStringOrNull = z.string().transform((val) => {
     return val;
 });
 
-const D20PfsrdSpellSchema = z.object({
+const D20pfsrdSpellSchema = z.object({
     name: stringFromStringOrNull,
     school: stringFromStringOrNull,
     subschool: stringFromStringOrNull,
@@ -125,15 +125,15 @@ const D20PfsrdSpellSchema = z.object({
     augmented: stringFromStringOrNull,
     haunt_statistics: stringFromStringOrNull,
 });
-type D20PfsrdSpell = z.infer<typeof D20PfsrdSpellSchema>;
+type D20pfsrdSpell = z.infer<typeof D20pfsrdSpellSchema>;
 
 function main() {
-    const spells: D20PfsrdSpell[] = [];
+    const spells: D20pfsrdSpell[] = [];
 
     fs.createReadStream(INITIAL_CSV_FILE_PATH)
         .pipe(csv())
         .on("data", (data: { [key: string]: string }) => {
-            const validatedData = D20PfsrdSpellSchema.parse(data);
+            const validatedData = D20pfsrdSpellSchema.parse(data);
             spells.push(validatedData);
         })
         .on("end", () => {
@@ -141,14 +141,14 @@ function main() {
         });
 }
 
-function insertIntoDatabase(spells: D20PfsrdSpell[]) {
+function insertIntoDatabase(spells: D20pfsrdSpell[]) {
     for (const spell of spells) {
         const columnNames = Object.keys(spell).join(", ");
         const valueIndexes = Object.values(spell)
             .map((_, index) => `$${index + 1}`)
             .join(", ");
         const query = `
-            INSERT INTO ${TABLE_NAME} (
+            INSERT INTO ${SPELLS_TABLE_NAME} (
                 ${columnNames}
             ) VALUES (
                 ${valueIndexes}

@@ -11,12 +11,12 @@ on:
     paths: "back/**"
 
 jobs:
-  run-linter-frontend:
-    name: Run linter on the frontend
+  run-linter-backend:
+    name: Run linter on the backend
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./front
+        working-directory: ./back
 
     steps:
       - name: Check out Git repository

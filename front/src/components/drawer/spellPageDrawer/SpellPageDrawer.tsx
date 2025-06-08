@@ -1,6 +1,6 @@
 import Drawer, { DrawerSide } from "components/drawer/Drawer";
-import styles from "components/drawer/pageDrawer/PageDrawer.module.css";
-import descriptionStyles from "components/drawer/pageDrawer/PageDrawerDescription.module.css";
+import styles from "components/drawer/spellPageDrawer/SpellPageDrawer.module.css";
+import descriptionStyles from "components/drawer/spellPageDrawer/SpellPageDrawerDescription.module.css";
 import type { SpellSummary, Spell, Character } from "types";
 import InfoBox from "components/infobox/InfoBox";
 import StatusButton, { Status } from "components/statusButton/StatusButton";
@@ -49,7 +49,7 @@ type Props = {
     drawerRef: React.Ref<HTMLDivElement>;
 };
 
-function PageDrawer({
+function SpellPageDrawer({
     isOpen,
     onClose,
     onAddSpell,
@@ -80,9 +80,7 @@ function PageDrawer({
             return <></>;
         }
 
-        const characterSpellListName = getSpellListOfCharacterClass(
-            character.class
-        );
+        const characterSpellListName = getSpellListOfCharacterClass(character.class);
 
         const spellListNames = Object.values(SpellListName);
 
@@ -91,33 +89,26 @@ function PageDrawer({
                 (spellListName: SpellListName) =>
                     [
                         spellListName,
-                        convertSpellAndSpellListNameToLevel(
-                            spell,
-                            spellListName
-                        ),
+                        convertSpellAndSpellListNameToLevel(spell, spellListName),
                     ] as const
             )
             .filter(([, level]) => level !== null);
 
         return (
             <>
-                {spellListsAndLevels.map(
-                    ([spellListName, level], index, arr) => (
-                        <span
-                            className={`${styles.levelClassItems} ${
-                                characterSpellListName === spellListName
-                                    ? styles.characterClassLevelDisplay
-                                    : ""
-                            }`}
-                        >
-                            <span className={styles.levelClassName}>
-                                {spellListName}
-                            </span>{" "}
-                            <span className={styles.levelValue}>{level}</span>
-                            {index < arr.length - 1 && <span>,</span>}
-                        </span>
-                    )
-                )}
+                {spellListsAndLevels.map(([spellListName, level], index, arr) => (
+                    <span
+                        className={`${styles.levelClassItems} ${
+                            characterSpellListName === spellListName
+                                ? styles.characterClassLevelDisplay
+                                : ""
+                        }`}
+                    >
+                        <span className={styles.levelClassName}>{spellListName}</span>{" "}
+                        <span className={styles.levelValue}>{level}</span>
+                        {index < arr.length - 1 && <span>,</span>}
+                    </span>
+                ))}
             </>
         );
     }
@@ -189,9 +180,7 @@ function PageDrawer({
 
         pageContent = (
             <>
-                <div
-                    className={`${styles.pageTitleContainer} ${titleLengthClass}`}
-                >
+                <div className={`${styles.spellPageTitleContainer} ${titleLengthClass}`}>
                     <h1>{spell.name}</h1>
                     <div className={styles.addButtonContainer}>
                         <StatusButton
@@ -212,9 +201,7 @@ function PageDrawer({
                         {isFromBrowse && (
                             <button onClick={onBackButtonClicked}>Back</button>
                         )}
-                        {!isFromBrowse && (
-                            <button onClick={onClose}>Close</button>
-                        )}
+                        {!isFromBrowse && <button onClick={onClose}>Close</button>}
                     </div>
                 </div>
                 <InfoBoxContainer
@@ -223,10 +210,7 @@ function PageDrawer({
                 />
                 <h2>CASTING</h2>
                 <InfoBoxContainer
-                    infoBoxes={createSpellInfoBoxes([
-                        "Casting Time",
-                        "Components",
-                    ])}
+                    infoBoxes={createSpellInfoBoxes(["Casting Time", "Components"])}
                 />
                 <h2>EFFECT</h2>
                 <InfoBoxContainer
@@ -257,9 +241,9 @@ function PageDrawer({
             width="75%"
             ref={drawerRef}
         >
-            <div className={styles.pageContainer}>{pageContent}</div>
+            <div className={styles.spellPageContainer}>{pageContent}</div>
         </Drawer>
     );
 }
 
-export default PageDrawer;
+export default SpellPageDrawer;

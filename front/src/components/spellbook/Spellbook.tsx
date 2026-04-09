@@ -9,7 +9,7 @@ import MenuDrawer from "components/drawer/menuDrawer/MenuDrawer";
 import type { SpellSummary, Spell, Character } from "types";
 import fetchSpells from "remote/fetchSpells";
 import fetchSpellSummaries from "remote/fetchSpellSummaries";
-import PageDrawer from "components/drawer/pageDrawer/PageDrawer";
+import SpellPageDrawer from "components/drawer/spellPageDrawer/SpellPageDrawer";
 import useStateWithLocalStorage from "hooks/useStateWithLocalStorage";
 
 const LOADING_MESSAGE = <Message>Loading...</Message>;
@@ -20,7 +20,7 @@ enum DrawerState {
     Settings,
     Browse,
     Menu,
-    Page,
+    SpellPage,
     None,
 }
 
@@ -56,38 +56,26 @@ function Spellbook({
     character,
     onCharacterValuesChanged,
 }: Props) {
-    const [spells, setSpells] = useStateWithLocalStorage<Spell[]>(
-        SPELLS_KEY,
-        []
-    );
-    const [
-        spellSummaries,
-        setSpellSummaries,
-        spellSummariesLoadedFromLocalStorage,
-    ] = useStateWithLocalStorage<SpellSummary[]>(SPELL_SUMMARIES_KEY, []);
+    const [spells, setSpells] = useStateWithLocalStorage<Spell[]>(SPELLS_KEY, []);
+    const [spellSummaries, setSpellSummaries, spellSummariesLoadedFromLocalStorage] =
+        useStateWithLocalStorage<SpellSummary[]>(SPELL_SUMMARIES_KEY, []);
 
-    const pageDrawerRef = useRef<HTMLDivElement>(null);
+    const spellPageDrawerRef = useRef<HTMLDivElement>(null);
 
     // When we keep track of users' spells in the backend, this will
     // be more meaningful, until then assume spells are always insta-loaded
     // since local storage is our only source of truth here
     const [spellsLoaded] = useState<boolean>(true);
-    const [
-        spellSummariesLoadedFromNetwork,
-        setSpellSummariesLoadedFromNetwork,
-    ] = useState<boolean>(false);
+    const [spellSummariesLoadedFromNetwork, setSpellSummariesLoadedFromNetwork] =
+        useState<boolean>(false);
     const [searchQuery, setSearchQuery] = useState<string>("");
     const [spellForPage, setSpellForPage] = useState<Spell | null>(null);
-    const [spellPageIsLoading, setSpellPageIsLoading] =
-        useState<boolean>(false);
+    const [spellPageIsLoading, setSpellPageIsLoading] = useState<boolean>(false);
     const [spellPageOpenedFromBrowse, setSpellPageOpenedFromBrowse] =
         useState<boolean>(false);
 
     useEffect(() => {
-        if (
-            !spellSummariesLoadedFromNetwork &&
-            !spellSummariesLoadedFromLocalStorage
-        ) {
+        if (!spellSummariesLoadedFromNetwork && !spellSummariesLoadedFromLocalStorage) {
             fetchSpellSummaries().then((fetchedSpellSummaries) => {
                 sortAlphabetically(fetchedSpellSummaries);
                 setSpellSummaries(fetchedSpellSummaries);
@@ -104,8 +92,8 @@ function Spellbook({
         spellSummariesLoadedFromNetwork || spellSummariesLoadedFromLocalStorage;
 
     function handleOpenDrawer(newDrawerState: DrawerState) {
-        if (newDrawerState === DrawerState.Page && pageDrawerRef.current) {
-            pageDrawerRef.current.scrollTop = 0;
+        if (newDrawerState === DrawerState.SpellPage && spellPageDrawerRef.current) {
+            spellPageDrawerRef.current.scrollTop = 0;
         }
         onSetDrawerState(newDrawerState);
     }
@@ -120,9 +108,7 @@ function Spellbook({
         }
 
         fetchSpells([requestedSpell.name]).then((spells) => {
-            setSpells((previousSpells) =>
-                combineAndSortSpells(previousSpells, spells)
-            );
+            setSpells((previousSpells) => combineAndSortSpells(previousSpells, spells));
         });
     }
 
@@ -147,14 +133,12 @@ function Spellbook({
     const query = searchQuery.trim().toLowerCase();
 
     if (query !== "") {
-        filteredList = spells.filter((spell) =>
-            spell.name.toLowerCase().includes(query)
-        );
+        filteredList = spells.filter((spell) => spell.name.toLowerCase().includes(query));
     }
 
     function handleOpenPage(spell: Spell) {
         setSpellPageIsLoading(false);
-        handleOpenDrawer(DrawerState.Page);
+        handleOpenDrawer(DrawerState.SpellPage);
         setSpellForPage(spell);
     }
 
@@ -170,7 +154,7 @@ function Spellbook({
             setSpellForPage(spell);
             setSpellPageIsLoading(false);
         });
-        handleOpenDrawer(DrawerState.Page);
+        handleOpenDrawer(DrawerState.SpellPage);
     }
 
     return (
@@ -196,8 +180,8 @@ function Spellbook({
                 onRemoveSpell={handleRemoveSpellFromSpellbook}
                 onOpenPage={handleOpenSpellPageFromBrowse}
             />
-            <PageDrawer
-                isOpen={drawerState === DrawerState.Page}
+            <SpellPageDrawer
+                isOpen={drawerState === DrawerState.SpellPage}
                 onClose={handleCloseDrawer}
                 onAddSpell={handleAddSpellToSpellbook}
                 onRemoveSpell={handleRemoveSpellFromSpellbook}
@@ -210,7 +194,7 @@ function Spellbook({
                 isFromBrowse={spellPageOpenedFromBrowse}
                 onBackButtonClicked={() => handleOpenDrawer(DrawerState.Browse)}
                 character={character}
-                drawerRef={pageDrawerRef}
+                drawerRef={spellPageDrawerRef}
             />
             <SpellbookToolbar
                 onSearchQueryChange={handleSearchQueryChange}

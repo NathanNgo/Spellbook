@@ -27,8 +27,7 @@ function addSpellsToStorage(spells: Spell[]) {
     );
 
     if (spellsNotInStorage.length === 0) {
-        const temp = 2;
-        return 2
+        return;
     }
 
     localStorage.setItem(
